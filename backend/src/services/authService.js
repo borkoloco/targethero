@@ -2,7 +2,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
-const registerUser = async (name, email, password, role) => {
+const registerUser = async ({ name, email, password, role }) => {
+  if (!password) throw new Error("Password is required");
+
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = await User.create({
     name,
@@ -25,7 +27,10 @@ const loginUser = async ({ email, password }) => {
     process.env.JWT_SECRET,
     { expiresIn: "12h" }
   );
-  return { token, email };
+  return {
+    token,
+    user: { id: user.id, email: user.email, role: user.role, name: user.name },
+  };
 };
 
 module.exports = { loginUser, registerUser };
