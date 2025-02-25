@@ -23,7 +23,7 @@ app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/v1", routes);
+app.use("/api", routes);
 
 sequelize
   .sync({ alter: true, force: false })
