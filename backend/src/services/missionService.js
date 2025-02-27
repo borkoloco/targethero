@@ -3,15 +3,20 @@ const Mission = require("../models/Mission");
 const { name } = require("../models/User");
 
 
+const getAllMission = async () => {
+    return await Mission.findAll();
+  };
 
-const createMission = async (name, type, description, pionts) => {
-    console.log("Datos recibidos para crear misión:", { name, type, description, pionts });
+
+const createMission = async (name, type, description, pionts, status) => {
+    console.log("Datos recibidos para crear misión:", { name, type, description, pionts, status });
     const mission = await Mission.create(
         {
             name,
             type,
             description,
             pionts,
+            status,
 
         })
     return mission
@@ -40,5 +45,5 @@ const getMissionByID = async(id) =>{
 }
 
 module.exports = {
-    createMission, updateMission, deleteMission , getMissionByID
+    createMission, updateMission, deleteMission , getMissionByID, getAllMission
 }

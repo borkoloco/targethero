@@ -2,8 +2,8 @@ const missionService = require("../services/missionService");
 
 const create = async(req, res)=>{
     try{
-        const { name, type, description, pionts } = req.body;
-        const newMission = await missionService.createMission(name, type, description, pionts);
+        const { name, type, description, pionts,status } = req.body;
+        const newMission = await missionService.createMission(name, type, description, pionts,status);
         res.status(201).json(newMission);
     } catch(error){
         res.status(400).json({error: error.message})
@@ -28,18 +28,17 @@ const deleteMission = async(req,res) =>{
     }
 };
 
-const getMissionById = async(req,res) =>{
-    try{
-        const getById = await missionService.getMissionByID(req.params.id);
-        if(!getById) return res.status(400).json({error: error.message});
-        res.json(getById);
-    } catch (error){
-        res.status(500).json({error: error.message})
-    }
+const getAllMission = async(req,res) =>{
+      try {
+        const users = await missionService.getAllMission();
+        res.json(users);
+      } catch (error) {
+        res.status(400).json({ error: error.message });
+      }
 };
 
 
 module.exports ={
-    create, update, deleteMission, getMissionById
+    create, update, deleteMission, getAllMission
 }
 

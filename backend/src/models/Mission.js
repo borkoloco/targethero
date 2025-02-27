@@ -22,6 +22,10 @@ const Mission = sequelize.define("Mission", {
   points: {
     type: DataTypes.INTEGER,
   },
+  status:{
+    type: DataTypes.STRING,
+    allowNull: true,
+  }
 });
 
 module.exports = Mission;
