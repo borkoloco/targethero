@@ -1,44 +1,50 @@
 const { Op } = require("sequelize");
 const Mission = require("../models/Mission");
-const { name } = require("../models/User");
 
-
-
-const createMission = async (name, type, description, pionts) => {
-    console.log("Datos recibidos para crear misión:", { name, type, description, pionts });
-    const mission = await Mission.create(
-        {
-            name,
-            type,
-            description,
-            pionts,
-
-        })
-    return mission
+const createMission = async (name, type, description, points) => {
+  console.log("Datos recibidos para crear misión:", {
+    name,
+    type,
+    description,
+    points,
+  });
+  const mission = await Mission.create({
+    name,
+    type,
+    description,
+    points,
+  });
+  return mission;
 };
 
+const updateMission = async (id, updateField) => {
+  const mission = await Mission.findByPk(id);
+  if (!mission) throw new Error("Misión no encontrada");
 
-const updateMission = async (id,updateField)=>{
-    const mission = await Mission.findByPk(id);
-    if (!mission) throw new Error("Mision no encontrada");
-    return await Mission.update(updateField)
+  return await mission.update(updateField);
 };
 
-const deleteMission = async(id)=>{
-    const mission = await Mission.findByPk(id);
-    if (!mission) throw new Error("Mision no encontrada");
-    await Mission.destroy();
-    return { message : ("Mision eliminada Correctamente")}
+const deleteMission = async (id) => {
+  const mission = await Mission.findByPk(id);
+  if (!mission) throw new Error("Misión no encontrada");
+  await Mission.destroy({ where: { id } });
+  return { message: "Misión eliminada correctamente" };
+};
 
-}
+const getMissionByID = async (id) => {
+  const mission = await Mission.findByPk(id);
+  if (!mission) throw new Error("Misión no encontrada");
+  return mission;
+};
 
-const getMissionByID = async(id) =>{
-    const mission = await Mission.findByPk(id);
-    if (!mission) throw new Error("Mision no encontrada");
-    return await mission;
-
-}
+const getAllMissions = async () => {
+  return await Mission.findAll();
+};
 
 module.exports = {
-    createMission, updateMission, deleteMission , getMissionByID
-}
+  createMission,
+  updateMission,
+  deleteMission,
+  getMissionByID,
+  getAllMissions,
+};

@@ -5,7 +5,9 @@ export const fetchMissions = createAsyncThunk(
   "missions/fetchMissions",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:4000/api/missions");
+      const response = await axios.get(
+        "http://localhost:4000/api/missions/all"
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
