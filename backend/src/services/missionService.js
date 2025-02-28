@@ -1,20 +1,26 @@
 const { Op } = require("sequelize");
 const Mission = require("../models/Mission");
 
-const createMission = async (name, type, description, points) => {
-  console.log("Datos recibidos para crear misión:", {
-    name,
-    type,
-    description,
-    points,
-  });
-  const mission = await Mission.create({
-    name,
-    type,
-    description,
-    points,
-  });
-  return mission;
+
+
+const getAllMission = async () => {
+    return await Mission.findAll();
+  };
+
+
+const createMission = async (name, type, description, pionts, status) => {
+    console.log("Datos recibidos para crear misión:", { name, type, description, pionts, status });
+    const mission = await Mission.create(
+        {
+            name,
+            type,
+            description,
+            pionts,
+            status,
+
+        })
+    return mission
+
 };
 
 const updateMission = async (id, updateField) => {
@@ -42,9 +48,7 @@ const getAllMissions = async () => {
 };
 
 module.exports = {
-  createMission,
-  updateMission,
-  deleteMission,
-  getMissionByID,
-  getAllMissions,
-};
+
+    createMission, updateMission, deleteMission , getMissionByID, getAllMission
+}
+

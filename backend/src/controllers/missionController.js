@@ -1,18 +1,15 @@
 const missionService = require("../services/missionService");
 
-const create = async (req, res) => {
-  try {
-    const { name, type, description, points } = req.body;
-    const newMission = await missionService.createMission(
-      name,
-      type,
-      description,
-      points
-    );
-    res.status(201).json(newMission);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+
+const create = async(req, res)=>{
+    try{
+        const { name, type, description, pionts,status } = req.body;
+        const newMission = await missionService.createMission(name, type, description, pionts,status);
+        res.status(201).json(newMission);
+    } catch(error){
+        res.status(400).json({error: error.message})
+    }
+
 };
 
 const update = async (req, res) => {
@@ -36,13 +33,15 @@ const deleteMission = async (req, res) => {
   }
 };
 
-const getMissionById = async (req, res) => {
-  try {
-    const mission = await missionService.getMissionByID(req.params.id);
-    res.json(mission);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
+
+const getAllMission = async(req,res) =>{
+      try {
+        const users = await missionService.getAllMission();
+        res.json(users);
+      } catch (error) {
+        res.status(400).json({ error: error.message });
+      }
+
 };
 
 const getAll = async (req, res) => {
@@ -54,10 +53,9 @@ const getAll = async (req, res) => {
   }
 };
 
-module.exports = {
-  create,
-  update,
-  deleteMission,
-  getMissionById,
-  getAll,
-};
+
+module.exports ={
+    create, update, deleteMission, getAllMission
+}
+
+
