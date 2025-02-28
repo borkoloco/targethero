@@ -1,5 +1,6 @@
 const missionService = require("../services/missionService");
 
+
 const create = async(req, res)=>{
     try{
         const { name, type, description, pionts,status } = req.body;
@@ -8,25 +9,30 @@ const create = async(req, res)=>{
     } catch(error){
         res.status(400).json({error: error.message})
     }
+
 };
 
-const update = async(req, res)=>{
-    try{
-        const updateMission = await missionService.updateMission(req.params.id, req.body);
-        res.json(updateMission);
-    } catch (error){
-        res.status(400).json({ error: error.message})
-    }
+const update = async (req, res) => {
+  try {
+    const updatedMission = await missionService.updateMission(
+      req.params.id,
+      req.body
+    );
+    res.json(updatedMission);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
-const deleteMission = async(req,res) =>{
-    try{
-        const result = await missionService.deleteMission(req.params.id);
-        res.json(result);
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    }
+const deleteMission = async (req, res) => {
+  try {
+    const result = await missionService.deleteMission(req.params.id);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
+
 
 const getAllMission = async(req,res) =>{
       try {
@@ -35,10 +41,21 @@ const getAllMission = async(req,res) =>{
       } catch (error) {
         res.status(400).json({ error: error.message });
       }
+
+};
+
+const getAll = async (req, res) => {
+  try {
+    const missions = await missionService.getAllMissions();
+    res.json(missions);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
 
 module.exports ={
     create, update, deleteMission, getAllMission
 }
+
 
