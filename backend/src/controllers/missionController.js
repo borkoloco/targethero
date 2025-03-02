@@ -9,6 +9,11 @@ const createMission = async (req, res) => {
       description,
       points
     );
+
+    // Emit a newMission event
+    const io = req.app.get("io");
+    io.emit("newMission", newMission);
+
     res.status(201).json(newMission);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -21,6 +26,13 @@ const completeMission = async (req, res) => {
     const userId = req.user.id;
     const missionId = req.params.id;
     const result = await missionService.completeMission(missionId, userId);
+
+    // Get the Socket.IO instance
+    const io = req.app.get("io");
+    const eventData = { missionId, completer: result.user.name };
+    console.log("Emitting missionCompleted event:", eventData);
+    io.emit("missionCompleted", eventData);
+
     res.json({
       message: "Misión completada con éxito",
       user: result.user,
