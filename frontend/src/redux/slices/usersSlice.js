@@ -64,9 +64,7 @@ const initialState = {
 const usersSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {
-    // If you need synchronous reducers, add them here.
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       // fetchUsers

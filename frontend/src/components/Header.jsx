@@ -13,12 +13,17 @@ function Header() {
     <header className="bg-gray-800 text-white p-4 flex items-center justify-between">
       <h1 className="text-xl font-bold">Gamificación Comercial</h1>
       {user && (
-        <button
-          onClick={handleLogout}
-          className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
-        >
-          Logout
-        </button>
+        <div className="flex items-center space-x-4">
+          <p className="text-l">
+            Welcome, <span className="font-semibold">{user.name}</span>
+          </p>
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-600 px-3 py-1 rounded"
+          >
+            Logout
+          </button>
+        </div>
       )}
     </header>
   );
