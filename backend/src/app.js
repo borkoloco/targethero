@@ -25,6 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", routes);
 
+require("./config/associations");
+
 sequelize
   .sync({ alter: true, force: false })
   .then(() => console.log("Models synchronized with db"))

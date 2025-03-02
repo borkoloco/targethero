@@ -5,9 +5,7 @@ export const fetchMissions = createAsyncThunk(
   "missions/fetchMissions",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        "http://localhost:4000/api/missions/all"
-      );
+      const response = await axios.get("http://localhost:4000/api/missions");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -22,6 +20,26 @@ export const fetchMissionDetail = createAsyncThunk(
       const response = await axios.get(
         `http://localhost:4000/api/missions/${id}`
       );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const completeMission = createAsyncThunk(
+  "missions/completeMission",
+  async (missionId, { getState, rejectWithValue }) => {
+    try {
+      const {
+        auth: { token },
+      } = getState();
+      const response = await axios.post(
+        `http://localhost:4000/api/missions/complete/${missionId}`,
+        {},
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      // We assume the backend returns an object like { message: "...", user: updatedUser, mission: updatedMission }
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -46,7 +64,6 @@ const missionsSlice = createSlice({
       if (index !== -1) {
         state.missions[index] = updatedMission;
       }
-      // Also update missionDetail if it is the same mission
       if (state.missionDetail && state.missionDetail.id === updatedMission.id) {
         state.missionDetail = updatedMission;
       }
@@ -82,6 +99,27 @@ const missionsSlice = createSlice({
       .addCase(fetchMissionDetail.rejected, (state, action) => {
         state.detailStatus = "failed";
         state.detailError = action.payload?.error || action.error.message;
+      })
+      // Handle completeMission
+      .addCase(completeMission.fulfilled, (state, action) => {
+        // Optionally, update the mission that was completed.
+        // Here, we assume the backend returns the updated mission in action.payload.mission.
+        const updatedMission = action.payload.mission;
+        if (updatedMission) {
+          const index = state.missions.findIndex(
+            (m) => m.id === updatedMission.id
+          );
+          if (index !== -1) {
+            state.missions[index] = updatedMission;
+          }
+          // Also update detail if needed:
+          if (
+            state.missionDetail &&
+            state.missionDetail.id === updatedMission.id
+          ) {
+            state.missionDetail = updatedMission;
+          }
+        }
       });
   },
 });

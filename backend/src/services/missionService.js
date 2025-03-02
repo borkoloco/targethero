@@ -1,26 +1,21 @@
 const { Op } = require("sequelize");
 const Mission = require("../models/Mission");
+const User = require("../models/User");
 
-
-
-const getAllMission = async () => {
-    return await Mission.findAll();
-  };
-
-
-const createMission = async (name, type, description, pionts, status) => {
-    console.log("Datos recibidos para crear misión:", { name, type, description, pionts, status });
-    const mission = await Mission.create(
-        {
-            name,
-            type,
-            description,
-            pionts,
-            status,
-
-        })
-    return mission
-
+const createMission = async (name, type, description, points) => {
+  console.log("Datos recibidos para crear misión:", {
+    name,
+    type,
+    description,
+    points,
+  });
+  const mission = await Mission.create({
+    name,
+    type,
+    description,
+    points,
+  });
+  return mission;
 };
 
 const updateMission = async (id, updateField) => {
@@ -44,11 +39,42 @@ const getMissionByID = async (id) => {
 };
 
 const getAllMissions = async () => {
-  return await Mission.findAll();
+  return await Mission.findAll({
+    include: [
+      {
+        model: require("../models/User"),
+        as: "completer",
+        attributes: ["id", "name"],
+      },
+    ],
+  });
+};
+
+const completeMission = async (missionId, userId) => {
+  // Find the mission
+  const mission = await Mission.findByPk(missionId);
+  if (!mission) throw new Error("Misión no encontrada");
+
+  // Find the user
+  const user = await User.findByPk(userId);
+  if (!user) throw new Error("Usuario no encontrado");
+
+  mission.isCompleted = true;
+  mission.completedBy = userId;
+  await mission.save();
+
+  // Award the points to the user
+  user.points += mission.points;
+  await user.save();
+
+  return { mission, user };
 };
 
 module.exports = {
-
-    createMission, updateMission, deleteMission , getMissionByID, getAllMission
-}
-
+  createMission,
+  updateMission,
+  deleteMission,
+  getMissionByID,
+  getAllMissions,
+  completeMission,
+};

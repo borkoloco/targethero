@@ -1,18 +1,37 @@
 const missionService = require("../services/missionService");
 
-
-const create = async(req, res)=>{
-    try{
-        const { name, type, description, pionts,status } = req.body;
-        const newMission = await missionService.createMission(name, type, description, pionts,status);
-        res.status(201).json(newMission);
-    } catch(error){
-        res.status(400).json({error: error.message})
-    }
-
+const createMission = async (req, res) => {
+  try {
+    const { name, type, description, points } = req.body;
+    const newMission = await missionService.createMission(
+      name,
+      type,
+      description,
+      points
+    );
+    res.status(201).json(newMission);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 };
 
-const update = async (req, res) => {
+const completeMission = async (req, res) => {
+  try {
+    // Ensure that your authentication middleware sets req.user
+    const userId = req.user.id;
+    const missionId = req.params.id;
+    const result = await missionService.completeMission(missionId, userId);
+    res.json({
+      message: "Misión completada con éxito",
+      user: result.user,
+      mission: result.mission,
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const updateMission = async (req, res) => {
   try {
     const updatedMission = await missionService.updateMission(
       req.params.id,
@@ -33,29 +52,19 @@ const deleteMission = async (req, res) => {
   }
 };
 
-
-const getAllMission = async(req,res) =>{
-      try {
-        const users = await missionService.getAllMission();
-        res.json(users);
-      } catch (error) {
-        res.status(400).json({ error: error.message });
-      }
-
-};
-
-const getAll = async (req, res) => {
+const getAllMissions = async (req, res) => {
   try {
-    const missions = await missionService.getAllMissions();
-    res.json(missions);
+    const users = await missionService.getAllMissions();
+    res.json(users);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-
-module.exports ={
-    create, update, deleteMission, getAllMission
-}
-
-
+module.exports = {
+  createMission,
+  updateMission,
+  deleteMission,
+  getAllMissions,
+  completeMission,
+};

@@ -14,7 +14,6 @@ function UserManagement() {
   });
   const [editUserId, setEditUserId] = useState(null);
 
-  // Fetch users from backend
   const fetchUsers = async () => {
     try {
       const response = await axios.get("http://localhost:4000/api/users");
@@ -117,7 +116,7 @@ function UserManagement() {
             value={formData.password}
             onChange={handleChange}
             className="border p-1 rounded w-full"
-            required={!editUserId} // If editing, password may be optional
+            required={!editUserId}
           />
         </div>
         <div className="mb-2">

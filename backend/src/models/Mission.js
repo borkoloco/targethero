@@ -22,10 +22,19 @@ const Mission = sequelize.define("Mission", {
   points: {
     type: DataTypes.INTEGER,
   },
-  status:{
-    type: DataTypes.STRING,
+  isCompleted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  completedBy: {
+    type: DataTypes.INTEGER,
     allowNull: true,
-  }
+    references: {
+      model: "Users",
+      key: "id",
+    },
+    onDelete: "SET NULL",
+  },
 });
 
 module.exports = Mission;
