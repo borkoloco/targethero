@@ -32,38 +32,45 @@ function UserMissions() {
   if (status === "loading") return <p>Loading missions...</p>;
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
+  const incompleteMissions = missions.filter(mission => !mission.isCompleted);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {missions.map((mission) => (
-        <div
-          key={mission.id}
-          className="border p-4 rounded shadow hover:shadow-lg transition"
-        >
-          <h3 className="text-xl font-semibold mb-2">{mission.name}</h3>
-          <p className="text-gray-700 mb-1">Type: {mission.type}</p>
-          <p className="text-gray-700 mb-1">
-            Description: {mission.description}
-          </p>
-          <p className="text-gray-700 mb-1">Points: {mission.points}</p>
-          {mission.isCompleted ? (
-            <p className="text-green-600 font-bold">
-              Completada{" "}
-              {mission.completedBy && mission.completer
-                ? `por: ${mission.completer.name}`
-                : ""}
+      {incompleteMissions.length === 0 ? (
+        <p className=" text-gray-500 text-lg font-semibold">
+          No hay misiones disponibles en este momento.
+        </p>
+      ) : (
+        incompleteMissions.map((mission) => (
+          <div
+            key={mission.id}
+            className="border p-4 rounded shadow hover:shadow-lg transition"
+          >
+            <h3 className="text-xl font-semibold mb-2">{mission.name}</h3>
+            <p className="text-gray-700 mb-1">Type: {mission.type}</p>
+            <p className="text-gray-700 mb-1">
+              Description: {mission.description}
             </p>
-          ) : (
-            <button
-              onClick={() => handleComplete(mission.id)}
-              className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded transition"
-            >
-              Marcar como Completada
-            </button>
-          )}
-        </div>
-      ))}
+            <p className="text-gray-700 mb-1">Points: {mission.points}</p>
+            {mission.isCompleted ? (
+              <p className="text-green-600 font-bold">
+                Completada{" "}
+                {mission.completedBy && mission.completer
+                  ? `por: ${mission.completer.name}`
+                  : ""}
+              </p>
+            ) : (
+              <button
+                onClick={() => handleComplete(mission.id)}
+                className="mt-4 w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded transition"
+              >
+                Marcar como Completada
+              </button>
+            )}
+          </div>
+        ))
+      )}
     </div>
   );
 }
-
 export default UserMissions;

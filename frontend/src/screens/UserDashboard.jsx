@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../redux/slices/usersSlice";
 import UserMissions from "../components/UserMissions";
+import CompletedMission from "../components/CompletedMissions"
 
 function UserDashboard() {
   const dispatch = useDispatch();
@@ -25,6 +26,12 @@ function UserDashboard() {
       )}
       <h3 className="text-2xl font-bold mt-4">Active Missions</h3>
       <UserMissions />
+
+      {profile &&(
+      <h4 className="text-2xl font-bold mt-4">Completed Missions by {profile.name}:</h4>)}
+      <CompletedMission />
+      
+      
     </div>
   );
 }
