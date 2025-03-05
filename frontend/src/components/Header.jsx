@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../redux/slices/authSlice";
+import { persistor } from "../redux/store";
 
 function Header() {
   const dispatch = useDispatch();
@@ -7,6 +8,7 @@ function Header() {
 
   const handleLogout = () => {
     dispatch(logout());
+    persistor.purge();
   };
 
   return (

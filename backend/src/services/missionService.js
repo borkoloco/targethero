@@ -51,11 +51,9 @@ const getAllMissions = async () => {
 };
 
 const completeMission = async (missionId, userId) => {
-  // Find the mission
   const mission = await Mission.findByPk(missionId);
   if (!mission) throw new Error("Misión no encontrada");
 
-  // Find the user
   const user = await User.findByPk(userId);
   if (!user) throw new Error("Usuario no encontrado");
 
@@ -63,7 +61,6 @@ const completeMission = async (missionId, userId) => {
   mission.completedBy = userId;
   await mission.save();
 
-  // Award the points to the user
   user.points += mission.points;
   await user.save();
 
