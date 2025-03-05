@@ -55,10 +55,33 @@ export const deleteUser = createAsyncThunk(
   }
 );
 
+export const fetchUserProfile = createAsyncThunk(
+  "users/fetchUserProfile",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const {
+        auth: { token },
+      } = getState();
+      const response = await axios.get(
+        "http://localhost:4000/api/users/profile",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const initialState = {
   users: [],
   status: "idle",
   error: null,
+  profile: null,
+  profileStatus: "idle",
+  profileError: null,
 };
 
 const usersSlice = createSlice({
@@ -67,7 +90,7 @@ const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // fetchUsers
+
       .addCase(fetchUsers.pending, (state) => {
         state.status = "loading";
       })
@@ -79,11 +102,11 @@ const usersSlice = createSlice({
         state.status = "failed";
         state.error = action.payload?.error || action.error.message;
       })
-      // createUser
+
       .addCase(createUser.fulfilled, (state, action) => {
         state.users.push(action.payload);
       })
-      // updateUser
+
       .addCase(updateUser.fulfilled, (state, action) => {
         const index = state.users.findIndex(
           (user) => user.id === action.payload.id
@@ -92,9 +115,21 @@ const usersSlice = createSlice({
           state.users[index] = action.payload;
         }
       })
-      // deleteUser
+
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.users = state.users.filter((user) => user.id !== action.payload);
+      })
+
+      .addCase(fetchUserProfile.pending, (state) => {
+        state.profileStatus = "loading";
+      })
+      .addCase(fetchUserProfile.fulfilled, (state, action) => {
+        state.profileStatus = "succeeded";
+        state.profile = action.payload;
+      })
+      .addCase(fetchUserProfile.rejected, (state, action) => {
+        state.profileStatus = "failed";
+        state.profileError = action.payload?.error || action.error.message;
       });
   },
 });

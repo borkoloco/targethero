@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../redux/slices/authSlice";
 import { fetchMissions, completeMission } from "../redux/slices/missionsSlice";
+import { fetchUserProfile } from "../redux/slices/usersSlice";
 
 function UserMissions() {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ function UserMissions() {
         }
 
         dispatch(fetchMissions());
+        dispatch(fetchUserProfile());
       }
     } catch (err) {
       console.error(err);
