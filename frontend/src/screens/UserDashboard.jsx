@@ -23,7 +23,9 @@ function UserDashboard() {
       )}
       {profile && (
         <p className="text-xl font-semibold">Total Points: {profile.points}</p>
+        
       )}
+      
       <h3 className="text-2xl font-bold mt-4">Active Missions</h3>
       <UserMissions />
 
