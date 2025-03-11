@@ -1,3 +1,4 @@
+// src/screens/UserDashboard.jsx
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../redux/slices/usersSlice";
@@ -25,10 +26,8 @@ function UserDashboard() {
       {profile && (
         <p className="text-xl font-semibold">Total Points: {profile.points}</p>
       )}
-
       <h3 className="text-2xl font-bold mt-4">Active Missions</h3>
       <UserMissions />
-
       {profile && (
         <h4 className="text-2xl font-bold mt-4">
           Completed Missions by {profile.name}:
@@ -42,3 +41,14 @@ function UserDashboard() {
 }
 
 export default UserDashboard;
+
+// function BoilerComponent() {
+//   return (
+//     <div>
+//       <h2>Boilerplate Component</h2>
+//       <p>This is a basic component with no props.</p>
+//     </div>
+//   );
+// }
+
+// export default BoilerComponent;

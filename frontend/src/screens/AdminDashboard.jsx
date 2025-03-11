@@ -2,6 +2,7 @@ import { useState } from "react";
 import UserManagement from "../components/UserManagement";
 import MissionManagement from "../components/MissionManagement";
 import RevenueManagement from "../components/RevenueManagement";
+import UserListWithClients from "../components/UserListWithClients";
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("users");
@@ -46,10 +47,10 @@ function AdminDashboard() {
         {activeTab === "users" && <UserManagement />}
         {activeTab === "missions" && <MissionManagement />}
         {activeTab === "revenues" && <RevenueManagement />}
+        {activeTab === "users" && <UserListWithClients />}
       </div>
     </div>
   );
-
 }
 
 export default AdminDashboard;
