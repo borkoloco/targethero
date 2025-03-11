@@ -32,4 +32,6 @@ sequelize
   .then(() => console.log("Models synchronized with db"))
   .catch((err) => console.error("Error synchronizing models:", err));
 
+  
+
 module.exports = app;
