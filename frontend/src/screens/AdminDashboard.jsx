@@ -1,6 +1,7 @@
 import { useState } from "react";
 import UserManagement from "../components/UserManagement";
 import MissionManagement from "../components/MissionManagement";
+import RevenueManagement from "../components/RevenueManagement";
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("users");
@@ -21,7 +22,7 @@ function AdminDashboard() {
         </button>
         <button
           onClick={() => setActiveTab("missions")}
-          className={`pb-2 ${
+          className={`mr-4 pb-2 ${
             activeTab === "missions"
               ? "border-b-2 border-blue-500 text-blue-500"
               : "text-gray-600"
@@ -29,14 +30,26 @@ function AdminDashboard() {
         >
           Mission Management
         </button>
+        <button
+          onClick={() => setActiveTab("revenues")}
+          className={`pb-2 ${
+            activeTab === "revenues"
+              ? "border-b-2 border-blue-500 text-blue-500"
+              : "text-gray-600"
+          }`}
+        >
+          Revenue Management
+        </button>
       </div>
 
       <div>
         {activeTab === "users" && <UserManagement />}
         {activeTab === "missions" && <MissionManagement />}
+        {activeTab === "revenues" && <RevenueManagement />}
       </div>
     </div>
   );
+
 }
 
 export default AdminDashboard;
