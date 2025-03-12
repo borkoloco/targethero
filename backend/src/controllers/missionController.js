@@ -73,10 +73,36 @@ const getAllMissions = async (req, res) => {
   }
 };
 
+
+const uploadEvidence = async(req, res) =>{
+  try {
+    const { description, status } = req.body;
+    const result = await missionService.createEvidenceWithFiles(description, status, req.files);
+    res.json({ message: 'Evidencia y archivos subidos con éxito', ...result });
+} catch (error) {
+    res.status(500).json({ error: error.message });
+}
+};
+
+const getEvidences = async (req, res) => {
+  try {
+      const evidences = await missionService.getAllEvidence();
+      res.json(evidences);
+  } catch (error) {
+      res.status(500).json({ error: error.message });
+  }
+};
+
+
+
+
+
 module.exports = {
   createMission,
   updateMission,
   deleteMission,
   getAllMissions,
   completeMission,
+  uploadEvidence,
+  getEvidences,
 };
