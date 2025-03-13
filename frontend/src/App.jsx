@@ -8,6 +8,7 @@ import Layout from "./components/Layout";
 import MainDashboard from "./screens/MainDashboard";
 import AdminDashboard from "./screens/AdminDashboard";
 import UserDashboard from "./screens/UserDashboard";
+import EvidenceDashboard from "./screens/EvidenceDashboard";
 import MissionsList from "./components/MissionsList";
 import Ranking from "./components/Ranking";
 import Login from "./screens/Login";
@@ -27,7 +28,10 @@ function App() {
 
             <Route path="ranking" element={<Ranking />} />
             {user.role === "admin" ? (
-              <Route path="admin" element={<AdminDashboard />} />
+              <>
+                <Route path="admin" element={<AdminDashboard />} />
+                <Route path="evidence" element={<EvidenceDashboard />} /> 
+              </>
             ) : (
               <Route path="user" element={<UserDashboard />} />
             )}

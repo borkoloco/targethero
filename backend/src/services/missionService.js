@@ -1,6 +1,7 @@
 const { Op } = require("sequelize");
 const Mission = require("../models/Mission");
 const User = require("../models/User");
+const Evidence = require("../models/Evidence");
 
 const createMission = async (name, type, description, points) => {
   console.log("Datos recibidos para crear misión:", {
@@ -67,6 +68,41 @@ const completeMission = async (missionId, userId) => {
   return { mission, user };
 };
 
+
+const createEvidenceWithFiles = async (description, status, files) => {
+  try {
+     
+      const evidence = await Evidence.create({ description, status });
+
+      
+      const filePaths = files.map(file => ({
+          path: file.path,
+          evidenceId: evidence.id
+      }));
+
+      await FilePath.bulkCreate(filePaths);
+
+      return { evidence, files: filePaths };
+  } catch (error) {
+      throw new Error(`Error al crear la evidencia: ${error.message}`);
+  }
+};
+  
+const getAllEvidence = async()=>{
+      try{
+        return Evidence.findAll({
+          include:[{model:FilePath, as: 'FilePaths'}]
+        });
+      } catch(error){
+        throw new Error(`Error al obtener evidencias: ${error.message}`);
+    
+      }
+  };
+
+
+
+
+
 module.exports = {
   createMission,
   updateMission,
@@ -74,4 +110,6 @@ module.exports = {
   getMissionByID,
   getAllMissions,
   completeMission,
+  createEvidenceWithFiles,
+  getAllEvidence,
 };

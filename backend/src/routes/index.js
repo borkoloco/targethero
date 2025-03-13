@@ -16,5 +16,6 @@ router.use("/dashboard", dashboardRoutes);
 router.use("/ranking", rankingRoutes);
 router.use("/revenues", revenueRoutes);
 router.use("/clients", clientRoutes);
+router.use("/evidence",missionRoutes)
 
 module.exports = router;
