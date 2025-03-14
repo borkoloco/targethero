@@ -1,9 +1,14 @@
 import { useState } from "react";
+import UploadEvidence from "../components/EvidenceConfirmation";
 function EvidenceDashboard() {
     const [activeTab, setActiveTab] = useState("evidence");
   
     return (
-      <h1>Hola</h1>
+      <div>
+        <UploadEvidence />
+      </div>
+      
+      
     );
   }
   

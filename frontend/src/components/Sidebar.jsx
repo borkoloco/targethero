@@ -11,10 +11,14 @@ function Sidebar() {
         {user?.role === "admin" ? (
         <>
           <SidebarItem to="/admin" icon="🛠️" label="Admin Dashboard" />
-          <SidebarItem to="/evidence" icon="🔍" label="Evidece Dashboard" /> 
         </>
       ) : (
+        <>
           <SidebarItem to="/user" icon="👤" label="User Dashboard" />
+          
+          <SidebarItem to="/evidence" icon="🔍" label="Evidece Dashboard" /> 
+
+          </>
         )}
       </nav>
     </aside>
