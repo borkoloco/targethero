@@ -13,9 +13,12 @@ function UserListWithClients() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/users", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          import.meta.env.VITE_API_URL + "/api/users",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setUsers(response.data);
       } catch (err) {
         setError(err.response?.data?.error || "Error fetching users");
@@ -29,7 +32,7 @@ function UserListWithClients() {
   const fetchClientsForUser = async (userId) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/clients?userId=${userId}`,
+        import.meta.env.VITE_API_URL + `/api/clients?userId=${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }

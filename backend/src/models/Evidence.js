@@ -1,27 +1,26 @@
-const{DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
-const FilePath = require('./FilePath');
 
-
-const Evidence = sequelize.define("Evidence",{
-    id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-      description:{
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    status: {
-        type: DataTypes.ENUM('pending', 'aproved','denied'),
-        allowNull: false,
-        defaultValue: 'pending'
-    },
+const Evidence = sequelize.define("Evidence", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  filePath: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  comment: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  status: {
+    type: DataTypes.ENUM("pending", "approved", "rejected"),
+    defaultValue: "pending",
+  },
+  missionId: { type: DataTypes.INTEGER, allowNull: false },
+  userId: { type: DataTypes.INTEGER, allowNull: false },
 });
-
-// Relación con FilePath
-Evidence.hasMany(FilePath, { foreignKey: 'evidenceId', as: 'filePaths' });
-FilePath.belongsTo(Evidence, { foreignKey: 'evidenceId' });
 
 module.exports = Evidence;
