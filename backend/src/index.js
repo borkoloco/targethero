@@ -1,13 +1,30 @@
 require("dotenv").config();
 const app = require("./app");
-const { sequelize } = require("./config/db");
+const http = require("http");
 
-const PORT = process.env.PORT || 5000;
+const server = http.createServer(app);
 
-// Sincroniza los modelos y arranca el servidor
-sequelize
-  .sync()
-  .then(() => {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
-  .catch((err) => console.error("Error al sincronizar la base de datos:", err));
+const PORT = process.env.PORT || 4000;
+
+// Socket.IO on the HTTP server
+const { Server } = require("socket.io");
+const io = new Server(server, {
+  cors: {
+    origin: process.env.FRONT_URL,
+    methods: ["GET", "POST"],
+  },
+});
+
+// event listeners to Socket.IO
+io.on("connection", (socket) => {
+  console.log("A user connected");
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
+  });
+});
+
+app.set("io", io);
+
+server.listen(PORT, () => {
+  console.log("Server running on port " + PORT);
+});
