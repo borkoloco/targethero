@@ -1,41 +1,49 @@
 const Revenue = require("../models/Revenue");
+const User = require("../models/User");
 
-const getAllRevenues = async() =>{
-    return await Revenue.findAll();
+const createRevenueRecord = async ({ userId, amount, date, type }) => {
+  const record = await Revenue.create({
+    userId,
+    amount,
+    date: date || new Date(),
+    type,
+  });
+  return record;
 };
 
-const createRevenue = async({userId,total,date}) =>{
-    const revenue = await Revenue.create({
-        userId,
-        total,
-        date,
-    });
-
-    return revenue;
-
-
+const getRevenueForUser = async (userId) => {
+  const records = await Revenue.findAll({
+    where: { userId },
+    order: [["date", "DESC"]],
+  });
+  return records;
 };
 
-const updateRevenue = async (id, updateField) => {
-    const revenue = await Revenue.findByPk(id);
-    if (!revenue) throw new Error("Facturacion no encontrada");
-  
-    return await revenue.update(updateField);
-  };
+const getAllRevenue = async () => {
+  const records = await Revenue.findAll({
+    include: [
+      {
+        model: User,
+        as: "user",
+        attributes: ["id", "name", "email"],
+      },
+    ],
+    order: [["date", "DESC"]],
+  });
+  return records;
+};
 
-
-  const deleteRevenue = async (id) => {
-    const revenue = await Revenue.findByPk(id);
-    if (!revenue) throw new Error("Facturacion no encontrada");
-    await revenue.destroy();
-    return { message: "Facturacion eliminada correctamente" };
-  };
-
+const updateRevenueRecord = async (id, updateData) => {
+  const record = await Revenue.findByPk(id);
+  if (!record) {
+    throw new Error("Revenue record not found");
+  }
+  return await record.update(updateData);
+};
 
 module.exports = {
-    getAllRevenues,
-    createRevenue,
-    updateRevenue,
-    deleteRevenue
-
+  createRevenueRecord,
+  getRevenueForUser,
+  getAllRevenue,
+  updateRevenueRecord,
 };

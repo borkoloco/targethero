@@ -47,7 +47,6 @@ const deleteClient = async (req, res) => {
 
 const getClientsByUser = async (req, res) => {
   try {
-    // req.user is set by the auth middleware
     const userId = req.user.id;
     const clients = await clientService.getClientsByUser(userId);
     res.json(clients);

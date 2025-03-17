@@ -5,7 +5,9 @@ export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:4000/api/users");
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/users"
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -18,7 +20,7 @@ export const createUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/users",
+        import.meta.env.VITE_API_URL + "/api/users",
         userData
       );
       return response.data;
@@ -33,7 +35,7 @@ export const updateUser = createAsyncThunk(
   async ({ id, userData }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `http://localhost:4000/api/users/${id}`,
+        import.meta.env.VITE_API_URL + `/api/users/${id}`,
         userData
       );
       return response.data;
@@ -47,7 +49,7 @@ export const deleteUser = createAsyncThunk(
   "users/deleteUser",
   async (id, { rejectWithValue }) => {
     try {
-      await axios.delete(`http://localhost:4000/api/users/${id}`);
+      await axios.delete(import.meta.env.VITE_API_URL + `/api/users/${id}`);
       return id;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -63,7 +65,7 @@ export const fetchUserProfile = createAsyncThunk(
         auth: { token },
       } = getState();
       const response = await axios.get(
-        "http://localhost:4000/api/users/profile",
+        import.meta.env.VITE_API_URL + "/api/users/profile",
         {
           headers: { Authorization: `Bearer ${token}` },
         }

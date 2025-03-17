@@ -5,7 +5,9 @@ export const fetchMissions = createAsyncThunk(
   "missions/fetchMissions",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:4000/api/missions");
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/missions"
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -18,7 +20,7 @@ export const fetchMissionDetail = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/missions/${id}`
+        import.meta.env.VITE_API_URL + `/api/missions/${id}`
       );
       return response.data;
     } catch (error) {
@@ -35,11 +37,11 @@ export const completeMission = createAsyncThunk(
         auth: { token },
       } = getState();
       const response = await axios.post(
-        `http://localhost:4000/api/missions/complete/${missionId}`,
+        import.meta.env.VITE_API_URL + `/api/missions/complete/${missionId}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // We assume the backend returns an object like { message: "...", user: updatedUser, mission: updatedMission }
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);

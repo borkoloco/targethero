@@ -1,62 +1,54 @@
 const revenueService = require("../services/revenueService");
 
-const createRevenue = async (req, res) => {
+const updateRevenueRecord = async (req, res) => {
   try {
-    const { userId, total, date } = req.body;
-
-    if (!userId || !total) {
-      return res.status(400).json({ error: "userId y total son obligatorios" });
-    }
-
-    const newRevenue = await revenueService.createRevenue({
-      userId,
-      total,
-      date: date || new Date(), 
-    });
-
-    res.status(201).json(newRevenue);
-  } catch (error) {
-    console.error("Error en createRevenue:", error);
-    res.status(500).json({ error: "Error al crear revenue" });
-  }
-};
-
-const updateRevenue = async (req, res) => {
-  try {
-    const updatedRevenue = await revenueService.updateRevenue(
-      req.params.id,
+    const recordId = req.params.id;
+    const updatedRecord = await revenueService.updateRevenueRecord(
+      recordId,
       req.body
     );
-    res.json(updatedRevenue);
+    res.json(updatedRecord);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const deleteRevenue = async (req, res) => {
+const createRevenueRecord = async (req, res) => {
   try {
-    const result = await revenueService.deleteRevenue(req.params.id);
-    res.json(result);
+    const userId = req.user.id;
+    const { amount, date, type } = req.body;
+    const record = await revenueService.createRevenueRecord({
+      userId,
+      amount,
+      date,
+      type,
+    });
+    res.status(201).json(record);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
-
-const getAllRevenues = async (req, res) => {
+const getMyRevenue = async (req, res) => {
   try {
-    const revenue = await revenueService.getAllRevenues();
-    res.json(revenue);
+    const userId = req.user.id;
+    const records = await revenueService.getRevenueForUser(userId);
+    res.json(records);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+const getRevenueByUser = async (req, res) => {
+  try {
+    const records = await revenueService.getAllRevenue();
+    res.json(records);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-
-module.exports ={
-    createRevenue,
-    updateRevenue,
-    deleteRevenue,
-    getAllRevenues
+module.exports = {
+  getRevenueByUser,
+  updateRevenueRecord,
+  getMyRevenue,
+  createRevenueRecord,
 };
-
-

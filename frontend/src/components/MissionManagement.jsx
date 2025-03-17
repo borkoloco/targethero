@@ -12,6 +12,7 @@ function MissionManagement() {
     type: "diaria",
     description: "",
     points: 0,
+    evidenceRequired: false,
   });
   const [editMissionId, setEditMissionId] = useState(null);
 
@@ -22,11 +23,16 @@ function MissionManagement() {
   }, [dispatch, status]);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("Submitting mission with data:", formData);
     try {
       if (editMissionId) {
         await axios.put(
@@ -36,10 +42,14 @@ function MissionManagement() {
       } else {
         await axios.post("http://localhost:4000/api/missions", formData);
       }
-
-      setFormData({ name: "", type: "diaria", description: "", points: 0 });
+      setFormData({
+        name: "",
+        type: "diaria",
+        description: "",
+        points: 0,
+        evidenceRequired: false,
+      });
       setEditMissionId(null);
-
       dispatch(fetchMissions());
     } catch (err) {
       console.error(err);
@@ -53,13 +63,17 @@ function MissionManagement() {
       type: mission.type,
       description: mission.description,
       points: mission.points,
+      evidenceRequired: mission.evidenceRequired,
     });
   };
 
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:4000/api/missions/${id}`);
-      dispatch(fetchMissions());
+      const currentScroll = window.pageYOffset;
+      dispatch(fetchMissions()).then(() => {
+        setTimeout(() => window.scrollTo(0, currentScroll), 0);
+      });
     } catch (err) {
       console.error(err);
     }
@@ -127,6 +141,20 @@ function MissionManagement() {
             required
           />
         </div>
+
+        <div className="mb-2">
+          <label className="flex items-center">
+            <input
+              type="checkbox"
+              name="evidenceRequired"
+              checked={formData.evidenceRequired}
+              onChange={handleChange}
+              className="mr-2"
+            />
+            Require Evidence
+          </label>
+        </div>
+
         <button
           type="submit"
           className="bg-green-500 text-white p-2 rounded w-full"

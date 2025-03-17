@@ -4,6 +4,7 @@ import { fetchUserProfile } from "../redux/slices/usersSlice";
 import UserMissions from "../components/UserMissions";
 import CompletedMission from "../components/CompletedMissions";
 import MyClients from "../components/MyClients";
+import MyRevenue from "../components/MyRevenue";
 
 function UserDashboard() {
   const dispatch = useDispatch();
@@ -35,6 +36,8 @@ function UserDashboard() {
         </h4>
       )}
       <CompletedMission />
+      <h3 className="text-2xl font-bold mt-4">My Revenue</h3>
+      <MyRevenue />
       <h3 className="text-2xl font-bold mt-4">My Clients</h3>
       <MyClients />
     </div>

@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "./slices/authSlice";
 import usersReducer from "./slices/usersSlice";
 import missionsReducer from "./slices/missionsSlice";
+import evidenceReducer from "./slices/evidenceSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -15,13 +16,13 @@ const rootReducer = combineReducers({
   auth: authReducer,
   users: usersReducer,
   missions: missionsReducer,
+  evidence: evidenceReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
-  // Optionally, disable serializable check if you face warnings:
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
