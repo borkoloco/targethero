@@ -9,16 +9,16 @@ function Sidebar() {
       <nav className="flex flex-col">
         <SidebarItem to="/" icon="🏠" label="Dashboard" />
         {user?.role === "admin" ? (
-        <>
-          <SidebarItem to="/admin" icon="🛠️" label="Admin Dashboard" />
-        </>
-      ) : (
+          <>
+            <SidebarItem to="/admin" icon="🛠️" label="Admin Dashboard" />
+          </>
+        ) : (
         <>
           <SidebarItem to="/user" icon="👤" label="User Dashboard" />
           
           <SidebarItem to="/evidence" icon="🔍" label="Evidece Dashboard" /> 
 
-          </>
+        </>
         )}
       </nav>
     </aside>

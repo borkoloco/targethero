@@ -1,45 +1,31 @@
-const {DataTypes} =require("sequelize");
+const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const User = require("../models/User")
+const Revenue = sequelize.define("RevenueRecord", {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  amount: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+  date: {
+    type: DataTypes.DATE,
+    allowNull: false,
+    defaultValue: DataTypes.NOW,
+  },
 
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 
-const Revenue = sequelize.define("Revenue",{
-    id:{
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-    },
-    userId:{
-        
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        references: {
-            model: User, 
-            key: "id",
-        },
-        onDelete: "CASCADE", 
-          
-
-    },
-    total:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue: 0,
-
-
-    },
-    date:{
-        type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW,
-    },
-
-})
-
-User.hasMany(Revenue, { foreignKey: "userId" });
-Revenue.belongsTo(User, { foreignKey: "userId" });
-
-
+  type: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+});
 
 module.exports = Revenue;

@@ -16,7 +16,9 @@ function UserManagement() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/users");
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/users"
+      );
       setUsers(response.data);
     } catch (err) {
       console.error(err);
@@ -40,12 +42,12 @@ function UserManagement() {
       if (editUserId) {
         // Update user
         await axios.put(
-          `http://localhost:4000/api/users/${editUserId}`,
+          import.meta.env.VITE_API_URL + `/api/users/${editUserId}`,
           formData
         );
       } else {
         // Create user
-        await axios.post("http://localhost:4000/api/users", formData);
+        await axios.post(import.meta.env.VITE_API_URL + "/api/users", formData);
       }
       setFormData({ name: "", email: "", password: "", role: "user" });
       setEditUserId(null);
@@ -68,7 +70,7 @@ function UserManagement() {
 
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`http://localhost:4000/api/users/${userId}`);
+      await axios.delete(import.meta.env.VITE_API_URL + `/api/users/${userId}`);
       fetchUsers();
     } catch (err) {
       console.error(err);
