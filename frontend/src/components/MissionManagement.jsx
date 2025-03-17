@@ -36,11 +36,14 @@ function MissionManagement() {
     try {
       if (editMissionId) {
         await axios.put(
-          `http://localhost:4000/api/missions/${editMissionId}`,
+          import.meta.env.VITE_API_URL + `/api/missions/${editMissionId}`,
           formData
         );
       } else {
-        await axios.post("http://localhost:4000/api/missions", formData);
+        await axios.post(
+          import.meta.env.VITE_API_URL + "/api/missions",
+          formData
+        );
       }
       setFormData({
         name: "",
