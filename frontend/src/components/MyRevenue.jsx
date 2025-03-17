@@ -12,7 +12,7 @@ function MyRevenue() {
     const fetchRevenue = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/revenue/my",
+          import.meta.env.VITE_API_URL + "/api/revenue/my",
           {
             headers: { Authorization: `Bearer ${token}` },
           }

@@ -19,9 +19,12 @@ function MyClients() {
 
   const fetchMyClients = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/clients/my", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/clients/my",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setClients(response.data);
     } catch (err) {
       console.error(err);
@@ -44,7 +47,7 @@ function MyClients() {
     try {
       if (editClientId) {
         await axios.put(
-          `http://localhost:4000/api/clients/${editClientId}`,
+          import.meta.env.VITE_API_URL + `/api/clients/${editClientId}`,
           formData,
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -81,9 +84,12 @@ function MyClients() {
 
   const handleDelete = async (clientId) => {
     try {
-      await axios.delete(`http://localhost:4000/api/clients/${clientId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axios.delete(
+        import.meta.env.VITE_API_URL + `/api/clients/${clientId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       fetchMyClients();
     } catch (err) {
       console.error(err);

@@ -27,7 +27,7 @@ function EvidenceForm({ missionId, onEvidenceSubmitted }) {
     formData.append("comment", comment);
     try {
       const response = await axios.post(
-        `http://localhost:4000/api/evidence/${missionId}`,
+        import.meta.env.VITE_API_URL + `/api/evidence/${missionId}`,
         formData,
         {
           headers: {

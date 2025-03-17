@@ -69,7 +69,7 @@ function MissionManagement() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:4000/api/missions/${id}`);
+      await axios.delete(import.meta.env.VITE_API_URL + `/api/missions/${id}`);
       const currentScroll = window.pageYOffset;
       dispatch(fetchMissions()).then(() => {
         setTimeout(() => window.scrollTo(0, currentScroll), 0);

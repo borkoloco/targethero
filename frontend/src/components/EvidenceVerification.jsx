@@ -11,7 +11,7 @@ function EvidenceVerification() {
   const fetchPendingEvidence = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/evidence/pending",
+        import.meta.env.VITE_API_URL + "/api/evidence/pending",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -32,7 +32,7 @@ function EvidenceVerification() {
   const handleApprove = async (evidenceId) => {
     try {
       await axios.post(
-        `http://localhost:4000/api/evidence/${evidenceId}/approve`,
+        import.meta.env.VITE_API_URL + `/api/evidence/${evidenceId}/approve`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -46,7 +46,7 @@ function EvidenceVerification() {
   const handleReject = async (evidenceId) => {
     try {
       await axios.post(
-        `http://localhost:4000/api/evidence/${evidenceId}/reject`,
+        import.meta.env.VITE_API_URL + `/api/evidence/${evidenceId}/reject`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -79,7 +79,7 @@ function EvidenceVerification() {
                 <strong>Comment:</strong> {evidence.comment || "None"}
               </p>
               <a
-                href={`http://localhost:4000/${evidence.filePath}`}
+                href={import.meta.env.VITE_API_URL + `/${evidence.filePath}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500 underline block my-2"

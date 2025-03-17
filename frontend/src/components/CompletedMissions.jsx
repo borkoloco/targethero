@@ -21,7 +21,7 @@ function CompletedMissions() {
     const fetchCompletedMissions = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/missions/completed",
+          import.meta.env.VITE_API_URL + "/api/missions/completed",
           {
             headers: { Authorization: `Bearer ${token}` },
           }

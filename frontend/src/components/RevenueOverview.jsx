@@ -11,9 +11,12 @@ function RevenueOverview() {
   useEffect(() => {
     const fetchRevenueByUser = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/revenue", {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const response = await axios.get(
+          import.meta.env.VITE_API_URL + "/api/revenue",
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         setRecords(response.data);
       } catch (err) {
         setError(err.response?.data?.error || "Error fetching revenue");

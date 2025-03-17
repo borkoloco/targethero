@@ -23,7 +23,7 @@ function UserMissions() {
     const fetchCompletedMissions = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/missions/completed",
+          import.meta.env.VITE_API_URL + "/api/missions/completed",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -42,7 +42,7 @@ function UserMissions() {
     const fetchPendingEvidence = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/evidence/pending/${user.id}`,
+          import.meta.env.VITE_API_URL + `/api/evidence/pending/${user.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -74,12 +74,12 @@ function UserMissions() {
         dispatch(fetchUserProfile());
 
         const completedResponse = await axios.get(
-          "http://localhost:4000/api/missions/completed",
+          import.meta.env.VITE_API_URL + "/api/missions/completed",
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setCompletedMissionIds(completedResponse.data);
         const pendingResponse = await axios.get(
-          `http://localhost:4000/api/evidence/pending/${user.id}`,
+          import.meta.env.VITE_API_URL + `/api/evidence/pending/${user.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setMyPendingEvidence(pendingResponse.data);
@@ -177,7 +177,8 @@ function UserMissions() {
 
                 axios
                   .get(
-                    `http://localhost:4000/api/evidence/pending/${user.id}`,
+                    import.meta.env.VITE_API_URL +
+                      `/api/evidence/pending/${user.id}`,
                     {
                       headers: { Authorization: `Bearer ${token}` },
                     }

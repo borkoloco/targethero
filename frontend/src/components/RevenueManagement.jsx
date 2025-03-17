@@ -14,7 +14,9 @@ function RevenueManagement() {
 
   const fetchRevenues = async () => {
     try {
-      const response = await axios.get("http://localhost:4000/api/revenues");
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/revenues"
+      );
       setRevenues(response.data);
     } catch (err) {
       console.error(err);
@@ -36,11 +38,21 @@ function RevenueManagement() {
     e.preventDefault();
     try {
       if (editRevenueId) {
-        await axios.put(`http://localhost:4000/api/revenues/${editRevenueId}`, formData);
+        await axios.put(
+          import.meta.env.VITE_API_URL + `/api/revenues/${editRevenueId}`,
+          formData
+        );
       } else {
-        await axios.post("http://localhost:4000/api/revenues", formData);
+        await axios.post(
+          import.meta.env.VITE_API_URL + "/api/revenues",
+          formData
+        );
       }
-      setFormData({ userId: "", total: "", date: new Date().toISOString().slice(0, 10) });
+      setFormData({
+        userId: "",
+        total: "",
+        date: new Date().toISOString().slice(0, 10),
+      });
       setEditRevenueId(null);
       fetchRevenues();
     } catch (err) {
@@ -51,12 +63,18 @@ function RevenueManagement() {
 
   const handleEdit = (revenue) => {
     setEditRevenueId(revenue.id);
-    setFormData({ userId: revenue.userId, total: revenue.total, date: revenue.date });
+    setFormData({
+      userId: revenue.userId,
+      total: revenue.total,
+      date: revenue.date,
+    });
   };
 
   const handleDelete = async (revenueId) => {
     try {
-      await axios.delete(`http://localhost:4000/api/revenues/${revenueId}`);
+      await axios.delete(
+        import.meta.env.VITE_API_URL + `/api/revenues/${revenueId}`
+      );
       fetchRevenues();
     } catch (err) {
       console.error(err);
@@ -71,7 +89,9 @@ function RevenueManagement() {
     <div>
       <h2 className="text-2xl font-bold mb-4">Revenue Management</h2>
       <form onSubmit={handleCreateOrUpdate} className="mb-4 p-4 border rounded">
-        <h3 className="font-semibold mb-2">{editRevenueId ? "Edit Revenue" : "Create New Revenue"}</h3>
+        <h3 className="font-semibold mb-2">
+          {editRevenueId ? "Edit Revenue" : "Create New Revenue"}
+        </h3>
         <div className="mb-2">
           <label className="block mb-1">User ID:</label>
           <input
@@ -105,7 +125,10 @@ function RevenueManagement() {
             required
           />
         </div>
-        <button type="submit" className="bg-green-500 text-white p-2 rounded w-full">
+        <button
+          type="submit"
+          className="bg-green-500 text-white p-2 rounded w-full"
+        >
           {editRevenueId ? "Update Revenue" : "Create Revenue"}
         </button>
       </form>
@@ -126,12 +149,20 @@ function RevenueManagement() {
               <td className="border p-2">{revenue.id}</td>
               <td className="border p-2">{revenue.userId}</td>
               <td className="border p-2">{revenue.total}</td>
-              <td className="border p-2">{new Date(revenue.date).toLocaleDateString()}</td>
               <td className="border p-2">
-                <button onClick={() => handleEdit(revenue)} className="bg-blue-500 text-white px-2 py-1 mr-2 rounded">
+                {new Date(revenue.date).toLocaleDateString()}
+              </td>
+              <td className="border p-2">
+                <button
+                  onClick={() => handleEdit(revenue)}
+                  className="bg-blue-500 text-white px-2 py-1 mr-2 rounded"
+                >
                   Edit
                 </button>
-                <button onClick={() => handleDelete(revenue.id)} className="bg-red-500 text-white px-2 py-1 rounded">
+                <button
+                  onClick={() => handleDelete(revenue.id)}
+                  className="bg-red-500 text-white px-2 py-1 rounded"
+                >
                   Delete
                 </button>
               </td>
