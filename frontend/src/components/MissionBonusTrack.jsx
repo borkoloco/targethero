@@ -62,7 +62,6 @@ function MissionBonusTrack() {
   const incompleteMissions = missions
   .filter((mission) => !completedIds.includes(Number(mission.id)))
   .filter((mission) => mission.type === "BonusTrack");
-
  
 
   const handleComplete = async (missionId) => {

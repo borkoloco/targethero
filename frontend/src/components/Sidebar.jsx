@@ -16,7 +16,6 @@ function Sidebar() {
         <>
           <SidebarItem to="/user" icon="👤" label="User Dashboard" />
           
-          <SidebarItem to="/evidence" icon="🔍" label="Evidece Dashboard" /> 
 
         </>
         )}

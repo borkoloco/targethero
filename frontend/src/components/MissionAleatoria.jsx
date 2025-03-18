@@ -108,29 +108,35 @@ function MissionAleatoria() {
     <div className="w-1/2  overflow-y-auto h-96 p-4 border rounded shadow">
   
       {/* Misión Diaria */}
-      {missions.some((mission) => mission.type === "Diaria") && (
-        <div>
-          <h2 className="text-lg font-semibold mb-2">Misión Diaria</h2>
-          {missions
-            .filter((mission) => mission.type === "Diaria")
-            .map((mission) => (
-              <div
-                key={mission.id}
-                className="w-full h-auto flex flex-col justify-center gap-1 border p-3 rounded shadow"
-              >
-                <h3 className="text-sm font-semibold break-words">{mission.name}</h3>
-                <p className="text-xs text-gray-700 break-words">Points: {mission.points}</p>
-                <button
-                  onClick={() => handleComplete(mission.id)}
-                  className="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 rounded transition"
-                >
-                  Marcar como Completada
-                </button>
-              </div>
-            ))}
-          <hr className="my-4 border-gray-300" />
+      {missions.some((mission) => mission.type === "Diaria") ? ( 
+  <div>
+    <h2 className="text-lg font-semibold mb-2">Misión Diaria</h2>
+    {missions
+      .filter((mission) => mission.type === "Diaria")
+      .map((mission) => (
+        <div
+          key={mission.id}
+          className="w-full h-auto flex flex-col justify-center gap-1 border p-3 rounded shadow"
+        >
+          <h3 className="text-sm font-semibold break-words">{mission.name}</h3>
+          <p className="text-xs text-gray-700 break-words">Points: {mission.points}</p>
+          <button
+            onClick={() => handleComplete(mission.id)}
+            className="mt-2 w-full bg-blue-500 hover:bg-blue-600 text-white text-xs py-1 rounded transition"
+          >
+            Marcar como Completada
+          </button>
         </div>
-      )}
+      ))}
+    <hr className="my-4 border-gray-300" />
+  </div>
+) : (
+  <div className="text-center w-full">
+    <p className="text-gray-500">No hay más misiones disponibles.</p>
+    <p className="text-gray-400 text-sm">Vuelve más tarde para nuevas misiones.</p>
+  </div>
+)}
+
   
       {/* Misiones Aleatorias */}
       <h2 className="text-lg font-semibold mb-2">Misiones Aleatorias</h2>
@@ -180,8 +186,51 @@ function MissionAleatoria() {
           })}
         </div>
       )}
+    
+  
+  
+
+      
+      
+      
+      
+      {/* Evidence Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded shadow-lg w-11/12 md:w-1/2">
+            <div className="flex justify-end">
+              <button
+                onClick={closeModal}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                X
+              </button>
+            </div>
+            <EvidenceForm
+              missionId={selectedMissionId}
+              onEvidenceSubmitted={() => {
+                closeModal();
+                dispatch(fetchMissions());
+                dispatch(fetchUserProfile());
+  
+                axios
+                  .get(
+                    import.meta.env.VITE_API_URL +
+                      `/api/evidence/pending/${user.id}`,
+                    {
+                      headers: { Authorization: `Bearer ${token}` },
+                    }
+                  )
+                  .then((response) => setMyPendingEvidence(response.data))
+                  .catch((err) =>
+                    console.error("Error fetching pending evidence:", err)
+                  );
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
-  
 }  
 export default MissionAleatoria;
