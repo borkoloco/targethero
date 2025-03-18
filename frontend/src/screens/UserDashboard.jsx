@@ -1,10 +1,14 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../redux/slices/usersSlice";
-import UserMissions from "../components/UserMissions";
 import CompletedMission from "../components/CompletedMissions";
 import MyClients from "../components/MyClients";
 import MyRevenue from "../components/MyRevenue";
+import MissionMensuales from "../components/MissionMensuales";
+import MissionAleatoria from "../components/MissionAleatoria";
+import MissionTrimestral from "../components/MissionTrimestral";
+import MissionBonusTrack from "../components/MissionBonusTrack";
+
 
 function UserDashboard() {
   const dispatch = useDispatch();
@@ -28,7 +32,12 @@ function UserDashboard() {
       )}
 
       <h3 className="text-2xl font-bold mt-4">Active Missions</h3>
-      <UserMissions />
+      <div className="w-full flex flex-col gap-6">
+      <MissionAleatoria/>
+      <MissionMensuales /> 
+      <MissionBonusTrack/>
+      <MissionTrimestral/>
+      </div>
 
       {profile && (
         <h4 className="text-2xl font-bold mt-4">
