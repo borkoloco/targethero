@@ -13,7 +13,11 @@ function Sidebar() {
             <SidebarItem to="/admin" icon="🛠️" label="Admin Dashboard" />
           </>
         ) : (
+        <>
           <SidebarItem to="/user" icon="👤" label="User Dashboard" />
+          
+
+        </>
         )}
       </nav>
     </aside>
