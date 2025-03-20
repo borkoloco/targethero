@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
 
-const Badges = sequelize.define("Badge", {
+const Badge = sequelize.define("Badge", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -26,4 +26,4 @@ const Badges = sequelize.define("Badge", {
   },
 });
 
-module.exports = Badges;
+module.exports = Badge;
