@@ -9,7 +9,7 @@ const missionRoutes = require("./missionRoutes");
 const revenueRoutes = require("./revenueRoutes");
 const clientRoutes = require("./clientRoutes");
 const evidenceRoutes = require("./evidenceRoutes");
-const insigniasRoutes = require("./insigniasRoutes");
+const badgeRoutes = require("./badgeRoutes");
 
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
@@ -19,7 +19,6 @@ router.use("/ranking", rankingRoutes);
 router.use("/revenue", revenueRoutes);
 router.use("/clients", clientRoutes);
 router.use("/evidence", evidenceRoutes);
-router.use("/insignias",insigniasRoutes);
-
+router.use("/badges", badgeRoutes);
 
 module.exports = router;

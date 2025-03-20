@@ -9,7 +9,7 @@ function MissionManagement() {
 
   const [formData, setFormData] = useState({
     name: "",
-    type: "diaria",
+    type: "aleatoria",
     description: "",
     points: 0,
     evidenceRequired: false,
@@ -113,11 +113,12 @@ function MissionManagement() {
             onChange={handleChange}
             className="border p-1 rounded w-full"
           >
-            <option value="diaria">Diaria</option>
             <option value="aleatoria">Aleatoria</option>
             <option value="mensual">Mensual</option>
             <option value="trimestral">Trimestral</option>
             <option value="bonus">Bonus Track</option>
+            <option value="diaria">Diaria</option>
+            {/* diaria no se si va */}
           </select>
         </div>
 

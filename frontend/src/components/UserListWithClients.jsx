@@ -32,7 +32,7 @@ function UserListWithClients() {
   const fetchClientsForUser = async (userId) => {
     try {
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + `/api/clients?userId=${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/clients?assignedTo=${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
