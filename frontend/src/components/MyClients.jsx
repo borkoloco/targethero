@@ -3,7 +3,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 function MyClients() {
-  const { token } = useSelector((state) => state.auth);
+  const { token, user } = useSelector((state) => state.auth);
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -36,7 +36,7 @@ function MyClients() {
 
   useEffect(() => {
     fetchMyClients();
-  }, []);
+  }, [token]);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -45,16 +45,24 @@ function MyClients() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const clientData = { ...formData, assignedTo: user.id };
+
       if (editClientId) {
         await axios.put(
           import.meta.env.VITE_API_URL + `/api/clients/${editClientId}`,
-          formData,
-          { headers: { Authorization: `Bearer ${token}` } }
+          clientData,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
       } else {
-        await axios.post("http://localhost:4000/api/clients", formData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await axios.post(
+          import.meta.env.VITE_API_URL + "/api/clients",
+          clientData,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
       }
       setFormData({
         name: "",

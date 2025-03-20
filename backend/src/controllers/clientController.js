@@ -11,8 +11,15 @@ const createClient = async (req, res) => {
 
 const getAllClients = async (req, res) => {
   try {
-    const clients = await clientService.getAllClients();
-    res.json(clients);
+    if (req.query.assignedTo) {
+      const clients = await clientService.getClientsByUser(
+        req.query.assignedTo
+      );
+      res.json(clients);
+    } else {
+      const clients = await clientService.getAllClients();
+      res.json(clients);
+    }
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

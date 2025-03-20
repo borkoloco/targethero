@@ -48,7 +48,6 @@ function AdminDashboard() {
         {activeTab === "users" && <UserManagement />}
         {activeTab === "missions" && <MissionManagement />}
         {activeTab === "revenue" && <RevenueOverview />}
-        {/* {activeTab === "revenues" && <RevenueManagement />} */}
         {activeTab === "users" && (
           <>
             <UserListWithClients /> <EvidenceVerification />

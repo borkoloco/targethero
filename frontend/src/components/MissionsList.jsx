@@ -50,7 +50,6 @@ function MissionsList() {
                   <td className="border p-2">{mission.type}</td>
                   <td className="border p-2">{mission.description}</td>
                   <td className="border p-2">{mission.points}</td>
-                  <p>Hola</p>
                   <td className="border p-2">
                     {completedCount} {completedCount === 1 ? "user" : "users"}
                     {totalUsers > 0 && (
