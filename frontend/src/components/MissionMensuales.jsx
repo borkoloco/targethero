@@ -105,7 +105,7 @@ function UserMissions() {
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
   return (
-    <div class="w-1/2 justifi-center overflow-y-auto h-96 p-4 border rounded shadow">
+    <div class="w-1/2  overflow-y-auto h-96 p-4 border rounded shadow">
       <h1 className="text-xl font-semibold mb-2">Misiones Mensuales</h1>
       {incompleteMissions.length === 0 ? (
         <p className="text-gray-500 text-lg font-semibold">

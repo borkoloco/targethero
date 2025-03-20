@@ -63,9 +63,7 @@ function MissionTrimestral() {
   .filter((mission) => !completedIds.includes(Number(mission.id)))
   .filter((mission) => mission.type === "Trimestral");
 
-  const incompleteMissions2= missions
-  .filter((mission) => !completedIds.includes(Number(mission.id)))
-  .filter((mission) => mission.type === "Diaria");
+  
 
   const handleComplete = async (missionId) => {
     try {
