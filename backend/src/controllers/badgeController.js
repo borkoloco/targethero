@@ -1,9 +1,9 @@
-const insigniasService = require("../services/badgeService");
+const badgeService = require("../services/badgeService");
 
 const createBadge = async (req, res) => {
   try {
     const { name, logoUrl, type, description } = req.body;
-    const newInsignia = await badgeService.createBadge(
+    const newBadge = await badgeService.createBadge(
       name,
       logoUrl,
       type,
