@@ -17,8 +17,9 @@ function MissionsList() {
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="mt-4 border p-4 rounded">
-      <h3 className="font-semibold mb-2">Missions Overview</h3>
+    <div className="flex flex-col items-center justify-center">
+    <div className="w-full max-w-[1200px] sm:max-w-[90%] md:w-[calc(100%-240px)] h-[400px] border rounded-lg shadow-lg p-4 overflow-auto bg-white">
+      <h3 className="font-semibold mb-2 text-center ">Missions Overview</h3>
       {missions.length === 0 ? (
         <p>No missions available.</p>
       ) : (
@@ -62,6 +63,7 @@ function MissionsList() {
           </tbody>
         </table>
       )}
+    </div>
     </div>
   );
 }

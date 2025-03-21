@@ -72,7 +72,7 @@ function MainDashboard() {
             dataValues={doughnutDataValues}
           />
         </div>
-      </div>
+      </div> <br />
       {/* Missions List Section */}
       <MissionsList />
       {/* Ranking Section */}
