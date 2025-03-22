@@ -15,7 +15,7 @@ function Sidebar() {
         ) : (
         <>
           <SidebarItem to="/user" icon="👤" label="User Dashboard" />
-          
+          <SidebarItem to="/badges" icon="🎖️" label = "Insignias"/>
 
         </>
         )}

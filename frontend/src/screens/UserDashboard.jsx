@@ -5,6 +5,7 @@ import UserMissionsByType from "../components/UserMissionsByType";
 import CompletedMission from "../components/CompletedMissions";
 import MyRevenue from "../components/MyRevenue";
 import MyClients from "../components/MyClients";
+import Badges from "../components/Badges";
 
 function UserDashboard() {
   const dispatch = useDispatch();
@@ -62,25 +63,27 @@ function UserDashboard() {
           )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
             <UserMissionsByType
-              missionType="aleatoria"
+              missionType="Aleatoria"
               title="Random Missions"
             />
             <UserMissionsByType
-              missionType="mensual"
+              missionType= "Mensual"
               title="Monthly Missions"
             />
-            <UserMissionsByType missionType="bonus" title="Bonus Missions" />
+            <UserMissionsByType missionType="Bonus Track" title="Bonus Missions" />
             <UserMissionsByType
-              missionType="trimestral"
+              missionType="Trimestral"
               title="Quarterly Missions"
             />
           </div>
           {profile && (
-            <h4 className="text-2xl font-bold mt-4">
-              Completed Missions by {profile.name}:
-            </h4>
+            <h4 className="text-2xl font-bold mt-4 text-center">
+            Completed Missions by {profile.name}:
+          </h4>
+          
           )}
           <CompletedMission />
+          <Badges/>
         </div>
       )}
 
@@ -90,9 +93,12 @@ function UserDashboard() {
           <MyRevenue />
           <h3 className="text-2xl font-bold mt-4">My Clients</h3>
           <MyClients />
+         
         </div>
       )}
+    
     </div>
+    
   );
 }
 
