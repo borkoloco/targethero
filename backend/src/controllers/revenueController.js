@@ -45,10 +45,19 @@ const getRevenueByUser = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+const deleteRevenue = async (req, res) => {
+  try {
+    const result = await revenueService.deleteRevenue(req.params.id);
+    res.json(result);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 module.exports = {
   getRevenueByUser,
   updateRevenueRecord,
   getMyRevenue,
   createRevenueRecord,
+  deleteRevenue,
 };

@@ -2,12 +2,19 @@ const express = require("express");
 const router = express.Router();
 const evidenceController = require("../controllers/evidenceController");
 const { protect } = require("../middleware/authMiddleware");
-const upload = require("../middleware/uploadMiddleware");
+const upload2 = require("../middleware/uploadMiddleware");
+const upload = require("../middleware/evidenceUpload");
 
+router.post(
+  "/upload",
+  protect,
+  upload.single("file"),
+  evidenceController.uploadEvidence
+);
 router.post(
   "/:id",
   protect,
-  upload.single("evidence"),
+  upload2.single("evidence"),
   evidenceController.submitEvidence
 );
 router.get(

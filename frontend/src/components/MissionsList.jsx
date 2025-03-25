@@ -1,11 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMissions } from "../redux/slices/missionsSlice";
+import ScrollableTable from "./ScrollableTable";
+import SortableTableHeader from "./SortableTableHeader";
 
 function MissionsList() {
   const dispatch = useDispatch();
   const { missions, status, error } = useSelector((state) => state.missions);
   const { users } = useSelector((state) => state.users);
+
+  const [sortField, setSortField] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
 
   useEffect(() => {
     if (status === "idle") {
@@ -13,37 +18,74 @@ function MissionsList() {
     }
   }, [dispatch, status]);
 
+  const toggleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
+  const sortedMissions = [...missions].sort((a, b) => {
+    if (!sortField) return 0;
+    const valA = a[sortField];
+    const valB = b[sortField];
+    if (typeof valA === "number" && typeof valB === "number") {
+      return sortDirection === "asc" ? valA - valB : valB - valA;
+    } else {
+      return sortDirection === "asc"
+        ? String(valA).localeCompare(String(valB))
+        : String(valB).localeCompare(String(valA));
+    }
+  });
+
   if (status === "loading") return <p>Loading missions...</p>;
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="flex flex-col items-center justify-center">
-    <div className="w-full max-w-[1200px] sm:max-w-[90%] md:w-[calc(100%-240px)] h-[400px] border rounded-lg shadow-lg p-4 overflow-auto bg-white">
-      <h3 className="font-semibold mb-2 text-center ">Missions Overview</h3>
+    <div className="mt-4 border p-4 rounded">
+      <h3 className="font-semibold mb-2">Missions Overview</h3>
       {missions.length === 0 ? (
         <p>No missions available.</p>
       ) : (
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-200">
+        <ScrollableTable>
+          <thead className="sticky top-0 bg-gray-200 z-10">
+            <tr>
               <th className="border p-2">ID</th>
-              <th className="border p-2">Name</th>
-              <th className="border p-2">Type</th>
+              <SortableTableHeader
+                label="Name"
+                field="name"
+                sortField={sortField}
+                sortDirection={sortDirection}
+                onSortChange={toggleSort}
+              />
+              <SortableTableHeader
+                label="Type"
+                field="type"
+                sortField={sortField}
+                sortDirection={sortDirection}
+                onSortChange={toggleSort}
+              />
               <th className="border p-2">Description</th>
-              <th className="border p-2">Points</th>
+              <SortableTableHeader
+                label="Points"
+                field="points"
+                sortField={sortField}
+                sortDirection={sortDirection}
+                onSortChange={toggleSort}
+              />
               <th className="border p-2">Completed By</th>
             </tr>
           </thead>
           <tbody>
-            {missions.map((mission) => {
-              const completedCount = mission.completers
-                ? mission.completers.length
-                : 0;
-
-              const totalUsers = users ? users.length : 0;
+            {sortedMissions.map((mission) => {
+              const completedCount = mission.completers?.length || 0;
+              const totalUsers = users?.length || 0;
               const progressPercentage = totalUsers
                 ? ((completedCount / totalUsers) * 100).toFixed(1)
                 : 0;
+
               return (
                 <tr key={mission.id}>
                   <td className="border p-2">{mission.id}</td>
@@ -61,9 +103,8 @@ function MissionsList() {
               );
             })}
           </tbody>
-        </table>
+        </ScrollableTable>
       )}
-    </div>
     </div>
   );
 }

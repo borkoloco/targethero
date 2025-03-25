@@ -10,6 +10,8 @@ const revenueRoutes = require("./revenueRoutes");
 const clientRoutes = require("./clientRoutes");
 const evidenceRoutes = require("./evidenceRoutes");
 const badgeRoutes = require("./badgeRoutes");
+const recentEventRoutes = require("./recentEventRoutes");
+const importRoutes = require("./importRoutes");
 
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
@@ -20,5 +22,7 @@ router.use("/revenue", revenueRoutes);
 router.use("/clients", clientRoutes);
 router.use("/evidence", evidenceRoutes);
 router.use("/badges", badgeRoutes);
+router.use("/events", recentEventRoutes);
+router.use("/import", importRoutes);
 
 module.exports = router;
