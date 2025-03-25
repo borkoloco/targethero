@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import ScrollableTable from "./ScrollableTable";
 
 function EvidenceVerification() {
   const { token } = useSelector((state) => state.auth);
-  const [evidences, setEvidences] = useState([]);
+  const [evidenceList, setEvidenceList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const fetchPendingEvidence = async () => {
+  const fetchEvidence = async () => {
     try {
       const response = await axios.get(
         import.meta.env.VITE_API_URL + "/api/evidence/pending",
@@ -16,9 +17,8 @@ function EvidenceVerification() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      setEvidences(response.data);
+      setEvidenceList(response.data);
     } catch (err) {
-      console.error(err);
       setError(err.response?.data?.error || "Error fetching evidence");
     } finally {
       setLoading(false);
@@ -26,83 +26,95 @@ function EvidenceVerification() {
   };
 
   useEffect(() => {
-    fetchPendingEvidence();
+    fetchEvidence();
   }, [token]);
 
   const handleApprove = async (evidenceId) => {
     try {
       await axios.post(
-        import.meta.env.VITE_API_URL + `/api/evidence/${evidenceId}/approve`,
+        `${import.meta.env.VITE_API_URL}/api/evidence/${evidenceId}/approve`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-      fetchPendingEvidence();
+      fetchEvidence();
     } catch (err) {
-      console.error(err);
-      setError("Error approving evidence");
+      console.error("Error approving evidence:", err);
     }
   };
 
   const handleReject = async (evidenceId) => {
     try {
       await axios.post(
-        import.meta.env.VITE_API_URL + `/api/evidence/${evidenceId}/reject`,
+        `${import.meta.env.VITE_API_URL}/api/evidence/${evidenceId}/reject`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
-      fetchPendingEvidence();
+      fetchEvidence();
     } catch (err) {
-      console.error(err);
-      setError("Error rejecting evidence");
+      console.error("Error rejecting evidence:", err);
     }
   };
 
-  if (loading) return <p>Loading evidence submissions...</p>;
+  if (loading) return <p>Loading evidence...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="mt-8 border p-4 rounded">
-      <h2 className="text-2xl font-bold mb-4">Evidence Verification</h2>
-      {evidences.length === 0 ? (
-        <p>No pending evidence submissions.</p>
+    <div className="mt-4 border p-4 rounded">
+      <h3 className="text-xl font-bold mb-4">Pending Evidence</h3>
+      {evidenceList.length === 0 ? (
+        <p>No pending evidence to verify.</p>
       ) : (
-        <ul>
-          {evidences.map((evidence) => (
-            <li key={evidence.id} className="border p-4 mb-2 rounded">
-              <p>
-                <strong>Mission:</strong> {evidence.mission?.name}
-              </p>
-              <p>
-                <strong>Submitted by:</strong> {evidence.submitter?.name}
-              </p>
-              <p>
-                <strong>Comment:</strong> {evidence.comment || "None"}
-              </p>
-              <a
-                href={import.meta.env.VITE_API_URL + `/${evidence.filePath}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 underline block my-2"
-              >
-                Download Evidence
-              </a>
-              <div className="flex space-x-4">
-                <button
-                  onClick={() => handleApprove(evidence.id)}
-                  className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
-                >
-                  Approve
-                </button>
-                <button
-                  onClick={() => handleReject(evidence.id)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
-                >
-                  Reject
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <ScrollableTable>
+          <thead className="sticky top-0 bg-gray-200 z-10">
+            <tr>
+              <th className="border p-2">User</th>
+              <th className="border p-2">Mission</th>
+              <th className="border p-2">Submitted At</th>
+              <th className="border p-2">Evidence</th>
+              <th className="border p-2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {evidenceList.map((evidence) => (
+              <tr key={evidence.id}>
+                <td className="border p-2">{evidence.user?.name}</td>
+                <td className="border p-2">{evidence.mission?.name}</td>
+                <td className="border p-2">
+                  {new Date(evidence.createdAt).toLocaleString()}
+                </td>
+                <td className="border p-2">
+                  <a
+                    href={evidence.filePath}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 underline"
+                  >
+                    View File
+                  </a>
+                </td>
+
+                <td className="border p-2">
+                  <button
+                    onClick={() => handleApprove(evidence.id)}
+                    className="bg-green-500 text-white px-2 py-1 mr-2 rounded"
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleReject(evidence.id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                  >
+                    Reject
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </ScrollableTable>
       )}
     </div>
   );

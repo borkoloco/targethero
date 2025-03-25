@@ -6,7 +6,6 @@ const server = http.createServer(app);
 
 const PORT = process.env.PORT || 4000;
 
-// Socket.IO on the HTTP server
 const { Server } = require("socket.io");
 const io = new Server(server, {
   cors: {
@@ -15,7 +14,6 @@ const io = new Server(server, {
   },
 });
 
-// event listeners to Socket.IO
 io.on("connection", (socket) => {
   console.log("A user connected");
   socket.on("disconnect", () => {

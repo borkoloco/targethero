@@ -78,7 +78,7 @@ const missionsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Handle fetchMissions
+
       .addCase(fetchMissions.pending, (state) => {
         state.status = "loading";
       })
@@ -90,7 +90,7 @@ const missionsSlice = createSlice({
         state.status = "failed";
         state.error = action.payload?.error || action.error.message;
       })
-      // Handle fetchMissionDetail
+
       .addCase(fetchMissionDetail.pending, (state) => {
         state.detailStatus = "loading";
       })
@@ -102,10 +102,8 @@ const missionsSlice = createSlice({
         state.detailStatus = "failed";
         state.detailError = action.payload?.error || action.error.message;
       })
-      // Handle completeMission
+
       .addCase(completeMission.fulfilled, (state, action) => {
-        // Optionally, update the mission that was completed.
-        // Here, we assume the backend returns the updated mission in action.payload.mission.
         const updatedMission = action.payload.mission;
         if (updatedMission) {
           const index = state.missions.findIndex(
@@ -114,7 +112,7 @@ const missionsSlice = createSlice({
           if (index !== -1) {
             state.missions[index] = updatedMission;
           }
-          // Also update detail if needed:
+
           if (
             state.missionDetail &&
             state.missionDetail.id === updatedMission.id

@@ -5,6 +5,7 @@ import MissionsLineChart from "../components/MissionsLineChart";
 import MissionTypesDoughnut from "../components/MissionTypesDoughnut";
 import MissionsList from "../components/MissionsList";
 import Ranking from "../components/Ranking";
+import RecentEvents from "../components/RecentEvents";
 
 function MainDashboard() {
   const [metrics, setMetrics] = useState(null);
@@ -32,7 +33,6 @@ function MainDashboard() {
   if (loading) return <p>Loading dashboard...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
-  // Dummy data for charts; replace with real data from metrics if available.
   const lineChartDataLabels = ["Week 1", "Week 2", "Week 3", "Week 4"];
   const lineChartDataPoints = [5, 10, 7, 12];
   const doughnutLabels = [
@@ -47,7 +47,7 @@ function MainDashboard() {
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Global Dashboard</h2>
-      {/* Metrics Section */}
+
       <div className="mb-4">
         <p className="font-semibold">
           Total Mission Completion Rate:{" "}
@@ -58,7 +58,7 @@ function MainDashboard() {
           label="Billing Progress"
         />
       </div>
-      {/* Charts Section */}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="border p-4 rounded">
           <MissionsLineChart
@@ -72,17 +72,16 @@ function MainDashboard() {
             dataValues={doughnutDataValues}
           />
         </div>
-      </div> <br />
-      {/* Missions List Section */}
+      </div>
+
       <MissionsList />
-      {/* Ranking Section */}
+
       <div className="mt-4 border p-4 rounded">
         <Ranking />
       </div>
-      {/* Latest Activity Section */}
+
       <div className="mt-4 border p-4 rounded">
-        <h3 className="font-semibold mb-2">Latest Activity</h3>
-        <p>No new notifications.</p>
+        <RecentEvents />
       </div>
     </div>
   );

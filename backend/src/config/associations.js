@@ -4,6 +4,7 @@ const Client = require("../models/Client");
 const Evidence = require("../models/Evidence");
 const Revenue = require("../models/Revenue");
 const MissionCompletion = require("../models/MissionCompletion");
+const Badge = require("../models/Badge");
 
 Client.belongsTo(User, { foreignKey: "assignedTo", as: "manager" });
 User.hasMany(Client, { foreignKey: "assignedTo", as: "clients" });
@@ -28,4 +29,15 @@ Mission.belongsToMany(User, {
   through: MissionCompletion,
   as: "completers",
   foreignKey: "missionId",
+});
+
+User.belongsToMany(Badge, {
+  through: "UserBadges",
+  as: "userBadges",
+  foreignKey: "userId",
+});
+Badge.belongsToMany(User, {
+  through: "UserBadges",
+  as: "users",
+  foreignKey: "badgeId",
 });

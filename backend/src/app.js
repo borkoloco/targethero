@@ -33,7 +33,7 @@ if (!fs.existsSync(uploadsDir)) {
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api", routes);
-app.use("/assets", express.static(path.join(__dirname, "assets")));
+
 require("./config/associations");
 
 sequelize

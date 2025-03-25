@@ -1,8 +1,10 @@
 const evidenceService = require("../services/evidenceService");
+const recentEventService = require("../services/recentEventService");
 const Evidence = require("../models/Evidence");
 const Mission = require("../models/Mission");
 const User = require("../models/User");
 const MissionCompletion = require("../models/MissionCompletion");
+const cloudinary = require("cloudinary").v2;
 
 const getPendingEvidence = async (req, res) => {
   try {
@@ -42,13 +44,21 @@ const approveEvidence = async (req, res) => {
     if (mission && user) {
       user.points += mission.points;
       await user.save();
-    }
 
-    const io = req.app.get("io");
-    io.emit("missionCompleted", {
-      missionId: evidence.missionId,
-      userId: evidence.userId,
-    });
+      const io = req.app.get("io");
+      io.emit("missionCompleted", {
+        missionId: evidence.missionId,
+        userId: evidence.userId,
+        completer: user.name,
+      });
+
+      const event = await recentEventService.addEvent(
+        "mission",
+        `${user.name} completed the mission "${mission.name}"`
+      );
+
+      io.emit("newEvent", event);
+    }
 
     res.json({
       message: "Evidence approved and mission completion recorded",
@@ -95,8 +105,13 @@ const submitEvidence = async (req, res) => {
   try {
     const userId = req.user.id;
     const missionId = req.params.id;
-    const filePath = "uploads/" + req.file.filename;
     const comment = req.body.comment || "";
+
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "evidence",
+    });
+
+    const filePath = result.secure_url;
 
     const evidence = await evidenceService.createEvidence(
       missionId,
@@ -104,11 +119,23 @@ const submitEvidence = async (req, res) => {
       filePath,
       comment
     );
+
     res
       .status(201)
       .json({ message: "Evidence submitted successfully", evidence });
   } catch (error) {
     res.status(400).json({ error: error.message });
+  }
+};
+
+const uploadEvidence = async (req, res) => {
+  try {
+    const fileUrl = req.file.path;
+
+    res.status(201).json({ url: fileUrl });
+  } catch (err) {
+    console.error("Error uploading evidence:", err);
+    res.status(500).json({ error: "Failed to upload evidence" });
   }
 };
 
@@ -118,4 +145,5 @@ module.exports = {
   rejectEvidence,
   getPendingEvidenceForUser,
   submitEvidence,
+  uploadEvidence,
 };

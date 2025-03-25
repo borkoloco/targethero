@@ -10,9 +10,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import "swiper/css";
 
-function UserMissionsByType({ missionType, title }) {
+function UserMissionsByType({ missionTypes, title }) {
   const dispatch = useDispatch();
   const { token, user } = useSelector((state) => state.auth);
   const { missions, status, error } = useSelector((state) => state.missions);
@@ -62,7 +61,7 @@ function UserMissionsByType({ missionType, title }) {
 
   const filteredMissions = missions.filter(
     (mission) =>
-      mission.type === missionType &&
+      (missionTypes ?? []).includes(mission.type) &&
       !completedMissionIds.includes(Number(mission.id))
   );
 
@@ -170,7 +169,6 @@ function UserMissionsByType({ missionType, title }) {
         </Swiper>
       )}
 
-      {/* Evidence Modal */}
       {modalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded shadow-lg w-11/12 md:w-1/2">
@@ -198,8 +196,12 @@ function UserMissionsByType({ missionType, title }) {
 }
 
 UserMissionsByType.propTypes = {
-  missionType: PropTypes.string.isRequired,
+  missionTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
   title: PropTypes.string.isRequired,
+};
+
+UserMissionsByType.defaultProps = {
+  missionTypes: [],
 };
 
 export default UserMissionsByType;

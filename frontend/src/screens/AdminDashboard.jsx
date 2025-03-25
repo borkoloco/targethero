@@ -3,7 +3,7 @@ import UserManagement from "../components/UserManagement";
 import MissionManagement from "../components/MissionManagement";
 import UserListWithClients from "../components/UserListWithClients";
 import EvidenceVerification from "../components/EvidenceVerification";
-import RevenueOverview from "../components/RevenueOverview";
+import BadgeManagement from "../components/BadgeManagement"; // 👈 new
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("users");
@@ -33,26 +33,31 @@ function AdminDashboard() {
           Mission Management
         </button>
         <button
-          onClick={() => setActiveTab("revenue")}
+          onClick={() => setActiveTab("badges")}
           className={`mr-4 pb-2 ${
-            activeTab === "revenue"
+            activeTab === "badges"
               ? "border-b-2 border-blue-500 text-blue-500"
               : "text-gray-600"
           }`}
         >
-          Revenue Overview
+          Badge Management
         </button>
       </div>
 
       <div>
-        {activeTab === "users" && <UserManagement />}
-        {activeTab === "missions" && <MissionManagement />}
-        {activeTab === "revenue" && <RevenueOverview />}
         {activeTab === "users" && (
           <>
-            <UserListWithClients /> <EvidenceVerification />
+            <UserManagement />
+            <UserListWithClients />
           </>
         )}
+        {activeTab === "missions" && (
+          <>
+            <MissionManagement />
+            <EvidenceVerification />
+          </>
+        )}
+        {activeTab === "badges" && <BadgeManagement />}
       </div>
     </div>
   );

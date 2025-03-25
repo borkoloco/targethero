@@ -24,6 +24,15 @@ const Badge = sequelize.define("Badge", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: "Users",
+      key: "id",
+    },
+    onDelete: "CASCADE",
+  },
 });
 
 module.exports = Badge;
