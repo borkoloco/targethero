@@ -43,7 +43,7 @@ function MissionDetail() {
           <p>Completed by: {missionDetail.completer.name}</p>
         )}
       </div>
-      {/* Only show the evidence form if the mission requires evidence and isn't completed */}
+
       {missionDetail.requiresEvidence && !missionDetail.isCompleted && (
         <EvidenceForm
           missionId={id}

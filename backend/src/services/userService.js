@@ -1,4 +1,8 @@
 const User = require("../models/User");
+const Badge = require("../models/Badge");
+const Revenue = require("../models/Revenue");
+const Client = require("../models/Client");
+const Mission = require("../models/Mission");
 const bcrypt = require("bcrypt");
 
 const getAllUsers = async () => {
@@ -42,6 +46,28 @@ const getUserProfile = async (userId) => {
   return user;
 };
 
+const getUserStats = async () => {
+  const users = await User.findAll({
+    include: [
+      { model: Mission, as: "completedMissions" },
+      { model: Revenue, as: "revenues" },
+      { model: Client, as: "clients" },
+      { model: Badge, as: "userBadges" },
+    ],
+  });
+
+  return users.map((user) => ({
+    id: user.id,
+    name: user.name,
+    totalMissions: user.completedMissions?.length || 0,
+    totalRevenue:
+      user.revenues?.reduce((sum, r) => sum + parseFloat(r.amount), 0) || 0,
+
+    totalClients: user.clients?.length || 0,
+    totalBadges: user.userBadges?.length || 0,
+  }));
+};
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -49,4 +75,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserProfile,
+  getUserStats,
 };

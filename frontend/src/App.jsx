@@ -9,6 +9,8 @@ import MainDashboard from "./screens/MainDashboard";
 import AdminDashboard from "./screens/AdminDashboard";
 import UserDashboard from "./screens/UserDashboard";
 import MissionsList from "./components/MissionsList";
+import UserReports from "./screens/UserReports";
+import AdminReports from "./screens/AdminReports";
 import Ranking from "./components/Ranking";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
@@ -29,9 +31,14 @@ function App() {
             {user.role === "admin" ? (
               <>
                 <Route path="admin" element={<AdminDashboard />} />
+
+                <Route path="reports/admin" element={<AdminReports />} />
               </>
             ) : (
-              <Route path="user" element={<UserDashboard />} />
+              <>
+                <Route path="user" element={<UserDashboard />} />
+                <Route path="reports/user" element={<UserReports />} />
+              </>
             )}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

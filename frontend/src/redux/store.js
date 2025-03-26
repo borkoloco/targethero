@@ -3,6 +3,7 @@ import authReducer from "./slices/authSlice";
 import usersReducer from "./slices/usersSlice";
 import missionsReducer from "./slices/missionsSlice";
 import evidenceReducer from "./slices/evidenceSlice";
+import badgesReducer from "./slices/badgesSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   users: usersReducer,
   missions: missionsReducer,
   evidence: evidenceReducer,
+  badges: badgesReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

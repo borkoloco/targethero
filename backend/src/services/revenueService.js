@@ -41,9 +41,17 @@ const updateRevenueRecord = async (id, updateData) => {
   return await record.update(updateData);
 };
 
+const deleteRevenue = async (id) => {
+  const revenue = await Revenue.findByPk(id);
+  if (!revenue) throw new Error("Revenue not found");
+  await revenue.destroy();
+  return { message: "Revenue deleted successfully" };
+};
+
 module.exports = {
   createRevenueRecord,
   getRevenueForUser,
   getAllRevenue,
   updateRevenueRecord,
+  deleteRevenue,
 };

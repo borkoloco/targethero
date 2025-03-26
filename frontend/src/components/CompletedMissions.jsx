@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMissions } from "../redux/slices/missionsSlice";
 import axios from "axios";
+import ScrollableTable from "./ScrollableTable";
+import SortableTableHeader from "./SortableTableHeader";
 
 function CompletedMissions() {
   const dispatch = useDispatch();
@@ -10,6 +12,8 @@ function CompletedMissions() {
   const { token } = useSelector((state) => state.auth);
 
   const [completedMissionIds, setCompletedMissionIds] = useState([]);
+  const [sortField, setSortField] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
 
   useEffect(() => {
     if (status === "idle") {
@@ -27,7 +31,6 @@ function CompletedMissions() {
           }
         );
         setCompletedMissionIds(response.data);
-        console.log(response.data);
       } catch (err) {
         console.error("Error fetching completed missions:", err);
       }
@@ -38,29 +41,69 @@ function CompletedMissions() {
     }
   }, [user, token]);
 
+  const toggleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
   const userCompletedMissions = missions.filter((mission) =>
     completedMissionIds.includes(mission.id)
   );
+
+  const sortedMissions = [...userCompletedMissions].sort((a, b) => {
+    if (!sortField) return 0;
+    const valA = a[sortField];
+    const valB = b[sortField];
+    if (typeof valA === "number" && typeof valB === "number") {
+      return sortDirection === "asc" ? valA - valB : valB - valA;
+    } else {
+      return sortDirection === "asc"
+        ? String(valA).localeCompare(String(valB))
+        : String(valB).localeCompare(String(valA));
+    }
+  });
 
   if (status === "loading") return <p>Loading missions...</p>;
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
   return (
     <div className="mt-4 border p-4 rounded">
-      {userCompletedMissions.length === 0 ? (
+      {sortedMissions.length === 0 ? (
         <p>No missions completed yet.</p>
       ) : (
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border p-2">Name</th>
-              <th className="border p-2">Type</th>
+        <ScrollableTable>
+          <thead className="sticky top-0 bg-gray-200 z-10">
+            <tr>
+              <SortableTableHeader
+                label="Name"
+                field="name"
+                sortField={sortField}
+                sortDirection={sortDirection}
+                onSortChange={toggleSort}
+              />
+              <SortableTableHeader
+                label="Type"
+                field="type"
+                sortField={sortField}
+                sortDirection={sortDirection}
+                onSortChange={toggleSort}
+              />
               <th className="border p-2">Description</th>
-              <th className="border p-2">Points</th>
+              <SortableTableHeader
+                label="Points"
+                field="points"
+                sortField={sortField}
+                sortDirection={sortDirection}
+                onSortChange={toggleSort}
+              />
             </tr>
           </thead>
           <tbody>
-            {userCompletedMissions.map((mission) => (
+            {sortedMissions.map((mission) => (
               <tr key={mission.id}>
                 <td className="border p-2">{mission.name}</td>
                 <td className="border p-2">{mission.type}</td>
@@ -69,7 +112,7 @@ function CompletedMissions() {
               </tr>
             ))}
           </tbody>
-        </table>
+        </ScrollableTable>
       )}
     </div>
   );

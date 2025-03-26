@@ -1,31 +1,34 @@
 const User = require("../models/User");
 const Mission = require("../models/Mission");
+const MissionCompletion = require("../models/MissionCompletion");
 
 const getDashboardMetrics = async (req, res) => {
   try {
-    // 1. Total points per user (assuming each User has a points field)
     const users = await User.findAll({
       attributes: ["id", "name", "points"],
     });
 
-    // 2. Mission completion rate: count missions completed vs. assigned.
-    // Assuming Mission model has a boolean field `isCompleted`.
     const totalMissions = await Mission.count();
-    const completedMissions = await Mission.count({
-      where: { isCompleted: true },
-    });
-    const missionCompletionRate =
-      totalMissions > 0 ? (completedMissions / totalMissions) * 100 : 0;
 
-    // 3. Financial progress: For now, let's set a dummy value.
+    // 1. Misiones que al menos una vez fueron completadas
+    const uniqueCompletedMissions = await MissionCompletion.count({
+      distinct: true,
+      col: "missionId",
+    });
+
+    // 2. Total de veces que se completaron misiones
+    const totalCompletions = await MissionCompletion.count();
+
+    // 3. Progreso de facturación
     const goal = 2000000000;
-    // Assume you calculate total billing somewhere (dummy value below)
     const totalBilling = 1000000000;
     const billingProgress = (totalBilling / goal) * 100;
 
-    // Now, send the response with these metrics
     res.json({
-      missionCompletionRate,
+      missionCompletionRate:
+        totalMissions > 0 ? (uniqueCompletedMissions / totalMissions) * 100 : 0,
+      averageCompletionsPerMission:
+        totalMissions > 0 ? totalCompletions / totalMissions : 0,
       billingProgress,
       users,
     });

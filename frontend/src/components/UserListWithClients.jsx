@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import ScrollableTable from "./ScrollableTable";
+import ModalWrapper from "./ModalWrapper";
+import SortableTableHeader from "./SortableTableHeader";
 
 function UserListWithClients() {
   const { token } = useSelector((state) => state.auth);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [expandedUserId, setExpandedUserId] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [clientsByUser, setClientsByUser] = useState({});
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [sortField, setSortField] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -32,7 +38,7 @@ function UserListWithClients() {
   const fetchClientsForUser = async (userId) => {
     try {
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + `/api/clients?userId=${userId}`,
+        `${import.meta.env.VITE_API_URL}/api/clients?assignedTo=${userId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -43,13 +49,45 @@ function UserListWithClients() {
     }
   };
 
-  const toggleClients = (userId) => {
-    if (expandedUserId === userId) {
-      setExpandedUserId(null);
-    } else {
-      setExpandedUserId(userId);
-      fetchClientsForUser(userId);
+  const toggleClients = async (user) => {
+    setSelectedUser(user);
+    await fetchClientsForUser(user.id);
+    setModalOpen(true);
+  };
+
+  const handleClientDelete = async (clientId) => {
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/clients/${clientId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      fetchClientsForUser(selectedUser.id);
+    } catch (err) {
+      console.error("Error deleting client:", err);
     }
+  };
+
+  const toggleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
+  const getSortedClients = () => {
+    const clients = clientsByUser[selectedUser?.id] || [];
+    if (!sortField) return clients;
+    return [...clients].sort((a, b) => {
+      const valA = a[sortField];
+      const valB = b[sortField];
+      return sortDirection === "asc"
+        ? String(valA).localeCompare(String(valB))
+        : String(valB).localeCompare(String(valA));
+    });
   };
 
   if (loading) return <p>Loading users...</p>;
@@ -67,30 +105,82 @@ function UserListWithClients() {
               <p className="text-sm">Points: {user.points}</p>
             </div>
             <button
-              onClick={() => toggleClients(user.id)}
+              onClick={() => toggleClients(user)}
               className="bg-blue-500 text-white px-3 py-1 rounded"
             >
-              {expandedUserId === user.id ? "Hide Clients" : "Show Clients"}
+              Show Clients
             </button>
           </div>
-          {expandedUserId === user.id && clientsByUser[user.id] && (
-            <div className="mt-2">
-              <h3 className="font-semibold">Clients for {user.name}:</h3>
-              {clientsByUser[user.id].length === 0 ? (
-                <p>No clients assigned.</p>
-              ) : (
-                <ul>
-                  {clientsByUser[user.id].map((client) => (
-                    <li key={client.id} className="ml-4">
-                      {client.name} ({client.contactEmail})
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          )}
         </div>
       ))}
+
+      <ModalWrapper
+        isOpen={isModalOpen}
+        onClose={() => setModalOpen(false)}
+        title={`Clients for ${selectedUser?.name}`}
+      >
+        {getSortedClients().length > 0 ? (
+          <ScrollableTable>
+            <thead className="sticky top-0 bg-gray-200">
+              <tr>
+                <SortableTableHeader
+                  label="Name"
+                  field="name"
+                  sortField={sortField}
+                  sortDirection={sortDirection}
+                  onSortChange={toggleSort}
+                />
+                <SortableTableHeader
+                  label="Email"
+                  field="contactEmail"
+                  sortField={sortField}
+                  sortDirection={sortDirection}
+                  onSortChange={toggleSort}
+                />
+                <th className="border p-2">Phone</th>
+                <SortableTableHeader
+                  label="Status"
+                  field="status"
+                  sortField={sortField}
+                  sortDirection={sortDirection}
+                  onSortChange={toggleSort}
+                />
+                <th className="border p-2">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {getSortedClients().map((client) => (
+                <tr key={client.id}>
+                  <td className="border p-2">{client.name}</td>
+                  <td className="border p-2">{client.contactEmail}</td>
+                  <td className="border p-2">{client.contactPhone}</td>
+                  <td className="border p-2">{client.status}</td>
+                  <td className="border p-2">
+                    <button
+                      onClick={() => {
+                        if (
+                          confirm(
+                            "Are you sure you want to delete this client?"
+                          )
+                        ) {
+                          handleClientDelete(client.id);
+                        }
+                      }}
+                      className="bg-red-500 text-white px-2 py-1 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </ScrollableTable>
+        ) : (
+          <p className="text-center text-gray-600 p-4">
+            This user has no clients yet.
+          </p>
+        )}
+      </ModalWrapper>
     </div>
   );
 }

@@ -1,4 +1,5 @@
 const missionService = require("../services/missionService");
+const recentEventService = require("../services/recentEventService");
 
 const createMission = async (req, res) => {
   try {
@@ -13,6 +14,12 @@ const createMission = async (req, res) => {
 
     const io = req.app.get("io");
     io.emit("newMission", newMission);
+
+    await recentEventService.addEvent(
+      "mission",
+      `New mission created: ${newMission.name}`,
+      io
+    );
 
     res.status(201).json(newMission);
   } catch (error) {
@@ -32,6 +39,12 @@ const completeMission = async (req, res) => {
       userId,
       completer: result.user.name,
     });
+
+    const event = await recentEventService.addEvent(
+      "mission",
+      `${result.user.name} completed the mission "${result.mission.name}"`
+    );
+    io.emit("newEvent", event);
 
     res.json({
       message: "Misión completada con éxito",
