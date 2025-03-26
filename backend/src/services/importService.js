@@ -33,6 +33,7 @@ const importBadges = async (buffer) => {
 
   for (const badge of data) {
     const { name, type, description, logoUrl } = badge;
+
     if (name && type && logoUrl) {
       await Badge.create({ name, type, description, logoUrl });
     }
