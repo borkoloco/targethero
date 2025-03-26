@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Mission = require("../models/Mission");
+const MissionCompletion = require("../models/MissionCompletion");
 
 const getDashboardMetrics = async (req, res) => {
   try {
@@ -8,18 +9,26 @@ const getDashboardMetrics = async (req, res) => {
     });
 
     const totalMissions = await Mission.count();
-    const completedMissions = await Mission.count({
-      where: { isCompleted: true },
-    });
-    const missionCompletionRate =
-      totalMissions > 0 ? (completedMissions / totalMissions) * 100 : 0;
 
+    // 1. Misiones que al menos una vez fueron completadas
+    const uniqueCompletedMissions = await MissionCompletion.count({
+      distinct: true,
+      col: "missionId",
+    });
+
+    // 2. Total de veces que se completaron misiones
+    const totalCompletions = await MissionCompletion.count();
+
+    // 3. Progreso de facturación
     const goal = 2000000000;
     const totalBilling = 1000000000;
     const billingProgress = (totalBilling / goal) * 100;
 
     res.json({
-      missionCompletionRate,
+      missionCompletionRate:
+        totalMissions > 0 ? (uniqueCompletedMissions / totalMissions) * 100 : 0,
+      averageCompletionsPerMission:
+        totalMissions > 0 ? totalCompletions / totalMissions : 0,
       billingProgress,
       users,
     });
