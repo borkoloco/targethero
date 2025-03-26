@@ -133,19 +133,59 @@ const updateBadgeWithImage = async (req, res) => {
     const { name, type, description } = req.body;
     const file = req.file;
 
-    const updated = await badgeService.updateBadgeWithImage(badgeId, {
-      name,
-      type,
-      description,
-      file,
-    });
+    if (!file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
 
-    res.status(200).json(updated);
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { folder: "badges" },
+      async (error, result) => {
+        if (error) {
+          console.error("Cloudinary upload error:", error);
+          return res.status(500).json({ error: "Failed to upload image" });
+        }
+
+        try {
+          const updated = await badgeService.updateBadge(badgeId, {
+            name,
+            type,
+            description,
+            logoUrl: result.secure_url,
+          });
+
+          res.status(200).json(updated);
+        } catch (err) {
+          console.error("Error updating badge:", err);
+          res.status(500).json({ error: err.message });
+        }
+      }
+    );
+
+    uploadStream.end(file.buffer);
   } catch (err) {
     console.error("Error updating badge with image:", err);
     res.status(500).json({ error: err.message });
   }
 };
+// const updateBadgeWithImage = async (req, res) => {
+//   try {
+//     const badgeId = req.params.id;
+//     const { name, type, description } = req.body;
+//     const file = req.file;
+
+//     const updated = await badgeService.updateBadgeWithImage(badgeId, {
+//       name,
+//       type,
+//       description,
+//       file,
+//     });
+
+//     res.status(200).json(updated);
+//   } catch (err) {
+//     console.error("Error updating badge with image:", err);
+//     res.status(500).json({ error: err.message });
+//   }
+// };
 
 module.exports = {
   createBadge,
