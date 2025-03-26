@@ -8,13 +8,13 @@ const upload = require("../middleware/evidenceUpload");
 router.post(
   "/upload",
   protect,
-  upload.single("file"),
+  upload2.single("file"),
   evidenceController.uploadEvidence
 );
 router.post(
   "/:id",
   protect,
-  upload2.single("evidence"),
+  upload.single("evidence"),
   evidenceController.submitEvidence
 );
 router.get(

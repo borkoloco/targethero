@@ -50,9 +50,15 @@ function MainDashboard() {
 
       <div className="mb-4">
         <p className="font-semibold">
-          Total Mission Completion Rate:{" "}
+          % of Missions Completed at Least Once:{" "}
           {metrics.missionCompletionRate.toFixed(1)}%
         </p>
+
+        <p className="font-semibold">
+          Avg. Completions per Mission:{" "}
+          {metrics.averageCompletionsPerMission.toFixed(2)}
+        </p>
+
         <ProgressBar
           progress={metrics.billingProgress}
           label="Billing Progress"
