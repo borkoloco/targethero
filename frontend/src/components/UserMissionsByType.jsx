@@ -21,7 +21,7 @@ function UserMissionsByType({ missionTypes, title }) {
   const [selectedMissionId, setSelectedMissionId] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchMissions());
+    dispatch(fetchMissions({ filtered: true }));
   }, [dispatch]);
 
   useEffect(() => {

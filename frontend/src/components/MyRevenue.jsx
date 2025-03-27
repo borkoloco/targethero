@@ -10,11 +10,13 @@ function MyRevenue() {
   const [revenue, setRevenue] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");  // Estado para el mensaje de éxito
 
   const [formData, setFormData] = useState({
     amount: "",
     date: new Date().toISOString().slice(0, 10),
     type: "",
+    status: "pending",
   });
   const [formError, setFormError] = useState("");
   const [formLoading, setFormLoading] = useState(false);
@@ -26,7 +28,7 @@ function MyRevenue() {
   const fetchRevenue = async () => {
     try {
       const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/revenue/my",
+        import.meta.env.VITE_API_URL + "/api/revenue/approved",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -61,7 +63,7 @@ function MyRevenue() {
       } else {
         await axios.post(
           import.meta.env.VITE_API_URL + "/api/revenue/my",
-          formData,
+          { ...formData, status: "pending" },
           { headers: { Authorization: `Bearer ${token}` } }
         );
       }
@@ -74,6 +76,10 @@ function MyRevenue() {
       setEditRevenueId(null);
       setModalOpen(false);
       fetchRevenue();
+
+      // Mostrar mensaje de éxito después de enviar la revenue
+      setSuccessMessage("Se envió la revenue al administrador.");
+      setTimeout(() => setSuccessMessage(""), 5000);  // Ocultar mensaje después de 5 segundos
     } catch (err) {
       setFormError(err.response?.data?.error || "Error saving revenue");
     } finally {
@@ -113,6 +119,21 @@ function MyRevenue() {
     }
   });
 
+  const handleDelete = async (revenueId) => {
+    try {
+      await axios.delete(
+        import.meta.env.VITE_API_URL + `/api/revenue/${revenueId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      fetchRevenue();
+    } catch (err) {
+      console.error(err);
+      setError("Error deleting Revenue");
+    }
+  };
+
   if (loading) return <p>Loading revenue...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
@@ -127,6 +148,7 @@ function MyRevenue() {
             amount: "",
             date: new Date().toISOString().slice(0, 10),
             type: "",
+            status: "pending",
           });
           setModalOpen(true);
         }}
@@ -134,6 +156,13 @@ function MyRevenue() {
       >
         Add Revenue
       </button>
+
+      {/* Mensaje de éxito */}
+      {successMessage && (
+        <div className="bg-green-500 text-white p-3 rounded mb-4">
+          {successMessage}
+        </div>
+      )}
 
       <ModalWrapper
         isOpen={isModalOpen}
@@ -228,6 +257,13 @@ function MyRevenue() {
                     className="bg-blue-500 text-white px-2 py-1 rounded"
                   >
                     Edit
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(record.id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                  >
+                    Delete
                   </button>
                 </td>
               </tr>

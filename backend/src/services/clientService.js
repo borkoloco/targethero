@@ -33,6 +33,32 @@ const getClientsByUser = async (userId) => {
   });
 };
 
+
+const getClientPending= async()=>{
+  const client = await Client.findAll({
+    where:{status:"pending"},
+  })
+  return client
+}
+
+const getClientApproved= async()=>{
+  const client = await Client.findAll({
+    where:{status:"approved"},
+  })
+  return client
+}
+const approveClient = async (id) => {
+  const client = await Client.findByPk(id);
+  if (!client) {
+    throw new Error("Revenue not found");
+  }
+
+  client.status = "approved";
+  await client.save();
+
+  return client;
+};
+
 module.exports = {
   createClient,
   getAllClients,
@@ -40,4 +66,7 @@ module.exports = {
   updateClient,
   deleteClient,
   getClientsByUser,
+  getClientPending,
+  getClientApproved,
+  approveClient,
 };

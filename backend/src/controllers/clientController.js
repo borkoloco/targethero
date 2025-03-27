@@ -62,6 +62,38 @@ const getClientsByUser = async (req, res) => {
   }
 };
 
+const getClientPending = async(req, res) =>{
+  try{
+    const client = await clientService.getClientPending();
+    res.json(client);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getClientApproved = async(req, res) =>{
+  try{
+    const client = await clientService.getClientApproved();
+    res.json(client);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const approveClient= async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const client = await clientService.approveClient(id);
+
+    res.json({ message: "Revenue approved successfully", client });
+  } catch (error) {
+    res.status( error.message === "Revenue not found" ? 404 : 500 ).json({
+      error: error.message || "Error approving revenue",
+    });
+  }
+};
+
 module.exports = {
   createClient,
   getAllClients,
@@ -69,4 +101,7 @@ module.exports = {
   updateClient,
   deleteClient,
   getClientsByUser,
+  getClientPending,
+  getClientApproved,
+  approveClient
 };

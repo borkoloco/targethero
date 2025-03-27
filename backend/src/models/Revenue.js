@@ -26,6 +26,11 @@ const Revenue = sequelize.define("RevenueRecord", {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "pending", 
+  },
 });
 
 module.exports = Revenue;

@@ -37,6 +37,12 @@ const Client = sequelize.define("Client", {
       key: "id",
     },
   },
+
+  status: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    defaultValue: "pending", 
+  },
 });
 
 module.exports = Client;

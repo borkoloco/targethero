@@ -54,10 +54,46 @@ const deleteRevenue = async (req, res) => {
   }
 };
 
+const getRevenuePending = async(req, res) =>{
+  try{
+    const revenue = await revenueService.getRevenuePending();
+    res.json(revenue);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const getRevenueApproved = async(req, res) =>{
+  try{
+    const revenue = await revenueService.getRevenueApproved();
+    res.json(revenue);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const approveRevenue = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const revenue = await revenueService.approveRevenue(id);
+
+    res.json({ message: "Revenue approved successfully", revenue });
+  } catch (error) {
+    res.status( error.message === "Revenue not found" ? 404 : 500 ).json({
+      error: error.message || "Error approving revenue",
+    });
+  }
+};
+
+
 module.exports = {
   getRevenueByUser,
   updateRevenueRecord,
   getMyRevenue,
   createRevenueRecord,
   deleteRevenue,
+  getRevenuePending,
+  getRevenueApproved,
+  approveRevenue,
 };

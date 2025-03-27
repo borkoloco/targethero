@@ -5,7 +5,7 @@ function Sidebar() {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <aside className="bg-gray-800 text-white transition-all duration-300 w-16 hover:w-64 overflow-hidden group">
+    <aside className="bg-[#6e66f3] text-white transition-all duration-300 w-16 hover:w-64 overflow-hidden group shadow-lg ">
       <nav className="flex flex-col">
         <SidebarItem to="/" icon="🏠" label="Dashboard" />
         {user?.role === "admin" ? (

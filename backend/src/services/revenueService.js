@@ -48,10 +48,37 @@ const deleteRevenue = async (id) => {
   return { message: "Revenue deleted successfully" };
 };
 
+const getRevenuePending= async()=>{
+  const revenue = await Revenue.findAll({
+    where:{status:"pending"},
+  })
+  return revenue
+}
+
+const getRevenueApproved= async()=>{
+  const revenue = await Revenue.findAll({
+    where:{status:"approved"},
+  })
+  return revenue
+}
+const approveRevenue = async (id) => {
+  const revenue = await Revenue.findByPk(id);
+  if (!revenue) {
+    throw new Error("Revenue not found");
+  }
+
+  revenue.status = "approved";
+  await revenue.save();
+
+  return revenue;
+};
 module.exports = {
   createRevenueRecord,
   getRevenueForUser,
   getAllRevenue,
   updateRevenueRecord,
   deleteRevenue,
+  getRevenuePending,
+  getRevenueApproved,
+  approveRevenue,
 };
