@@ -54,41 +54,34 @@ function Ranking() {
 
   return (
     <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Leaderboard</h2>
-      <ScrollableTable>
-        <thead className="sticky top-0 bg-gray-200 z-10">
-          <tr>
-            <th className="border p-2">Rank</th>
-            <SortableTableHeader
-              label="Name"
-              field="name"
-              sortField={sortField}
-              sortDirection={sortDirection}
-              onSortChange={toggleSort}
-            />
-            <th className="border p-2">Role</th>
-            <SortableTableHeader
-              label="Points"
-              field="points"
-              sortField={sortField}
-              sortDirection={sortDirection}
-              onSortChange={toggleSort}
-            />
-          </tr>
-        </thead>
-        <tbody>
-          {sortedRanking.map((user, index) => (
-            <tr key={user.id}>
-              <td className="border p-2">{index + 1}</td>
-              <td className="border p-2">{user.name}</td>
-              <td className="border p-2">{user.role}</td>
-              <td className="border p-2">{user.points}</td>
-            </tr>
-          ))}
-        </tbody>
-      </ScrollableTable>
+      <h2 className="text-2xl font-bold mb-4 text-black">Leaderboard</h2>
+      <div className="overflow-x-auto bg-[#f3f4f6] rounded-lg shadow-md">
+          <div className="max-h-[400px] overflow-y-auto">
+            <table className="min-w-full">
+              <thead className="sticky top-0 bg-[#6e66f3] text-white">
+              <tr>
+                <th className="p-3 text-left">Rank</th>
+                <th className="p-3 text-left">Name</th>
+                <th className="p-3 text-left">Role</th>
+                <th className="p-3 text-left">Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedRanking.map((user, index) => (
+                <tr key={user.id} className="hover:bg-[#e6e6f7]">
+                  <td className="border-b p-3 text-gray-800">{index + 1}</td>
+                  <td className="border-b p-3 text-gray-800">{user.name}</td>
+                  <td className="border-b p-3 text-gray-800">{user.role}</td>
+                  <td className="border-b p-3 text-gray-800">{user.points}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
+  
 }
 
 export default Ranking;

@@ -19,7 +19,7 @@ function UserDashboard() {
   }, [dispatch]);
 
   return (
-    <div className="p-6 space-y-8 bg-[#cbcefc] min-h-screen">
+    <div className="p-6 space-y-8 bg-[#f4edf3] min-h-screen">
       {/* Título con diseño especial */}
       <h2 className="text-4xl font-extrabold text-[#fc875e] uppercase tracking-wide drop-shadow-lg">
         User <span className="bg-[#6e66f3] text-white px-3 py-1 rounded-lg shadow-md">Dashboard</span>
@@ -74,9 +74,9 @@ function UserDashboard() {
           </div>
   
           {profile && (
-            <h4 className="text-2xl font-bold mt-6 text-[#6e66f3]">
+            <h3 className="text-2xl font-bold mt-6 text-[#6e66f3]">
               Completed Missions by {profile.name}:
-            </h4>
+            </h3>
           )}
           <CompletedMission />
         </div>

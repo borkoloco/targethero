@@ -86,6 +86,21 @@ const approveRevenue = async (req, res) => {
   }
 };
 
+const declineRevenue = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const revenue = await revenueService.declineRevenue(id);
+
+    res.json({ message: "Revenue decline successfully", revenue });
+  } catch (error) {
+    res.status( error.message === "Revenue not found" ? 404 : 500 ).json({
+      error: error.message || "Error declining revenue",
+    });
+  }
+};
+
+
 
 module.exports = {
   getRevenueByUser,
@@ -96,4 +111,5 @@ module.exports = {
   getRevenuePending,
   getRevenueApproved,
   approveRevenue,
+  declineRevenue,
 };

@@ -45,7 +45,7 @@ function MainDashboard() {
   const doughnutDataValues = [15, 20, 10, 5, 3];
 
   return (
-    <div className="min-h-screen bg-[#cbcefc] p-8 font-sans">
+    <div className="min-h-screen bg-[#f4edf3] p-8 font-sans">
       <h2 className="text-4xl font-extrabold text-[#fc875e] uppercase tracking-wide drop-shadow-lg">
         Global <span className="bg-[#6e66f3] text-white px-3 py-1 rounded-lg shadow-md">Dashboard</span>
       </h2>
@@ -70,12 +70,12 @@ function MainDashboard() {
         </div>
       </div>
 
-      {/* Missions List Section */}
+      
       <div className="mb-8 p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
         <MissionsList />
       </div>
 
-      {/* Ranking Section */}
+      
       <div className="mb-8 p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
         <Ranking />
       </div>

@@ -38,7 +38,7 @@ const Client = sequelize.define("Client", {
     },
   },
 
-  status: {
+  estado: {
     type: DataTypes.STRING,
     allowNull: false,
     defaultValue: "pending", 

@@ -71,51 +71,38 @@ function CompletedMissions() {
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="mt-4 border p-4 rounded">
+    <div className="mt-4 p-4 rounded-lg bg-[#f3f4f6] shadow-md">
       {sortedMissions.length === 0 ? (
-        <p>No missions completed yet.</p>
+        <p className="text-white">No missions completed yet.</p>
       ) : (
-        <ScrollableTable>
-          <thead className="sticky top-0 bg-gray-200 z-10">
-            <tr>
-              <SortableTableHeader
-                label="Name"
-                field="name"
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={toggleSort}
-              />
-              <SortableTableHeader
-                label="Type"
-                field="type"
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={toggleSort}
-              />
-              <th className="border p-2">Description</th>
-              <SortableTableHeader
-                label="Points"
-                field="points"
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={toggleSort}
-              />
-            </tr>
-          </thead>
-          <tbody>
-            {sortedMissions.map((mission) => (
-              <tr key={mission.id}>
-                <td className="border p-2">{mission.name}</td>
-                <td className="border p-2">{mission.type}</td>
-                <td className="border p-2">{mission.description}</td>
-                <td className="border p-2">{mission.points}</td>
-              </tr>
-            ))}
-          </tbody>
-        </ScrollableTable>
+        <div className="overflow-x-auto bg-[#f3f4f6] rounded-lg shadow-md">
+          <div className="max-h-[300px] overflow-y-auto">
+            <table className="min-w-full">
+              <thead className="sticky top-0 bg-[#6e66f3] rounded-t-lg text-white">
+                <tr>
+                  <th className="p-3 text-left rounded-tl-lg">Name</th>
+                  <th className="p-3 text-center">Type</th>
+                  <th className="p-3 text-center">Description</th>
+                  <th className="p-3 text-center rounded-tr-lg">Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedMissions.map((mission) => (
+                  <tr key={mission.id} className="hover:bg-[#e6e6f7]">
+                    <td className="border-b p-3 text-gray-800">{mission.name}</td>
+                    <td className="border-b p-3 text-gray-800">{mission.type}</td>
+                    <td className="border-b p-3 text-gray-800">{mission.description}</td>
+                    <td className="border-b p-3 text-gray-800">{mission.points}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   );
+  
 }
 
 export default CompletedMissions;

@@ -44,69 +44,78 @@ function MissionsList() {
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="mt-4 border p-4 rounded">
-      <h3 className="font-semibold mb-2">Missions Overview</h3>
+    <div className="mt-4 p-4 rounded-lg">
+      <h2 className="text-2xl font-bold mb-4 text-black">Mission Overview</h2>
       {missions.length === 0 ? (
-        <p>No missions available.</p>
+        <p className="text-white">No missions available.</p>
       ) : (
-        <ScrollableTable>
-          <thead className="sticky top-0 bg-gray-200 z-10">
-            <tr>
-              <th className="border p-2">ID</th>
-              <SortableTableHeader
-                label="Name"
-                field="name"
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={toggleSort}
-              />
-              <SortableTableHeader
-                label="Type"
-                field="type"
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={toggleSort}
-              />
-              <th className="border p-2">Description</th>
-              <SortableTableHeader
-                label="Points"
-                field="points"
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={toggleSort}
-              />
-              <th className="border p-2">Completed By</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedMissions.map((mission) => {
-              const completedCount = mission.completers?.length || 0;
-              const totalUsers = users?.length || 0;
-              const progressPercentage = totalUsers
-                ? ((completedCount / totalUsers) * 100).toFixed(1)
-                : 0;
-
-              return (
-                <tr key={mission.id}>
-                  <td className="border p-2">{mission.id}</td>
-                  <td className="border p-2">{mission.name}</td>
-                  <td className="border p-2">{mission.type}</td>
-                  <td className="border p-2">{mission.description}</td>
-                  <td className="border p-2">{mission.points}</td>
-                  <td className="border p-2">
-                    {completedCount} {completedCount === 1 ? "user" : "users"}
-                    {totalUsers > 0 && (
-                      <span> ({progressPercentage}% of users)</span>
-                    )}
-                  </td>
+        <div className="overflow-x-auto bg-[#f3f4f6] rounded-lg shadow-md">
+          <div className="max-h-[400px] overflow-y-auto">
+            <table className="min-w-full">
+              <thead className="sticky top-0 bg-[#6e66f3] rounded-t-lg text-white">
+                <tr>
+                  <SortableTableHeader
+                    label="Name"
+                    field="name"
+                    sortField={sortField}
+                    sortDirection={sortDirection}
+                    onSortChange={toggleSort}
+                    className="p-3 text-left rounded-tl-lg" // Rounded left top
+                  />
+                  <SortableTableHeader
+                    label="Type"
+                    field="type"
+                    sortField={sortField}
+                    sortDirection={sortDirection}
+                    onSortChange={toggleSort}
+                    className="p-3 text-center"
+                  />
+                  <th className="p-3 text-center">Description</th>
+                  <SortableTableHeader
+                    label="Points"
+                    field="points"
+                    sortField={sortField}
+                    sortDirection={sortDirection}
+                    onSortChange={toggleSort}
+                    className="p-3 text-center"
+                  />
+                  <th className="p-3 text-center rounded-tr-lg">Completed By</th> {/* Rounded right top */}
                 </tr>
-              );
-            })}
-          </tbody>
-        </ScrollableTable>
+              </thead>
+              <tbody>
+                {sortedMissions.map((mission) => {
+                  const completedCount = mission.completers?.length || 0;
+                  const totalUsers = users?.length || 0;
+                  const progressPercentage = totalUsers
+                    ? ((completedCount / totalUsers) * 100).toFixed(1)
+                    : 0;
+  
+                  return (
+                    <tr key={mission.id} className="hover:bg-[#e6e6f7]">
+                      <td className="border-b p-3 text-gray-800 rounded-l-lg">{mission.name}</td>
+                      <td className="border-b p-3 text-gray-800">{mission.type}</td>
+                      <td className="border-b p-3 text-gray-800">{mission.description}</td>
+                      <td className="border-b p-3 text-gray-800">{mission.points}</td>
+                      <td className="border-b p-3 text-gray-800 rounded-r-lg">
+                        {completedCount} {completedCount === 1 ? "user" : "users"}
+                        {totalUsers > 0 && (
+                          <span> ({progressPercentage}% of users)</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   );
+  
+  
+  
+  
 }
 
 export default MissionsList;

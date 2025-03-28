@@ -72,6 +72,19 @@ const approveRevenue = async (id) => {
 
   return revenue;
 };
+
+
+const declineRevenue = async(id) =>{
+  const revenue = await Revenue.findByPk(id);
+  if (!revenue) {
+    throw new Error("Revenue not found");
+  }
+
+  revenue.status = "decline";
+  await revenue.save();
+
+  return revenue;
+}
 module.exports = {
   createRevenueRecord,
   getRevenueForUser,
@@ -81,4 +94,5 @@ module.exports = {
   getRevenuePending,
   getRevenueApproved,
   approveRevenue,
+  declineRevenue,
 };

@@ -94,6 +94,20 @@ const approveClient= async (req, res) => {
   }
 };
 
+const declineClient= async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const client = await clientService.declineClient(id);
+
+    res.json({ message: "Revenue declined successfully", client });
+  } catch (error) {
+    res.status( error.message === "Revenue not found" ? 404 : 500 ).json({
+      error: error.message || "Error declining revenue",
+    });
+  }
+};
+
 module.exports = {
   createClient,
   getAllClients,
@@ -103,5 +117,6 @@ module.exports = {
   getClientsByUser,
   getClientPending,
   getClientApproved,
-  approveClient
+  approveClient,
+  declineClient,
 };

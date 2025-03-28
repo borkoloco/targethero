@@ -112,17 +112,14 @@ function UserMissionsByType({ missionTypes, title }) {
     );
 
     return (
-      <div
-        key={mission.id}
-        className="p-4 border rounded shadow hover:shadow-lg transition bg-white"
-      >
-        <h4 className="text-lg font-semibold mb-2">{mission.name}</h4>
+      <div key={mission.id} className="p-4 border rounded-lg shadow-md hover:shadow-xl transition bg-white">
+        <h4 className="text-lg font-semibold mb-2 text-gray-800">{mission.name}</h4>
         <p className="text-gray-700 mb-1">{mission.description}</p>
-        <p className="font-bold mb-2">Points: {mission.points}</p>
+        <p className="font-bold mb-2 text-gray-900">Points: {mission.points}</p>
         {mission.evidenceRequired ? (
           evidenceForMission ? (
             <button
-              className="w-full bg-gray-500 text-white py-2 rounded"
+              className="w-full bg-gray-500 text-white py-2 rounded-lg cursor-not-allowed"
               disabled
             >
               Evidence Submitted, Awaiting Approval
@@ -130,7 +127,7 @@ function UserMissionsByType({ missionTypes, title }) {
           ) : (
             <button
               onClick={() => openEvidenceModal(mission.id)}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded transition"
+              className="w-full bg-[#FFB84D] hover:bg-[#ff9e31] text-white py-2 rounded-lg transition"
             >
               Complete with Evidence
             </button>
@@ -138,7 +135,7 @@ function UserMissionsByType({ missionTypes, title }) {
         ) : (
           <button
             onClick={() => handleComplete(mission.id)}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded transition"
+            className="w-full bg-[#6e66f3] hover:bg-[#5c5ae6] text-white py-2 rounded-lg transition"
           >
             Mark as Completed
           </button>
@@ -146,54 +143,55 @@ function UserMissionsByType({ missionTypes, title }) {
       </div>
     );
   };
-
-  return (
-    <div className="mb-8">
-      <h3 className="text-xl font-bold mb-4">{title}</h3>
-      {filteredMissions.length === 0 ? (
-        <p className="text-gray-500">No missions available in this category.</p>
-      ) : filteredMissions.length === 1 ? (
-        renderMissionCard(filteredMissions[0])
-      ) : (
-        <Swiper
-          spaceBetween={10}
-          slidesPerView={1}
-          modules={[Pagination]}
-          pagination={{ clickable: true }}
-        >
-          {filteredMissions.map((mission) => (
-            <SwiperSlide key={mission.id}>
-              {renderMissionCard(mission)}
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      )}
-
-      {modalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded shadow-lg w-11/12 md:w-1/2">
-            <div className="flex justify-end">
-              <button
-                onClick={closeModal}
-                className="text-gray-500 hover:text-gray-700"
-              >
-                X
-              </button>
+    
+    return (
+      <div className="mb-8">
+        <h3 className="text-xl font-bold mb-4 text-gray-800">{title}</h3>
+        {filteredMissions.length === 0 ? (
+          <p className="text-gray-500">No missions available in this category.</p>
+        ) : filteredMissions.length === 1 ? (
+          renderMissionCard(filteredMissions[0])
+        ) : (
+          <Swiper
+            spaceBetween={10}
+            slidesPerView={1}
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+          >
+            {filteredMissions.map((mission) => (
+              <SwiperSlide key={mission.id}>
+                {renderMissionCard(mission)}
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
+    
+        {modalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-11/12 md:w-1/2">
+              <div className="flex justify-end">
+                <button
+                  onClick={closeModal}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  X
+                </button>
+              </div>
+              <EvidenceForm
+                missionId={selectedMissionId}
+                onEvidenceSubmitted={() => {
+                  closeModal();
+                  dispatch(fetchMissions());
+                  dispatch(fetchUserProfile());
+                }}
+              />
             </div>
-            <EvidenceForm
-              missionId={selectedMissionId}
-              onEvidenceSubmitted={() => {
-                closeModal();
-                dispatch(fetchMissions());
-                dispatch(fetchUserProfile());
-              }}
-            />
           </div>
-        </div>
-      )}
-    </div>
-  );
-}
+        )}
+      </div>
+    );
+  }    
+
 
 UserMissionsByType.propTypes = {
   missionTypes: PropTypes.arrayOf(PropTypes.string).isRequired,

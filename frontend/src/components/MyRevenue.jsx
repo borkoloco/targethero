@@ -138,9 +138,8 @@ function MyRevenue() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="mt-4 border p-4 rounded">
-      <h3 className="text-xl font-bold mb-4">My Revenue</h3>
-
+    <div className="mt-4 p-4 rounded-lg bg-[#f3f4f6] shadow-md">
+  
       <button
         onClick={() => {
           setEditRevenueId(null);
@@ -152,18 +151,18 @@ function MyRevenue() {
           });
           setModalOpen(true);
         }}
-        className="mb-4 bg-blue-500 text-white px-4 py-2 rounded"
+       className="mb-4 bg-[#FFA500] text-white px-6 py-3 rounded-lg hover:bg-[#e69500] focus:outline-none focus:ring-2 focus:ring-[#FFA500] focus:ring-opacity-50 mx-auto block"
       >
         Add Revenue
       </button>
-
+  
       {/* Mensaje de éxito */}
       {successMessage && (
         <div className="bg-green-500 text-white p-3 rounded mb-4">
           {successMessage}
         </div>
       )}
-
+  
       <ModalWrapper
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
@@ -171,43 +170,43 @@ function MyRevenue() {
       >
         <form onSubmit={handleSubmit}>
           {formError && <p className="text-red-500">{formError}</p>}
-          <div className="mb-2">
-            <label className="block mb-1">Amount:</label>
+          <div className="mb-4">
+            <label className="block text-gray-800 mb-2">Amount:</label>
             <input
               type="number"
               name="amount"
               value={formData.amount}
               onChange={handleChange}
-              className="border p-1 rounded w-full"
+              className="border p-2 rounded-lg w-full"
               required
             />
           </div>
-          <div className="mb-2">
-            <label className="block mb-1">Date:</label>
+          <div className="mb-4">
+            <label className="block text-gray-800 mb-2">Date:</label>
             <input
               type="date"
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="border p-1 rounded w-full"
+              className="border p-2 rounded-lg w-full"
               required
             />
           </div>
-          <div className="mb-2">
-            <label className="block mb-1">Type:</label>
+          <div className="mb-4">
+            <label className="block text-gray-800 mb-2">Type:</label>
             <input
               type="text"
               name="type"
               value={formData.type}
               onChange={handleChange}
               placeholder="e.g., daily, weekly"
-              className="border p-1 rounded w-full"
+              className="border p-2 rounded-lg w-full"
               required
             />
           </div>
           <button
             type="submit"
-            className="bg-green-500 text-white p-2 rounded w-full"
+            className="bg-green-500 text-white p-3 rounded-lg w-full hover:bg-green-600"
             disabled={formLoading}
           >
             {formLoading
@@ -218,61 +217,48 @@ function MyRevenue() {
           </button>
         </form>
       </ModalWrapper>
-
+  
       {revenue.length === 0 ? (
-        <p>No revenue records found.</p>
+        <p className="text-gray-700">No revenue records found.</p>
       ) : (
-        <ScrollableTable>
-          <thead className="sticky top-0 bg-gray-200 z-10">
-            <tr>
-              <th className="border p-2">Date</th>
-              <SortableTableHeader
-                label="Amount"
-                field="amount"
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={toggleSort}
-              />
-              <SortableTableHeader
-                label="Type"
-                field="type"
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={toggleSort}
-              />
-              <th className="border p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedRevenue.map((record) => (
-              <tr key={record.id}>
-                <td className="border p-2">
-                  {new Date(record.date).toLocaleDateString()}
-                </td>
-                <td className="border p-2">${record.amount}</td>
-                <td className="border p-2">{record.type}</td>
-                <td className="border p-2">
-                  <button
-                    onClick={() => handleEdit(record)}
-                    className="bg-blue-500 text-white px-2 py-1 rounded"
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    onClick={() => handleDelete(record.id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </ScrollableTable>
+        <div className="overflow-x-auto bg-[#f3f4f6] rounded-lg shadow-md">
+          <div className="max-h-[300px] overflow-y-auto">
+            <table className="min-w-full table-auto">
+              <thead className="sticky top-0 bg-[#6e66f3] rounded-t-lg text-white">
+                <tr>
+                  <th className="p-3 text-left rounded-tl-lg">Date</th>
+                  <th className="p-3 text-left">Amount</th>
+                  <th className="p-3 text-left">Type</th>
+                  <th className="p-3 text-center rounded-tr-lg">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sortedRevenue.map((record) => (
+                  <tr key={record.id} className="hover:bg-[#e6e6f7]">
+                    <td className="p-3 text-gray-800">
+                      {new Date(record.date).toLocaleDateString()}
+                    </td>
+                    <td className="p-3 text-gray-800">${record.amount}</td>
+                    <td className="p-3 text-gray-800">{record.type}</td>
+                    <td className="p-3 text-center">
+                      <button
+                        onClick={() => handleEdit(record)}
+                        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 mr-2"
+                      >
+                        Edit
+                      </button>
+                      
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   );
+  
 }
 
 export default MyRevenue;

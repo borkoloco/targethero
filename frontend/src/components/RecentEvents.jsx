@@ -33,34 +33,39 @@ function RecentEvents() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="mt-4 border p-4 rounded">
-      <h3 className="text-xl font-bold mb-2">Recent Activity</h3>
+    <div className="mt-4 p-4 rounded-lg bg-white ">
+      <h2 className="text-2xl font-bold mb-4 text-black">Recent Events</h2>
       {events.length === 0 ? (
-        <p>No recent events.</p>
+        <p className="text-white">No recent events.</p>
       ) : (
-        <ScrollableTable maxHeight="300px">
-          <thead className="sticky top-0 bg-gray-200">
-            <tr>
-              <th className="border p-2">Type</th>
-              <th className="border p-2">Description</th>
-              <th className="border p-2">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {events.map((event) => (
-              <tr key={event.id}>
-                <td className="border p-2 capitalize">{event.type}</td>
-                <td className="border p-2">{event.description}</td>
-                <td className="border p-2">
-                  {new Date(event.createdAt).toLocaleString()}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </ScrollableTable>
+        <div className="overflow-x-auto bg-[#f3f4f6] rounded-lg shadow-md">
+          <div className="max-h-[300px] overflow-y-auto">
+            <table className="min-w-full">
+              <thead className="sticky top-0 bg-[#6e66f3] rounded-t-lg text-white">
+                <tr>
+                  <th className="p-3 text-left rounded-tl-lg">Type</th>
+                  <th className="p-3 text-left">Description</th>
+                  <th className="p-3 text-center rounded-tr-lg">Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                {events.map((event) => (
+                  <tr key={event.id} className="hover:bg-[#e6e6f7]">
+                    <td className="border-b p-3 text-gray-800 capitalize">{event.type}</td>
+                    <td className="border-b p-3 text-gray-800">{event.description}</td>
+                    <td className="border-b p-3 text-gray-800">
+                      {new Date(event.createdAt).toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       )}
     </div>
   );
+  
 }
 
 export default RecentEvents;
