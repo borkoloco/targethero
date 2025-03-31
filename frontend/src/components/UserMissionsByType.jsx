@@ -31,8 +31,8 @@ function UserMissionsByType({ missionTypes, title }) {
           `${import.meta.env.VITE_API_URL}/api/missions/completed`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-
-        setCompletedMissionIds(response.data.map((id) => Number(id)));
+        const completedIds = response.data.map((mission) => mission.id);
+        setCompletedMissionIds(completedIds);
       } catch (err) {
         console.error("Error fetching completed missions:", err);
       }
@@ -59,11 +59,14 @@ function UserMissionsByType({ missionTypes, title }) {
     }
   }, [user, token]);
 
-  const filteredMissions = missions.filter(
-    (mission) =>
-      (missionTypes ?? []).includes(mission.type) &&
-      !completedMissionIds.includes(Number(mission.id))
-  );
+  const filteredMissions = missions.filter((mission) => {
+    const isTypeMatch = (missionTypes ?? []).includes(mission.type);
+    const isNotCompleted = !completedMissionIds.includes(Number(mission.id));
+    const isNotExpired =
+      !mission.expiresAt || new Date(mission.expiresAt) >= new Date();
+
+    return isTypeMatch && isNotCompleted && isNotExpired;
+  });
 
   const handleComplete = async (missionId) => {
     try {
@@ -114,23 +117,27 @@ function UserMissionsByType({ missionTypes, title }) {
     return (
       <div
         key={mission.id}
-        className="p-4 border rounded shadow hover:shadow-lg transition bg-white"
+        className="p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300"
       >
-        <h4 className="text-lg font-semibold mb-2">{mission.name}</h4>
+        <h4 className="text-xl font-bold text-[#6e66f3] mb-2">
+          {mission.name}
+        </h4>
         <p className="text-gray-700 mb-1">{mission.description}</p>
-        <p className="font-bold mb-2">Points: {mission.points}</p>
+        <p className="font-semibold text-[#fc875e] mb-3">
+          Points: {mission.points}
+        </p>
         {mission.evidenceRequired ? (
           evidenceForMission ? (
             <button
-              className="w-full bg-gray-500 text-white py-2 rounded"
+              className="w-full bg-gray-400 text-white py-2 rounded-xl"
               disabled
             >
-              Evidence Submitted, Awaiting Approval
+              Evidence Submitted
             </button>
           ) : (
             <button
               onClick={() => openEvidenceModal(mission.id)}
-              className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded transition"
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-xl transition"
             >
               Complete with Evidence
             </button>
@@ -138,7 +145,7 @@ function UserMissionsByType({ missionTypes, title }) {
         ) : (
           <button
             onClick={() => handleComplete(mission.id)}
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded transition"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-xl transition"
           >
             Mark as Completed
           </button>
@@ -149,14 +156,14 @@ function UserMissionsByType({ missionTypes, title }) {
 
   return (
     <div className="mb-8">
-      <h3 className="text-xl font-bold mb-4">{title}</h3>
+      <h3 className="text-2xl font-bold text-[#6e66f3] mb-4">{title}</h3>
       {filteredMissions.length === 0 ? (
         <p className="text-gray-500">No missions available in this category.</p>
       ) : filteredMissions.length === 1 ? (
         renderMissionCard(filteredMissions[0])
       ) : (
         <Swiper
-          spaceBetween={10}
+          spaceBetween={20}
           slidesPerView={1}
           modules={[Pagination]}
           pagination={{ clickable: true }}
@@ -171,13 +178,13 @@ function UserMissionsByType({ missionTypes, title }) {
 
       {modalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-6 rounded shadow-lg w-11/12 md:w-1/2">
+          <div className="bg-white p-6 rounded-2xl shadow-2xl w-11/12 md:w-1/2">
             <div className="flex justify-end">
               <button
                 onClick={closeModal}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-gray-500 hover:text-gray-700 text-lg font-bold"
               >
-                X
+                ×
               </button>
             </div>
             <EvidenceForm

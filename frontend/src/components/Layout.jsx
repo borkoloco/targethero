@@ -8,21 +8,31 @@ import "react-toastify/dist/ReactToastify.css";
 
 function Layout() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <ToastContainer position="top-right" autoClose={3000} />
+    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-800">
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
       <Header />
       <Notification />
       <RealTimeUpdater />
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden">
         <Sidebar />
-        <main className="flex-1 p-4">
-          <Outlet />
+        <main className="flex-1 p-6 overflow-y-auto">
+          <div className="max-w-7xl mx-auto">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
   );
 }
-
-Layout.propTypes = {};
 
 export default Layout;

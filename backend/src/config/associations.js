@@ -41,3 +41,8 @@ Badge.belongsToMany(User, {
   as: "users",
   foreignKey: "badgeId",
 });
+
+MissionCompletion.belongsTo(Mission, {
+  foreignKey: "missionId",
+  as: "mission",
+});

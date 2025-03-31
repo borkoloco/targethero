@@ -36,7 +36,11 @@ const getClientById = async (req, res) => {
 
 const updateClient = async (req, res) => {
   try {
-    const client = await clientService.updateClient(req.params.id, req.body);
+    const client = await clientService.updateClient(
+      req.params.id,
+      req.body,
+      req.user.role
+    );
     res.json(client);
   } catch (error) {
     res.status(400).json({ error: error.message });

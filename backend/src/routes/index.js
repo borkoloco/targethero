@@ -12,7 +12,13 @@ const evidenceRoutes = require("./evidenceRoutes");
 const badgeRoutes = require("./badgeRoutes");
 const recentEventRoutes = require("./recentEventRoutes");
 const importRoutes = require("./importRoutes");
+const marketItemRoutes = require("./marketItemRoutes");
+const marketReportRoutes = require("./marketReportRoutes");
+const tradeRoutes = require("./tradeRoutes");
 
+router.use("/trades", tradeRoutes);
+router.use("/market", marketItemRoutes);
+router.use("/market-report", marketReportRoutes);
 router.use("/auth", authRoutes);
 router.use("/users", userRoutes);
 router.use("/missions", missionRoutes);

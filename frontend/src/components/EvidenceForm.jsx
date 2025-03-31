@@ -45,19 +45,28 @@ function EvidenceForm({ missionId, onEvidenceSubmitted }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4">
-      <h3 className="font-semibold mb-2">Submit Evidence</h3>
-      {error && <p className="text-red-500">{error}</p>}
-      <input type="file" onChange={handleFileChange} className="mb-2" />
+    <form onSubmit={handleSubmit} className="mt-4 space-y-3">
+      <h3 className="font-semibold text-lg">Submit Evidence</h3>
+      {error && <p className="text-red-500 text-sm">{error}</p>}
+      <input
+        type="file"
+        onChange={handleFileChange}
+        className="block w-full border p-2 rounded-md"
+      />
       <textarea
         placeholder="Add a comment (optional)"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        className="w-full p-2 border rounded mb-2"
+        className="w-full p-2 border rounded-md"
       />
       <button
         type="submit"
-        className="bg-blue-500 text-white py-2 px-4 rounded"
+        disabled={loading}
+        className={`w-full py-2 px-4 rounded-md text-white ${
+          loading
+            ? "bg-blue-300 cursor-not-allowed"
+            : "bg-blue-500 hover:bg-blue-600"
+        } transition`}
       >
         {loading ? "Submitting..." : "Submit Evidence"}
       </button>

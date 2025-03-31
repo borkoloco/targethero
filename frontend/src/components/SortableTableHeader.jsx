@@ -24,10 +24,18 @@ function SortableTableHeader({
   return (
     <th
       onClick={handleClick}
-      className="border p-2 cursor-pointer select-none hover:bg-gray-100"
+      className={`p-2 border cursor-pointer select-none transition-colors duration-200 
+        ${
+          isActive
+            ? "bg-[#f4edf3] text-[#6e66f3] font-semibold"
+            : "hover:bg-gray-100"
+        } 
+        rounded-md`}
     >
-      {label}
-      {icon}
+      <span className="flex items-center justify-start">
+        {label}
+        {icon}
+      </span>
     </th>
   );
 }

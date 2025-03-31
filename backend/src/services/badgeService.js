@@ -85,21 +85,6 @@ const updateBadgeWithImage = async (
   if (!badge) throw new Error("Badge not found");
   return await badge.update({ name, type, description, logoUrl });
 };
-// const updateBadgeWithImage = async (id, { name, type, description, file }) => {
-//   const badge = await Badge.findByPk(id);
-//   if (!badge) throw new Error("Badge not found");
-
-//   let logoUrl = badge.logoUrl;
-
-//   if (file) {
-//     const upload = await cloudinary.uploader.upload(file.path, {
-//       folder: "badges",
-//     });
-//     logoUrl = upload.secure_url;
-//   }
-
-//   return await badge.update({ name, type, description, logoUrl });
-// };
 
 module.exports = {
   createBadge,
