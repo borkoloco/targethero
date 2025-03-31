@@ -86,10 +86,12 @@ function UserBadges() {
   };
 
   return (
-    <div className="mt-8">
-      <h2 className="text-xl font-bold mb-4">User Badge Overview</h2>
+    <div className="mt-8 p-4 bg-white rounded-2xl shadow-xl">
+      <h2 className="text-2xl font-bold mb-4 text-[#6e66f3] drop-shadow">
+        User Badge Overview
+      </h2>
       <ScrollableTable>
-        <thead className="sticky top-0 bg-gray-200">
+        <thead className="sticky top-0 bg-gray-200 z-10">
           <tr>
             <SortableTableHeader
               label="Name"
@@ -139,13 +141,13 @@ function UserBadges() {
               <td className="border p-2">{user.totalBadges}</td>
               <td className="border p-2 space-x-2">
                 <button
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
+                  className="bg-[#6e66f3] hover:bg-[#5a55d1] text-white px-3 py-1 rounded-xl text-sm"
                   onClick={() => openAssignModal(user)}
                 >
                   Add Badge
                 </button>
                 <button
-                  className="bg-red-500 text-white px-2 py-1 rounded"
+                  className="bg-[#fc875e] hover:bg-[#f67a4f] text-white px-3 py-1 rounded-xl text-sm"
                   onClick={() => openDeleteModal(user)}
                 >
                   Delete a Badge
@@ -207,7 +209,7 @@ function UserBadges() {
 
           <button
             onClick={handleGiveBadge}
-            className="bg-green-500 text-white px-4 py-2 rounded w-full"
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl w-full"
             disabled={!selectedBadgeId}
           >
             Confirm Assignment
@@ -237,7 +239,7 @@ function UserBadges() {
                         handleDeleteBadgeFromUser(badge.id);
                       }
                     }}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
                   >
                     x
                   </button>

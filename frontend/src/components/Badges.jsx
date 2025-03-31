@@ -8,6 +8,8 @@ import {
   deleteBadge,
 } from "../redux/slices/badgesSlice";
 import ModalWrapper from "./ModalWrapper";
+import ScrollableTable from "./ScrollableTable";
+import SortableTableHeader from "./SortableTableHeader";
 
 function Badges() {
   const dispatch = useDispatch();
@@ -15,6 +17,8 @@ function Badges() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingBadge, setEditingBadge] = useState(null);
+  const [sortField, setSortField] = useState(null);
+  const [sortDirection, setSortDirection] = useState("asc");
   const [formData, setFormData] = useState({
     name: "",
     type: "monthly",
@@ -45,6 +49,24 @@ function Badges() {
     dispatch(fetchBadges());
   }, [dispatch]);
 
+  const toggleSort = (field) => {
+    if (sortField === field) {
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
+  const sortedBadges = [...badges].sort((a, b) => {
+    if (!sortField) return 0;
+    const valA = a[sortField];
+    const valB = b[sortField];
+    return sortDirection === "asc"
+      ? String(valA).localeCompare(String(valB))
+      : String(valB).localeCompare(String(valA));
+  });
+
   const resetForm = () => {
     setFormData({
       name: "",
@@ -58,7 +80,6 @@ function Badges() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       if (editingBadge) {
         if (formData.file) {
@@ -67,7 +88,6 @@ function Badges() {
           form.append("type", formData.type);
           form.append("description", formData.description);
           form.append("logo", formData.file);
-
           await fetch(
             `${import.meta.env.VITE_API_URL}/api/badges/upload/${
               editingBadge.id
@@ -100,7 +120,6 @@ function Badges() {
           })
         );
       }
-
       setIsModalOpen(false);
       resetForm();
       dispatch(fetchBadges());
@@ -128,9 +147,9 @@ function Badges() {
   };
 
   return (
-    <div className="p-4">
-      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-4 gap-2">
-        <h2 className="text-2xl font-semibold">All Badges</h2>
+    <div className="mt-8 p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 font-sans">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 gap-4">
+        <h2 className="text-3xl font-extrabold text-[#6e66f3]">All Badges</h2>
         <div className="flex flex-col md:flex-row md:items-center gap-2">
           <BulkImportForm type="badges" />
           <button
@@ -138,30 +157,56 @@ function Badges() {
               resetForm();
               setIsModalOpen(true);
             }}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-[#fc875e] hover:bg-[#f67a4f] text-white px-4 py-2 rounded-xl transition duration-200"
           >
             Create Badge
           </button>
         </div>
       </div>
 
-      {status === "loading" ? (
-        <p>Loading badges...</p>
-      ) : error ? (
-        <p className="text-red-500">Error: {error}</p>
-      ) : (
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-gray-200">
-              <th className="border p-2">Name</th>
-              <th className="border p-2">Type</th>
-              <th className="border p-2">Logo</th>
-              <th className="border p-2">Description</th>
-              <th className="border p-2">Actions</th>
+      <ScrollableTable>
+        <thead className="bg-gray-100 sticky top-0 z-10 text-[#6e66f3]">
+          <tr>
+            <SortableTableHeader
+              label="Name"
+              field="name"
+              sortField={sortField}
+              sortDirection={sortDirection}
+              onSortChange={toggleSort}
+            />
+            <SortableTableHeader
+              label="Type"
+              field="type"
+              sortField={sortField}
+              sortDirection={sortDirection}
+              onSortChange={toggleSort}
+            />
+            <th className="border p-2">Logo</th>
+            <th className="border p-2">Description</th>
+            <th className="border p-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {status === "loading" ? (
+            <tr>
+              <td colSpan="5" className="text-center p-4">
+                Loading badges...
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {badges.map((badge) => (
+          ) : error ? (
+            <tr>
+              <td colSpan="5" className="text-center p-4 text-red-500">
+                Error: {error}
+              </td>
+            </tr>
+          ) : badges.length === 0 ? (
+            <tr>
+              <td colSpan="5" className="text-center p-4">
+                No badges to show.
+              </td>
+            </tr>
+          ) : (
+            sortedBadges.map((badge) => (
               <tr key={badge.id}>
                 <td className="border p-2">{badge.name}</td>
                 <td className="border p-2">{badge.type}</td>
@@ -175,47 +220,41 @@ function Badges() {
                           : import.meta.env.VITE_API_URL + badge.logoUrl
                       }
                       alt={badge.name}
-                      className="w-8 h-8 mx-auto object-contain"
+                      className="w-10 h-10 mx-auto object-contain"
                     />
                   ) : (
-                    <span className="text-2xl">{badge.logoUrl}</span>
+                    <span className="text-3xl">{badge.logoUrl}</span>
                   )}
                 </td>
                 <td className="border p-2">{badge.description}</td>
                 <td className="border p-2 space-x-2">
                   <button
                     onClick={() => handleEdit(badge)}
-                    className="bg-yellow-500 text-white px-2 py-1 rounded"
+                    className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded transition"
                   >
                     Edit
                   </button>
-
                   <button
-                    onClick={() => {
-                      if (
-                        confirm("Are you sure you want to delete this badge?")
-                      ) {
-                        handleDelete(badge.id);
-                      }
-                    }}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    onClick={() => handleDelete(badge.id)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition"
                   >
                     Delete
                   </button>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
+            ))
+          )}
+        </tbody>
+      </ScrollableTable>
 
-      <ModalWrapper isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <h3 className="text-xl font-semibold mb-4">
-          {editingBadge ? "Edit Badge" : "Create Badge"}
-        </h3>
+      <ModalWrapper
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title={editingBadge ? "Edit Badge" : "Create Badge"}
+      >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block mb-1">Name</label>
+            <label className="block mb-1 font-semibold">Name</label>
             <input
               type="text"
               value={formData.name}
@@ -227,7 +266,7 @@ function Badges() {
             />
           </div>
           <div>
-            <label className="block mb-1">Type</label>
+            <label className="block mb-1 font-semibold">Type</label>
             <select
               value={formData.type}
               onChange={(e) =>
@@ -241,7 +280,7 @@ function Badges() {
             </select>
           </div>
           <div>
-            <label className="block mb-1">Choose an Emoji</label>
+            <label className="block mb-1 font-semibold">Choose an Emoji</label>
             <div className="grid grid-cols-5 gap-2">
               {emojiOptions.map((emoji) => (
                 <button
@@ -260,7 +299,9 @@ function Badges() {
             </div>
           </div>
           <div>
-            <label className="block mb-1">Upload PNG (optional)</label>
+            <label className="block mb-1 font-semibold">
+              Upload PNG (optional)
+            </label>
             <input
               type="file"
               accept="image/png"
@@ -271,7 +312,7 @@ function Badges() {
             />
           </div>
           <div>
-            <label className="block mb-1">Description</label>
+            <label className="block mb-1 font-semibold">Description</label>
             <textarea
               value={formData.description}
               onChange={(e) =>
@@ -282,7 +323,7 @@ function Badges() {
           </div>
           <button
             type="submit"
-            className="bg-green-500 text-white px-4 py-2 rounded w-full"
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded w-full"
           >
             {editingBadge ? "Update Badge" : "Save Badge"}
           </button>

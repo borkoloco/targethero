@@ -17,11 +17,12 @@ function MyBadges({ showEmptyState = false }) {
   }, [dispatch, user, token]);
 
   if (!badges) return <p>Loading badges...</p>;
+
   if (showEmptyState && badges.length === 0) {
     return (
-      <div className="text-center mt-8">
+      <div className="text-center mt-8 font-sans">
         <div className="text-6xl animate-bounce mb-4">🦸‍♀️</div>
-        <h3 className="text-xl font-semibold">No badges... yet!</h3>
+        <h3 className="text-2xl font-bold text-[#6e66f3]">No badges... yet!</h3>
         <p className="text-gray-600 mt-2">
           Complete missions, smash goals, and earn your hero status!
         </p>
@@ -30,13 +31,15 @@ function MyBadges({ showEmptyState = false }) {
   }
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">My Badges</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="p-6 bg-white rounded-2xl shadow-xl font-sans">
+      <h2 className="text-3xl font-extrabold text-[#6e66f3] mb-6 drop-shadow">
+        My Badges
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {badges.map((badge) => (
           <div
             key={badge.id}
-            className="border rounded shadow p-4 flex flex-col items-center bg-white"
+            className="rounded-2xl border shadow-lg hover:shadow-2xl p-4 flex flex-col items-center text-center transition-all duration-300 bg-[#f9f9f9]"
           >
             {badge.logoUrl?.startsWith("http") ||
             badge.logoUrl?.startsWith("/uploads") ? (
@@ -47,17 +50,19 @@ function MyBadges({ showEmptyState = false }) {
                     : import.meta.env.VITE_API_URL + badge.logoUrl
                 }
                 alt={badge.name}
-                className="w-20 h-20 mb-2 object-contain"
+                className="w-20 h-20 mb-3 object-contain"
               />
             ) : (
-              <div className="text-5xl mb-2">{badge.logoUrl}</div>
+              <div className="text-5xl mb-3">{badge.logoUrl}</div>
             )}
 
-            <h3 className="text-lg font-semibold mb-1">{badge.name}</h3>
-            <p className="text-sm text-gray-600 mb-1">Type: {badge.type}</p>
-            <p className="text-sm text-center text-gray-700">
-              {badge.description}
+            <h3 className="text-lg font-bold text-[#fc875e] mb-1">
+              {badge.name}
+            </h3>
+            <p className="text-sm text-gray-600 mb-1 capitalize">
+              Type: {badge.type}
             </p>
+            <p className="text-sm text-gray-700">{badge.description}</p>
           </div>
         ))}
       </div>

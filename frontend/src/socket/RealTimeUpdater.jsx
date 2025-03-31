@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchMissions } from "../redux/slices/missionsSlice";
+import { itemAdded } from "../redux/slices/marketItemsSlice";
 import socket from "./socket";
 import { toast } from "react-toastify";
 
@@ -8,6 +9,12 @@ function RealTimeUpdater() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    socket.on("newMarketItem", (newItem) => {
+      console.log("New market item published:", newItem);
+      dispatch(itemAdded(newItem));
+      toast.info(`New item available in the Marketplace: ${newItem.name}`);
+    });
+
     socket.on("missionCompleted", ({ missionId, completer }) => {
       console.log("missionCompleted event received:", missionId);
       dispatch(fetchMissions());
@@ -26,6 +33,7 @@ function RealTimeUpdater() {
     });
 
     return () => {
+      socket.off("newMarketItem");
       socket.off("missionCompleted");
       socket.off("newMission");
     };

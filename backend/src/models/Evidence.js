@@ -19,8 +19,14 @@ const Evidence = sequelize.define("Evidence", {
     type: DataTypes.ENUM("pending", "approved", "rejected"),
     defaultValue: "pending",
   },
-  missionId: { type: DataTypes.INTEGER, allowNull: false },
-  userId: { type: DataTypes.INTEGER, allowNull: false },
+  missionId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
 module.exports = Evidence;

@@ -26,13 +26,22 @@ function MissionsLineChart({ dataLabels, dataPoints }) {
       {
         label: "Mission Completions",
         data: dataPoints,
-        borderColor: "rgba(75,192,192,1)",
-        fill: false,
+        borderColor: "#6e66f3",
+        backgroundColor: "rgba(110,102,243,0.1)",
+        fill: true,
+        tension: 0.3,
       },
     ],
   };
 
-  return <Line data={data} />;
+  return (
+    <div className="p-4 bg-white rounded-2xl shadow-md hover:shadow-lg transition">
+      <h3 className="text-lg font-bold text-center text-[#6e66f3] mb-4 drop-shadow">
+        Mission Completion Trends
+      </h3>
+      <Line data={data} />
+    </div>
+  );
 }
 
 MissionsLineChart.propTypes = {

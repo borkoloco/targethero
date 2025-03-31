@@ -43,6 +43,10 @@ const Mission = sequelize.define("Mission", {
     },
     onDelete: "SET NULL",
   },
+  expiresAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
+  },
 });
 
 module.exports = Mission;

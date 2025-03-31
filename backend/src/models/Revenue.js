@@ -16,15 +16,17 @@ const Revenue = sequelize.define("RevenueRecord", {
     allowNull: false,
     defaultValue: DataTypes.NOW,
   },
-
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-
   type: {
     type: DataTypes.STRING,
     allowNull: true,
+  },
+  status: {
+    type: DataTypes.ENUM("pending", "approved", "rejected"),
+    defaultValue: "pending",
   },
 });
 

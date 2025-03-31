@@ -19,7 +19,7 @@ function Notification() {
 
   return (
     <div
-      className={`fixed top-4 right-4 px-4 py-2 rounded shadow-lg text-white z-50 ${
+      className={`fixed top-6 right-6 z-[9999] px-4 py-2 rounded-xl shadow-lg transition-opacity duration-300 text-white ${
         notification.type === "success" ? "bg-green-500" : "bg-red-500"
       }`}
     >

@@ -41,22 +41,22 @@ function ModalWrapper({ isOpen, onClose, title, children, className = "" }) {
       <div
         ref={modalRef}
         onMouseDown={(e) => e.stopPropagation()}
-        className={`bg-white rounded shadow-lg p-6 w-fit max-w-[90vw] min-w-[350px] relative ${className}`}
+        className={`bg-white rounded-2xl shadow-2xl p-6 w-fit max-w-[90vw] min-w-[350px] relative transition-all ${className}`}
         style={{ transform: `translate(${offset.x}px, ${offset.y}px)` }}
       >
         <div
           onMouseDown={startDrag}
-          className="cursor-move text-xl font-bold mb-4 select-none"
+          className="cursor-move text-2xl font-extrabold text-[#6e66f3] mb-4 border-b pb-2 relative select-none"
         >
           {title}
           <button
             onClick={onClose}
-            className="absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
+            className="absolute top-0 right-0 text-gray-400 hover:text-[#fc875e] text-2xl font-bold px-2 transition"
           >
             &times;
           </button>
         </div>
-        {children}
+        <div className="font-sans">{children}</div>
       </div>
     </div>
   );

@@ -5,8 +5,8 @@ function Sidebar() {
   const { user } = useSelector((state) => state.auth);
 
   return (
-    <aside className="bg-gray-800 text-white transition-all duration-300 w-16 hover:w-64 overflow-hidden group">
-      <nav className="flex flex-col">
+    <aside className="bg-[#6e66f3] text-white w-20 hover:w-64 transition-all duration-300 overflow-hidden shadow-lg min-h-screen font-sans group">
+      <nav className="flex flex-col p-4 space-y-2">
         <SidebarItem to="/" icon="🏠" label="Dashboard" />
         {user?.role === "admin" ? (
           <>
@@ -17,6 +17,7 @@ function Sidebar() {
           <>
             <SidebarItem to="/user" icon="👤" label="User Dashboard" />
             <SidebarItem to="/reports/user" icon="📈" label="My Reports" />
+            <SidebarItem to="/marketplace" icon="🛒" label="Marketplace" />
           </>
         )}
       </nav>

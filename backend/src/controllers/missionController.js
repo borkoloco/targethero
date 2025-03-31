@@ -4,12 +4,48 @@ const recentEventService = require("../services/recentEventService");
 const createMission = async (req, res) => {
   try {
     const { name, type, description, points, evidenceRequired } = req.body;
+
+    const getExpirationDate = (type) => {
+      const now = new Date();
+      switch (type) {
+        case "diaria":
+        case "aleatoria":
+          return new Date(now.setHours(23, 59, 59, 999));
+        case "mensual":
+          return new Date(
+            now.getFullYear(),
+            now.getMonth() + 1,
+            0,
+            23,
+            59,
+            59,
+            999
+          );
+        case "trimestral":
+          const quarterEndMonth = Math.floor(now.getMonth() / 3 + 1) * 3;
+          return new Date(
+            now.getFullYear(),
+            quarterEndMonth,
+            0,
+            23,
+            59,
+            59,
+            999
+          );
+        default:
+          return null;
+      }
+    };
+
+    const expiresAt = getExpirationDate(type);
+
     const newMission = await missionService.createMission(
       name,
       type,
       description,
       points,
-      evidenceRequired
+      evidenceRequired,
+      expiresAt
     );
 
     const io = req.app.get("io");
@@ -80,7 +116,7 @@ const deleteMission = async (req, res) => {
 
 const getAllMissions = async (req, res) => {
   try {
-    const users = await missionService.getAllMissions();
+    const users = await missionService.getAllMissions({ includeExpired: true });
     res.json(users);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -113,8 +149,8 @@ const getEvidences = async (req, res) => {
 const getUserCompletedMissions = async (req, res) => {
   try {
     const userId = req.user.id;
-    const missionIds = await missionService.getUserCompletedMissions(userId);
-    res.json(missionIds);
+    const completions = await missionService.getUserCompletedMissions(userId);
+    res.json(completions);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

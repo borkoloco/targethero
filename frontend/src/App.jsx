@@ -12,8 +12,10 @@ import MissionsList from "./components/MissionsList";
 import UserReports from "./screens/UserReports";
 import AdminReports from "./screens/AdminReports";
 import Ranking from "./components/Ranking";
+import MarketManagement from "./components/MarketManagement";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
+import Marketplace from "./components/Marketplace";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -26,12 +28,13 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<MainDashboard />} />
             <Route path="missions" element={<MissionsList />} />
+            <Route path="marketplace" element={<Marketplace />} />
 
             <Route path="ranking" element={<Ranking />} />
             {user.role === "admin" ? (
               <>
                 <Route path="admin" element={<AdminDashboard />} />
-
+                <Route path="admin/market" element={<MarketManagement />} />
                 <Route path="reports/admin" element={<AdminReports />} />
               </>
             ) : (
@@ -40,6 +43,7 @@ function App() {
                 <Route path="reports/user" element={<UserReports />} />
               </>
             )}
+
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         ) : (

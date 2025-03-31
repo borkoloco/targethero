@@ -22,12 +22,26 @@ const createRevenueRecord = async (req, res) => {
       amount,
       date,
       type,
+      status: "pending",
     });
     res.status(201).json(record);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
+
+const approveRevenue = async (req, res) => {
+  try {
+    const updated = await revenueService.updateRevenueStatus(
+      req.params.id,
+      "approved"
+    );
+    res.json(updated);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const getMyRevenue = async (req, res) => {
   try {
     const userId = req.user.id;
@@ -60,4 +74,5 @@ module.exports = {
   getMyRevenue,
   createRevenueRecord,
   deleteRevenue,
+  approveRevenue,
 };

@@ -55,7 +55,7 @@ function BulkImportForm({ type }) {
     <div className="mt-2">
       <button
         onClick={() => setIsModalOpen(true)}
-        className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded text-sm"
+        className="bg-[#6e66f3] hover:bg-[#5a55d1] text-white px-4 py-2 rounded-xl text-sm shadow-md transition"
       >
         Import {type.charAt(0).toUpperCase() + type.slice(1)}
       </button>
@@ -70,7 +70,7 @@ function BulkImportForm({ type }) {
             type="file"
             accept=".xlsx, .xls"
             onChange={handleFileChange}
-            className="w-full border p-2 rounded"
+            className="w-full border border-gray-300 p-2 rounded-lg"
           />
 
           {file && (
@@ -82,7 +82,7 @@ function BulkImportForm({ type }) {
           <button
             onClick={handleUpload}
             disabled={loading || !file}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded w-full disabled:opacity-50"
+            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-xl w-full disabled:opacity-50 transition"
           >
             {loading ? "Uploading..." : `Upload ${type}`}
           </button>

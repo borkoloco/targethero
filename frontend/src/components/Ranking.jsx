@@ -53,8 +53,10 @@ function Ranking() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Leaderboard</h2>
+    <div className="mt-4 p-6 bg-white rounded-2xl shadow-xl">
+      <h2 className="text-2xl font-bold text-[#6e66f3] mb-4 drop-shadow">
+        Leaderboard
+      </h2>
       <ScrollableTable>
         <thead className="sticky top-0 bg-gray-200 z-10">
           <tr>
@@ -78,10 +80,10 @@ function Ranking() {
         </thead>
         <tbody>
           {sortedRanking.map((user, index) => (
-            <tr key={user.id}>
-              <td className="border p-2">{index + 1}</td>
+            <tr key={user.id} className="hover:bg-gray-100 transition">
+              <td className="border p-2 font-semibold">{index + 1}</td>
               <td className="border p-2">{user.name}</td>
-              <td className="border p-2">{user.role}</td>
+              <td className="border p-2 capitalize">{user.role}</td>
               <td className="border p-2">{user.points}</td>
             </tr>
           ))}
