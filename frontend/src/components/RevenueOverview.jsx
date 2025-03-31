@@ -143,8 +143,8 @@ function RevenueOverview() {
         <p>No revenue records found.</p>
       ) : (
         <ScrollableTable>
-          <thead className="sticky top-0 bg-gray-200 z-10">
-            <tr>
+          <thead className="sticky top-0 bg-[#fc875e] z-10">
+            <tr className="text-white">
               <th className="border p-2">User</th>
               <th className="border p-2">Date</th>
               <SortableTableHeader
@@ -182,17 +182,12 @@ function RevenueOverview() {
                   ) : (
                     <button
                       onClick={() => handleEdit(record)}
-                      className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 mr-2 rounded"
+                      className="bg-[#6e66f3] hover:bg-[#5a55d1] text-white px-3 py-1 rounded-xl text-sm" 
                     >
                       Edit
                     </button>
                   )}
-                  <button
-                    onClick={() => handleDelete(record.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
-                  >
-                    Delete
-                  </button>
+                 
                 </td>
               </tr>
             ))}

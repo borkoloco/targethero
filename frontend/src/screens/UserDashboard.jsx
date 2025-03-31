@@ -88,19 +88,19 @@ function UserDashboard() {
               )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <UserMissionsByType
-                  missionTypes={["diaria", "aleatoria"]}
+                  missionTypes={["Diaria", "Aleatoria"]}
                   title="Daily & Random Missions"
                 />
                 <UserMissionsByType
-                  missionTypes="mensual"
+                  missionTypes="Mensual"
                   title="Monthly Missions"
                 />
                 <UserMissionsByType
-                  missionTypes="bonus"
+                  missionTypes="Bonus Track"
                   title="Bonus Missions"
                 />
                 <UserMissionsByType
-                  missionTypes="trimestral"
+                  missionTypes="Trimestral"
                   title="Quarterly Missions"
                 />
               </div>

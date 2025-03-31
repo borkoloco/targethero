@@ -40,6 +40,6 @@ const Client = sequelize.define("Client", {
       key: "id",
     },
   },
-});
+  });
 
 module.exports = Client;

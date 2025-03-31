@@ -135,9 +135,9 @@ function MissionManagement() {
               });
               setModalOpen(true);
             }}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-[#fc875e] hover:bg-[#fc875e] text-white px-4 py-2 rounded-xl text-sm"
           >
-            Create New Mission
+            + Create New Mission
           </button>
         </div>
       </div>
@@ -217,8 +217,8 @@ function MissionManagement() {
       </ModalWrapper>
 
       <ScrollableTable>
-        <thead className="sticky top-0 bg-gray-200 z-10">
-          <tr>
+        <thead className="sticky top-0 bg-[#fc875e] z-10">
+          <tr className="text-white">
             <th className="border p-2">ID</th>
             <SortableTableHeader
               label="Name"
@@ -250,13 +250,13 @@ function MissionManagement() {
               <td className="border p-2 space-x-2">
                 <button
                   onClick={() => handleEdit(mission)}
-                  className="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded"
+                  className="bg-[#6e66f3] hover:bg-[#5a55d1] text-white px-3 py-1 rounded-xl text-sm"
                 >
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(mission.id)}
-                  className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
+               className="bg-[#fc875e] hover:bg-[#f67a4f] text-white px-3 py-1 rounded-xl text-sm"
                 >
                   Delete
                 </button>

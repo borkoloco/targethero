@@ -45,14 +45,14 @@ function MissionsList() {
 
   return (
     <div className="mt-4 p-6 bg-white rounded-2xl shadow-xl">
-      <h3 className="text-xl font-bold text-[#6e66f3] mb-4 drop-shadow">
+      <h2 className="text-xl font-bold text-[#6e66f3] mb-4 drop-shadow">
         Missions Overview
-      </h3>
+      </h2>
       {missions.length === 0 ? (
         <p>No missions available.</p>
       ) : (
         <ScrollableTable>
-          <thead className="sticky top-0 bg-gray-200 z-10">
+          <thead className="sticky top-0 bg-[#fc875e] text-white z-10">
             <tr>
               <th className="border p-2">ID</th>
               <SortableTableHeader

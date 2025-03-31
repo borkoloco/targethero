@@ -55,10 +55,10 @@ function Ranking() {
   return (
     <div className="mt-4 p-6 bg-white rounded-2xl shadow-xl">
       <h2 className="text-2xl font-bold text-[#6e66f3] mb-4 drop-shadow">
-        Leaderboard
+        Leaderboard 🏆
       </h2>
       <ScrollableTable>
-        <thead className="sticky top-0 bg-gray-200 z-10">
+        <thead className="sticky top-0 bg-[#fc875e] text-white z-10">
           <tr>
             <th className="border p-2">Rank</th>
             <SortableTableHeader

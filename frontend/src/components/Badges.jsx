@@ -165,8 +165,8 @@ function Badges() {
       </div>
 
       <ScrollableTable>
-        <thead className="bg-gray-100 sticky top-0 z-10 text-[#6e66f3]">
-          <tr>
+        <thead className="bg-[#fc875e]  sticky top-0 z-10 text-[#6e66f3]">
+          <tr className="text-white">
             <SortableTableHeader
               label="Name"
               field="name"
@@ -230,13 +230,13 @@ function Badges() {
                 <td className="border p-2 space-x-2">
                   <button
                     onClick={() => handleEdit(badge)}
-                    className="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded transition"
+                    className="bg-[#6e66f3] hover:bg-[#5a55d1] text-white px-3 py-1 rounded-xl text-sm"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => handleDelete(badge.id)}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded transition"
+                    className="bg-[#fc875e] hover:bg-[#f67a4f] text-white px-3 py-1 rounded-xl text-sm"
                   >
                     Delete
                   </button>
@@ -248,87 +248,89 @@ function Badges() {
       </ScrollableTable>
 
       <ModalWrapper
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        title={editingBadge ? "Edit Badge" : "Create Badge"}
-      >
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block mb-1 font-semibold">Name</label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) =>
-                setFormData({ ...formData, name: e.target.value })
-              }
-              className="border p-2 w-full rounded"
-              required
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold">Type</label>
-            <select
-              value={formData.type}
-              onChange={(e) =>
-                setFormData({ ...formData, type: e.target.value })
-              }
-              className="border p-2 w-full rounded"
+  isOpen={isModalOpen}
+  onClose={() => setIsModalOpen(false)}
+  title={editingBadge ? "Edit Badge" : "Create Badge"}
+>
+  <form onSubmit={handleSubmit} className="space-y-4 flex flex-col md:flex-row md:space-y-0 md:space-x-6">
+    <div className="flex-1 space-y-4">
+      <div>
+        <label className="block mb-1 font-semibold">Name</label>
+        <input
+          type="text"
+          value={formData.name}
+          onChange={(e) =>
+            setFormData({ ...formData, name: e.target.value })
+          }
+          className="border p-2 w-full rounded"
+          required
+        />
+      </div>
+      <div>
+        <label className="block mb-1 font-semibold">Type</label>
+        <select
+          value={formData.type}
+          onChange={(e) =>
+            setFormData({ ...formData, type: e.target.value })
+          }
+          className="border p-2 w-full rounded"
+        >
+          <option value="monthly">Monthly</option>
+          <option value="quarterly">Quarterly</option>
+          <option value="annual">Annual</option>
+        </select>
+      </div>
+      <div>
+        <label className="block mb-1 font-semibold">Upload PNG (optional)</label>
+        <input
+          type="file"
+          accept="image/png"
+          onChange={(e) =>
+            setFormData({ ...formData, file: e.target.files[0] })
+          }
+          className="w-full"
+        />
+      </div>
+    </div>
+
+    <div className="flex-1 space-y-4">
+      <div>
+        <label className="block mb-1 font-semibold">Choose an Emoji</label>
+        <div className="grid grid-cols-5 gap-2">
+          {emojiOptions.map((emoji) => (
+            <button
+              type="button"
+              key={emoji}
+              className={`text-3xl p-2 border rounded hover:bg-gray-200 ${
+                formData.emoji === emoji ? "bg-blue-100 border-blue-400" : ""
+              }`}
+              onClick={() => setFormData({ ...formData, emoji })}
             >
-              <option value="monthly">Monthly</option>
-              <option value="quarterly">Quarterly</option>
-              <option value="annual">Annual</option>
-            </select>
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold">Choose an Emoji</label>
-            <div className="grid grid-cols-5 gap-2">
-              {emojiOptions.map((emoji) => (
-                <button
-                  type="button"
-                  key={emoji}
-                  className={`text-3xl p-2 border rounded hover:bg-gray-200 ${
-                    formData.emoji === emoji
-                      ? "bg-blue-100 border-blue-400"
-                      : ""
-                  }`}
-                  onClick={() => setFormData({ ...formData, emoji })}
-                >
-                  {emoji}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold">
-              Upload PNG (optional)
-            </label>
-            <input
-              type="file"
-              accept="image/png"
-              onChange={(e) =>
-                setFormData({ ...formData, file: e.target.files[0] })
-              }
-              className="w-full"
-            />
-          </div>
-          <div>
-            <label className="block mb-1 font-semibold">Description</label>
-            <textarea
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-              className="border p-2 w-full rounded"
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded w-full"
-          >
-            {editingBadge ? "Update Badge" : "Save Badge"}
-          </button>
-        </form>
-      </ModalWrapper>
+              {emoji}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div>
+        <label className="block mb-1 font-semibold">Description</label>
+        <textarea
+          value={formData.description}
+          onChange={(e) =>
+            setFormData({ ...formData, description: e.target.value })
+          }
+          className="border p-2 w-full rounded"
+        />
+      </div>
+      <button
+        type="submit"
+        className="bg-[#6e66f3] hover:bg-[#574ed1] text-white px-4 py-2 rounded w-full transition"
+      >
+        {editingBadge ? "Update Badge" : "Save Badge"}
+      </button>
+    </div>
+  </form>
+</ModalWrapper>
+
     </div>
   );
 }
