@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const sequelize = require("./config/db");
 const routes = require("./routes");
+const fs = require("fs");
+const path = require("path");
 
 const app = express();
 
@@ -22,6 +24,13 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const uploadsDir = path.join(__dirname, "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir);
+}
+
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.use("/api", routes);
 

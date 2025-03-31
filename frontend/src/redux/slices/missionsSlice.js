@@ -5,7 +5,9 @@ export const fetchMissions = createAsyncThunk(
   "missions/fetchMissions",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("http://localhost:4000/api/missions");
+      const response = await axios.get(
+        import.meta.env.VITE_API_URL + "/api/missions"
+      );
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -18,7 +20,7 @@ export const fetchMissionDetail = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/missions/${id}`
+        import.meta.env.VITE_API_URL + `/api/missions/${id}`
       );
       return response.data;
     } catch (error) {
@@ -35,11 +37,11 @@ export const completeMission = createAsyncThunk(
         auth: { token },
       } = getState();
       const response = await axios.post(
-        `http://localhost:4000/api/missions/complete/${missionId}`,
+        import.meta.env.VITE_API_URL + `/api/missions/complete/${missionId}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // We assume the backend returns an object like { message: "...", user: updatedUser, mission: updatedMission }
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -76,7 +78,7 @@ const missionsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Handle fetchMissions
+
       .addCase(fetchMissions.pending, (state) => {
         state.status = "loading";
       })
@@ -88,7 +90,7 @@ const missionsSlice = createSlice({
         state.status = "failed";
         state.error = action.payload?.error || action.error.message;
       })
-      // Handle fetchMissionDetail
+
       .addCase(fetchMissionDetail.pending, (state) => {
         state.detailStatus = "loading";
       })
@@ -100,10 +102,8 @@ const missionsSlice = createSlice({
         state.detailStatus = "failed";
         state.detailError = action.payload?.error || action.error.message;
       })
-      // Handle completeMission
+
       .addCase(completeMission.fulfilled, (state, action) => {
-        // Optionally, update the mission that was completed.
-        // Here, we assume the backend returns the updated mission in action.payload.mission.
         const updatedMission = action.payload.mission;
         if (updatedMission) {
           const index = state.missions.findIndex(
@@ -112,7 +112,7 @@ const missionsSlice = createSlice({
           if (index !== -1) {
             state.missions[index] = updatedMission;
           }
-          // Also update detail if needed:
+
           if (
             state.missionDetail &&
             state.missionDetail.id === updatedMission.id

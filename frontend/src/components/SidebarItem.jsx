@@ -1,12 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 function SidebarItem({ to, icon, label }) {
-  return (
-    <Link to={to} className="group flex items-center p-4 hover:bg-gray-600">
-      <span className="text-xl">{icon}</span>
+  const location = useLocation();
+  const isActive = location.pathname === to;
 
-      <span className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+  return (
+    <Link
+      to={to}
+      className={`group flex items-center space-x-4 p-3 rounded-xl transition duration-200 ${
+        isActive ? "bg-[#5d57db]" : "hover:bg-[#5d57db]"
+      }`}
+    >
+      <span className="text-2xl">{icon}</span>
+      <span className="whitespace-nowrap text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-lg">
         {label}
       </span>
     </Link>

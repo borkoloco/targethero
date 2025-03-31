@@ -45,4 +45,21 @@ const getProfile = async (req, res) => {
   }
 };
 
-module.exports = { listUsers, createUser, updateUser, deleteUser, getProfile };
+const getUserStats = async (req, res) => {
+  try {
+    const stats = await userService.getUserStats();
+    res.json(stats);
+  } catch (error) {
+    console.error("Error fetching user stats:", error);
+    res.status(500).json({ error: "Failed to get user stats" });
+  }
+};
+
+module.exports = {
+  listUsers,
+  createUser,
+  updateUser,
+  deleteUser,
+  getProfile,
+  getUserStats,
+};

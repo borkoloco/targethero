@@ -8,5 +8,8 @@ router.put("/:id", missionController.updateMission);
 router.delete("/:id", missionController.deleteMission);
 router.get("/", missionController.getAllMissions);
 router.post("/complete/:id", protect, missionController.completeMission);
+router.post("/upload", missionController.uploadEvidence);
+router.get("/evidences", missionController.getEvidences);
+router.get("/completed", protect, missionController.getUserCompletedMissions);
 
 module.exports = router;

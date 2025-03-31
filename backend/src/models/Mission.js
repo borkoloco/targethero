@@ -26,6 +26,14 @@ const Mission = sequelize.define("Mission", {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  evidenceRequired: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  evidenceSubmitted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
   completedBy: {
     type: DataTypes.INTEGER,
     allowNull: true,
@@ -34,6 +42,10 @@ const Mission = sequelize.define("Mission", {
       key: "id",
     },
     onDelete: "SET NULL",
+  },
+  expiresAt: {
+    type: DataTypes.DATE,
+    allowNull: true,
   },
 });
 
