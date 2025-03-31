@@ -9,21 +9,16 @@ const createMission = async (
   type,
   description,
   points,
-  evidenceRequired
+  evidenceRequired,
+  expiresAt
 ) => {
-  console.log("Datos recibidos para crear misión:", {
-    name,
-    type,
-    description,
-    points,
-    evidenceRequired,
-  });
   const mission = await Mission.create({
     name,
     type,
     description,
     points,
     evidenceRequired,
+    expiresAt,
   });
   return mission;
 };
@@ -116,9 +111,24 @@ const getAllEvidence = async () => {
 const getUserCompletedMissions = async (userId) => {
   const completions = await MissionCompletion.findAll({
     where: { userId },
-    attributes: ["missionId"],
+    include: [
+      {
+        model: Mission,
+        as: "mission",
+      },
+    ],
   });
-  return completions.map((comp) => comp.missionId);
+
+  return completions
+    .filter((comp) => {
+      const mission = comp.mission;
+      return (
+        mission &&
+        (!mission.expiresAt ||
+          new Date(comp.completedAt) <= new Date(mission.expiresAt))
+      );
+    })
+    .map((comp) => comp.mission);
 };
 
 module.exports = {

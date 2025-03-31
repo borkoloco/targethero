@@ -44,8 +44,10 @@ function MissionsList() {
   if (status === "failed") return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="mt-4 border p-4 rounded">
-      <h3 className="font-semibold mb-2">Missions Overview</h3>
+    <div className="mt-4 p-6 bg-white rounded-2xl shadow-xl">
+      <h3 className="text-xl font-bold text-[#6e66f3] mb-4 drop-shadow">
+        Missions Overview
+      </h3>
       {missions.length === 0 ? (
         <p>No missions available.</p>
       ) : (
@@ -87,16 +89,19 @@ function MissionsList() {
                 : 0;
 
               return (
-                <tr key={mission.id}>
+                <tr key={mission.id} className="hover:bg-gray-100 transition">
                   <td className="border p-2">{mission.id}</td>
                   <td className="border p-2">{mission.name}</td>
-                  <td className="border p-2">{mission.type}</td>
+                  <td className="border p-2 capitalize">{mission.type}</td>
                   <td className="border p-2">{mission.description}</td>
                   <td className="border p-2">{mission.points}</td>
                   <td className="border p-2">
                     {completedCount} {completedCount === 1 ? "user" : "users"}
                     {totalUsers > 0 && (
-                      <span> ({progressPercentage}% of users)</span>
+                      <span className="text-sm text-gray-500">
+                        {" "}
+                        ({progressPercentage}% of users)
+                      </span>
                     )}
                   </td>
                 </tr>

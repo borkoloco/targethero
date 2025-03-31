@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateRevenue,
+  fetchAllRevenue,
+  deleteRevenue,
+} from "../redux/slices/revenueSlice";
 import ScrollableTable from "./ScrollableTable";
-import SortableTableHeader from "./SortableTableHeader";
 import ModalWrapper from "./ModalWrapper";
+import SortableTableHeader from "./SortableTableHeader";
 
 function RevenueOverview() {
+  const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
-  const [records, setRecords] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const { all: records, status, error } = useSelector((state) => state.revenue);
   const [sortField, setSortField] = useState(null);
   const [sortDirection, setSortDirection] = useState("asc");
   const [isModalOpen, setModalOpen] = useState(false);
@@ -22,27 +25,12 @@ function RevenueOverview() {
   });
 
   useEffect(() => {
-    const fetchRevenueByUser = async () => {
-      try {
-        const response = await axios.get(
-          import.meta.env.VITE_API_URL + "/api/revenue",
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setRecords(response.data);
-      } catch (err) {
-        setError(err.response?.data?.error || "Error fetching revenue");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchRevenueByUser();
-  }, [token]);
+    dispatch(fetchAllRevenue());
+  }, [dispatch]);
 
   const toggleSort = (field) => {
     if (sortField === field) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
     } else {
       setSortField(field);
       setSortDirection("asc");
@@ -53,13 +41,9 @@ function RevenueOverview() {
     if (!sortField) return 0;
     const valA = a[sortField];
     const valB = b[sortField];
-    if (typeof valA === "number" && typeof valB === "number") {
-      return sortDirection === "asc" ? valA - valB : valB - valA;
-    } else {
-      return sortDirection === "asc"
-        ? String(valA).localeCompare(String(valB))
-        : String(valB).localeCompare(String(valA));
-    }
+    return sortDirection === "asc"
+      ? String(valA).localeCompare(String(valB))
+      : String(valB).localeCompare(String(valA));
   });
 
   const handleEdit = (record) => {
@@ -74,52 +58,40 @@ function RevenueOverview() {
   };
 
   const handleDelete = async (id) => {
-    try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/api/revenue/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setRecords(records.filter((r) => r.id !== id));
-    } catch (err) {
-      console.error("Error deleting record:", err);
-    }
+    await dispatch(deleteRevenue(id));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/revenue/${editRecord.id}`,
-        formData,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setEditRecord(null);
-      setModalOpen(false);
-      const response = await axios.get(
-        import.meta.env.VITE_API_URL + "/api/revenue",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setRecords(response.data);
-    } catch (err) {
-      console.error("Error updating record:", err);
-    }
+    await dispatch(updateRevenue({ id: editRecord.id, revenueData: formData }));
+    setEditRecord(null);
+    setModalOpen(false);
   };
 
-  if (loading) return <p>Loading revenue overview...</p>;
+  const handleApprove = async (id) => {
+    await fetch(`${import.meta.env.VITE_API_URL}/api/revenue/${id}/approve`, {
+      method: "PUT",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    dispatch(fetchAllRevenue());
+  };
+
+  if (status === "loading") return <p>Loading revenue overview...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="mt-4 border p-4 rounded">
-      <h3 className="text-xl font-bold mb-4">Revenue Overview</h3>
+    <div className="mt-4 bg-white p-6 rounded-2xl shadow-xl">
+      <h3 className="text-xl font-bold text-[#6e66f3] mb-4 drop-shadow">
+        Revenue Overview
+      </h3>
 
       <ModalWrapper
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         title="Edit Revenue"
       >
-        <form onSubmit={handleSubmit}>
-          <div className="mb-2">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
             <label className="block mb-1">Amount:</label>
             <input
               type="number"
@@ -128,11 +100,11 @@ function RevenueOverview() {
               onChange={(e) =>
                 setFormData({ ...formData, amount: e.target.value })
               }
-              className="border p-1 rounded w-full"
+              className="border p-2 rounded w-full"
               required
             />
           </div>
-          <div className="mb-2">
+          <div>
             <label className="block mb-1">Date:</label>
             <input
               type="date"
@@ -141,11 +113,11 @@ function RevenueOverview() {
               onChange={(e) =>
                 setFormData({ ...formData, date: e.target.value })
               }
-              className="border p-1 rounded w-full"
+              className="border p-2 rounded w-full"
               required
             />
           </div>
-          <div className="mb-2">
+          <div>
             <label className="block mb-1">Type:</label>
             <input
               type="text"
@@ -154,13 +126,13 @@ function RevenueOverview() {
               onChange={(e) =>
                 setFormData({ ...formData, type: e.target.value })
               }
-              className="border p-1 rounded w-full"
+              className="border p-2 rounded w-full"
               required
             />
           </div>
           <button
             type="submit"
-            className="bg-green-500 text-white p-2 rounded w-full"
+            className="bg-green-600 hover:bg-green-700 text-white p-2 rounded w-full"
           >
             Update Revenue
           </button>
@@ -178,39 +150,46 @@ function RevenueOverview() {
               <SortableTableHeader
                 label="Amount"
                 field="amount"
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={toggleSort}
+                {...{ sortField, sortDirection, onSortChange: toggleSort }}
               />
               <SortableTableHeader
                 label="Type"
                 field="type"
-                sortField={sortField}
-                sortDirection={sortDirection}
-                onSortChange={toggleSort}
+                {...{ sortField, sortDirection, onSortChange: toggleSort }}
               />
+              <th className="border p-2">Status</th>
               <th className="border p-2">Actions</th>
             </tr>
           </thead>
           <tbody>
             {sortedRecords.map((record) => (
-              <tr key={record.id}>
+              <tr key={record.id} className="hover:bg-gray-50 transition">
                 <td className="border p-2">{record.user?.name}</td>
                 <td className="border p-2">
                   {new Date(record.date).toLocaleDateString()}
                 </td>
                 <td className="border p-2">${record.amount}</td>
                 <td className="border p-2">{record.type}</td>
-                <td className="border p-2">
-                  <button
-                    onClick={() => handleEdit(record)}
-                    className="bg-blue-500 text-white px-2 py-1 mr-2 rounded"
-                  >
-                    Edit
-                  </button>
+                <td className="border p-2 capitalize">{record.status}</td>
+                <td className="border p-2 space-x-2">
+                  {record.status === "pending" ? (
+                    <button
+                      onClick={() => handleApprove(record.id)}
+                      className="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded"
+                    >
+                      Approve
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleEdit(record)}
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-2 py-1 mr-2 rounded"
+                    >
+                      Edit
+                    </button>
+                  )}
                   <button
                     onClick={() => handleDelete(record.id)}
-                    className="bg-red-500 text-white px-2 py-1 rounded"
+                    className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded"
                   >
                     Delete
                   </button>

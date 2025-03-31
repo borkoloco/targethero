@@ -45,34 +45,42 @@ function MainDashboard() {
   const doughnutDataValues = [15, 20, 10, 5, 3];
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Global Dashboard</h2>
+    <div className="min-h-screen bg-[#f4edf3] p-8 font-sans">
+      <h2 className="text-4xl font-extrabold text-[#fc875e] uppercase tracking-wide drop-shadow-lg">
+        Global{" "}
+        <span className="bg-[#6e66f3] text-white px-3 py-1 rounded-lg shadow-md">
+          Dashboard
+        </span>
+      </h2>
+      <br />
 
-      <div className="mb-4">
-        <p className="font-semibold">
-          % of Missions Completed at Least Once:{" "}
-          {metrics.missionCompletionRate.toFixed(1)}%
+      <div className="mb-8 p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
+        <p className="text-lg font-semibold text-gray-700">
+          Total Mission Completion Rate:{" "}
+          <span className="text-[#fc875e]">
+            {metrics.missionCompletionRate.toFixed(1)}%
+          </span>
         </p>
-
-        <p className="font-semibold">
+        <p className="text-lg font-semibold text-gray-700 mt-2">
           Avg. Completions per Mission:{" "}
-          {metrics.averageCompletionsPerMission.toFixed(2)}
+          <span className="text-[#6e66f3]">
+            {metrics.averageCompletionsPerMission.toFixed(2)}
+          </span>
         </p>
-
         <ProgressBar
           progress={metrics.billingProgress}
           label="Billing Progress"
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="border p-4 rounded">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
           <MissionsLineChart
             dataLabels={lineChartDataLabels}
             dataPoints={lineChartDataPoints}
           />
         </div>
-        <div className="border p-4 rounded">
+        <div className="p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
           <MissionTypesDoughnut
             labels={doughnutLabels}
             dataValues={doughnutDataValues}
@@ -80,13 +88,15 @@ function MainDashboard() {
         </div>
       </div>
 
-      <MissionsList />
+      <div className="mb-8 p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
+        <MissionsList />
+      </div>
 
-      <div className="mt-4 border p-4 rounded">
+      <div className="mb-8 p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
         <Ranking />
       </div>
 
-      <div className="mt-4 border p-4 rounded">
+      <div className="p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
         <RecentEvents />
       </div>
     </div>

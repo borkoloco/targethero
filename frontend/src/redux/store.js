@@ -4,6 +4,10 @@ import usersReducer from "./slices/usersSlice";
 import missionsReducer from "./slices/missionsSlice";
 import evidenceReducer from "./slices/evidenceSlice";
 import badgesReducer from "./slices/badgesSlice";
+import marketItemsReducer from "./slices/marketItemsSlice";
+import purchasesReducer from "./slices/purchasesSlice";
+import clientsReducer from "./slices/clientsSlice";
+import revenueReducer from "./slices/revenueSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -19,6 +23,10 @@ const rootReducer = combineReducers({
   missions: missionsReducer,
   evidence: evidenceReducer,
   badges: badgesReducer,
+  marketItems: marketItemsReducer,
+  purchases: purchasesReducer,
+  clients: clientsReducer,
+  revenue: revenueReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

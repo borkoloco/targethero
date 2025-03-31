@@ -21,14 +21,17 @@ const Client = sequelize.define("Client", {
     allowNull: true,
   },
   status: {
+    type: DataTypes.ENUM("pending", "prospect", "active", "inactive"),
+    defaultValue: "pending",
+  },
+  requestedStatus: {
     type: DataTypes.ENUM("prospect", "active", "inactive"),
-    defaultValue: "prospect",
+    allowNull: true,
   },
   notes: {
     type: DataTypes.TEXT,
     allowNull: true,
   },
-
   assignedTo: {
     type: DataTypes.INTEGER,
     allowNull: true,

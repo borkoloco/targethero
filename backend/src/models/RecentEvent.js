@@ -10,7 +10,7 @@ const RecentEvent = sequelize.define(
       primaryKey: true,
     },
     type: {
-      type: DataTypes.ENUM("mission", "badge"),
+      type: DataTypes.ENUM("mission", "badge", "market"),
       allowNull: false,
     },
     description: {

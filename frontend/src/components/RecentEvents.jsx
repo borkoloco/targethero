@@ -33,13 +33,15 @@ function RecentEvents() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="mt-4 border p-4 rounded">
-      <h3 className="text-xl font-bold mb-2">Recent Activity</h3>
+    <div className="mt-4 p-6 bg-white rounded-2xl shadow-xl">
+      <h3 className="text-xl font-bold text-[#6e66f3] mb-4 drop-shadow">
+        Recent Activity
+      </h3>
       {events.length === 0 ? (
         <p>No recent events.</p>
       ) : (
         <ScrollableTable maxHeight="300px">
-          <thead className="sticky top-0 bg-gray-200">
+          <thead className="sticky top-0 bg-gray-200 z-10">
             <tr>
               <th className="border p-2">Type</th>
               <th className="border p-2">Description</th>
@@ -48,7 +50,7 @@ function RecentEvents() {
           </thead>
           <tbody>
             {events.map((event) => (
-              <tr key={event.id}>
+              <tr key={event.id} className="hover:bg-gray-100 transition">
                 <td className="border p-2 capitalize">{event.type}</td>
                 <td className="border p-2">{event.description}</td>
                 <td className="border p-2">

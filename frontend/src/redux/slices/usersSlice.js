@@ -3,6 +3,21 @@ import axios from "axios";
 
 const API = import.meta.env.VITE_API_URL;
 
+export const fetchAvailablePoints = createAsyncThunk(
+  "users/fetchAvailablePoints",
+  async (_, { getState, rejectWithValue }) => {
+    try {
+      const token = getState().auth.token;
+      const res = await axios.get(`${API}/api/trades/available`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data.availablePoints;
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.error);
+    }
+  }
+);
+
 export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
   async (_, { rejectWithValue }) => {
@@ -158,6 +173,7 @@ const usersSlice = createSlice({
     error: null,
     profile: null,
     profileStatus: "idle",
+    availablePoints: null,
     profileError: null,
     userStats: [],
     statsStatus: "idle",
@@ -185,6 +201,9 @@ const usersSlice = createSlice({
       .addCase(fetchUsers.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload?.error || action.error.message;
+      })
+      .addCase(fetchAvailablePoints.fulfilled, (state, action) => {
+        state.availablePoints = action.payload;
       })
       .addCase(createUser.fulfilled, (state, action) => {
         state.users.push(action.payload);

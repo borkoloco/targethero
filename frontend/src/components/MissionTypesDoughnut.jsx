@@ -28,7 +28,14 @@ function MissionTypesDoughnut({ labels, dataValues }) {
     ],
   };
 
-  return <Doughnut data={data} />;
+  return (
+    <div className="p-4 bg-white rounded-2xl shadow-md hover:shadow-lg transition">
+      <h3 className="text-lg font-bold text-center text-[#6e66f3] mb-4 drop-shadow">
+        Mission Types
+      </h3>
+      <Doughnut data={data} />
+    </div>
+  );
 }
 
 MissionTypesDoughnut.propTypes = {
