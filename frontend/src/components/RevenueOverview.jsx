@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  updateRevenue,
-  fetchAllRevenue,
-  deleteRevenue,
-} from "../redux/slices/revenueSlice";
+import { updateRevenue, fetchAllRevenue } from "../redux/slices/revenueSlice";
 import ScrollableTable from "./ScrollableTable";
 import ModalWrapper from "./ModalWrapper";
 import SortableTableHeader from "./SortableTableHeader";
@@ -57,9 +53,9 @@ function RevenueOverview() {
     setModalOpen(true);
   };
 
-  const handleDelete = async (id) => {
-    await dispatch(deleteRevenue(id));
-  };
+  // const handleDelete = async (id) => {
+  //   await dispatch(deleteRevenue(id));
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -182,12 +178,11 @@ function RevenueOverview() {
                   ) : (
                     <button
                       onClick={() => handleEdit(record)}
-                      className="bg-[#6e66f3] hover:bg-[#5a55d1] text-white px-3 py-1 rounded-xl text-sm" 
+                      className="bg-[#6e66f3] hover:bg-[#5a55d1] text-white px-3 py-1 rounded-xl text-sm"
                     >
                       Edit
                     </button>
                   )}
-                 
                 </td>
               </tr>
             ))}

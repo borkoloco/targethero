@@ -182,8 +182,8 @@ function MyClients() {
         <p className="text-gray-500 mt-4">No clients assigned yet.</p>
       ) : (
         <ScrollableTable>
-          <thead className="sticky top-0 bg-gray-100 z-10">
-            <tr>
+          <thead className="bg-[#fc875e] sticky top-0 z-10">
+            <tr className="text-white">
               <th className="border p-2">ID</th>
               <SortableTableHeader
                 label="Name"

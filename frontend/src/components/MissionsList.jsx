@@ -77,6 +77,11 @@ function MissionsList() {
                 sortDirection={sortDirection}
                 onSortChange={toggleSort}
               />
+              <SortableTableHeader
+                label="Expires At"
+                field="expiresAt"
+                {...{ sortField, sortDirection, onSortChange: toggleSort }}
+              />
               <th className="border p-2">Completed By</th>
             </tr>
           </thead>
@@ -95,6 +100,11 @@ function MissionsList() {
                   <td className="border p-2 capitalize">{mission.type}</td>
                   <td className="border p-2">{mission.description}</td>
                   <td className="border p-2">{mission.points}</td>
+                  <td className="border p-2">
+                    {mission.expiresAt
+                      ? new Date(mission.expiresAt).toLocaleDateString()
+                      : "—"}
+                  </td>
                   <td className="border p-2">
                     {completedCount} {completedCount === 1 ? "user" : "users"}
                     {totalUsers > 0 && (

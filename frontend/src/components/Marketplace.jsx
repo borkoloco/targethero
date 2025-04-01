@@ -59,57 +59,60 @@ function Marketplace() {
       {items.length === 0 ? (
         <p>No items available at the moment.</p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-8">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="bg-white border rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden"
-            >
-              {item.imageUrl && (
-                <div className="h-64 w-full overflow-hidden">
-                  <img
-                    src={item.imageUrl}
-                    alt={item.name}
-                    className="object-cover w-full h-full"
-                  />
-                </div>
-              )}
-              <div className="p-4 flex flex-col justify-between flex-1">
-                <div>
-                  <h3 className="font-bold text-lg text-[#6e66f3] mb-1">
-                    {item.name}
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-2">
-                    {item.description}
-                  </p>
-                </div>
-                <div className="mt-auto">
-                  <p className="font-semibold text-[#fc875e] mb-2">
-                    Cost: {item.requiredPoints} pts
-                  </p>
-                  <PurchaseForm
-                    itemId={item.id}
-                    itemName={item.name}
-                    cost={item.requiredPoints}
-                    onPurchase={refreshAll}
-                  />
+        <>
+          <h3 className="text-2xl font-bold text-[#6e66f3] mb-4">
+            Marketplace Products
+          </h3>
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-8">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white border rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden"
+              >
+                {item.imageUrl && (
+                  <div className="h-64 w-full overflow-hidden">
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                )}
+                <div className="p-4 flex flex-col justify-between flex-1">
+                  <div>
+                    <h3 className="font-bold text-lg text-[#6e66f3] mb-1">
+                      {item.name}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-2">
+                      {item.description}
+                    </p>
+                  </div>
+                  <div className="mt-auto">
+                    <p className="font-semibold text-[#fc875e] mb-2">
+                      Cost: {item.requiredPoints} pts
+                    </p>
+                    <PurchaseForm
+                      itemId={item.id}
+                      itemName={item.name}
+                      cost={item.requiredPoints}
+                      onPurchase={refreshAll}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
 
       <div className="p-6 bg-white rounded-2xl shadow-xl">
-        <h3 className="text-2xl font-bold text-[#6e66f3] mb-4">
-          Your Purchases
-        </h3>
+        <h3 className="text-2xl font-bold text-[#6e66f3] mb-4">My Purchases</h3>
         {sortedPurchases.length === 0 ? (
           <p>You haven’t purchased anything yet.</p>
         ) : (
           <ScrollableTable>
-            <thead className="bg-gray-200 sticky top-0">
-              <tr>
+            <thead className="bg-[#fc875e] sticky top-0 z-10">
+              <tr className="text-white">
                 <SortableTableHeader
                   label="Item"
                   field="item"
