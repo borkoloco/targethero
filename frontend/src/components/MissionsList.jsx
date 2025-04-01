@@ -45,14 +45,14 @@ function MissionsList() {
 
   return (
     <div className="mt-4 p-6 bg-white rounded-2xl shadow-xl">
-      <h3 className="text-xl font-bold text-[#6e66f3] mb-4 drop-shadow">
+      <h2 className="text-xl font-bold text-[#6e66f3] mb-4 drop-shadow">
         Missions Overview
-      </h3>
+      </h2>
       {missions.length === 0 ? (
         <p>No missions available.</p>
       ) : (
         <ScrollableTable>
-          <thead className="sticky top-0 bg-gray-200 z-10">
+          <thead className="sticky top-0 bg-[#fc875e] text-white z-10">
             <tr>
               <th className="border p-2">ID</th>
               <SortableTableHeader
@@ -77,6 +77,11 @@ function MissionsList() {
                 sortDirection={sortDirection}
                 onSortChange={toggleSort}
               />
+              <SortableTableHeader
+                label="Expires At"
+                field="expiresAt"
+                {...{ sortField, sortDirection, onSortChange: toggleSort }}
+              />
               <th className="border p-2">Completed By</th>
             </tr>
           </thead>
@@ -95,6 +100,11 @@ function MissionsList() {
                   <td className="border p-2 capitalize">{mission.type}</td>
                   <td className="border p-2">{mission.description}</td>
                   <td className="border p-2">{mission.points}</td>
+                  <td className="border p-2">
+                    {mission.expiresAt
+                      ? new Date(mission.expiresAt).toLocaleDateString()
+                      : "—"}
+                  </td>
                   <td className="border p-2">
                     {completedCount} {completedCount === 1 ? "user" : "users"}
                     {totalUsers > 0 && (

@@ -91,8 +91,8 @@ function UserBadges() {
         User Badge Overview
       </h2>
       <ScrollableTable>
-        <thead className="sticky top-0 bg-gray-200 z-10">
-          <tr>
+        <thead className="sticky top-0 bg-[#fc875e] z-10">
+          <tr className="text-white">
             <SortableTableHeader
               label="Name"
               field="name"

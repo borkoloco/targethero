@@ -102,10 +102,10 @@ function MarketManagement() {
 
       <div className="flex justify-end mb-4">
         <button
-          className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+          className="bg-[#fc875e] hover:bg-[#fc875e] text-white font-medium px-5 py-2.5 rounded-xl transition-all shadow-md"
           onClick={() => openModal()}
         >
-          Add New Market Item
+         + Add New Market Item
         </button>
       </div>
 
@@ -125,14 +125,14 @@ function MarketManagement() {
         </ModalWrapper>
       )}
 
-      <h3 className="text-xl font-semibold mb-2">Market Items List</h3>
+      <h2 className="text-xl font-bold mb-2 text-[#6e66f3] ">Market Items List</h2>
       {error && (
         <p className="text-red-500 mb-4">Error loading items: {error}</p>
       )}
 
       <ScrollableTable>
-        <thead className="bg-gray-200 sticky top-0 z-10">
-          <tr>
+        <thead className="bg-[#fc875e] sticky top-0 z-10">
+          <tr className="text-white">
             <SortableTableHeader
               label="ID"
               field="id"
@@ -188,14 +188,14 @@ function MarketManagement() {
         </tbody>
       </ScrollableTable>
 
-      <h3 className="text-xl font-semibold mt-10 mb-2">User Market Report</h3>
+      <h3 className="text-xl font-bold mt-10 mb-2 text-[#6e66f3]">User Market Report</h3>
       {reportError && (
         <p className="text-red-500 mb-4">Error loading report: {reportError}</p>
       )}
 
       <ScrollableTable>
-        <thead className="bg-gray-200 sticky top-0 z-10">
-          <tr>
+        <thead className="bg-[#fc875e] sticky top-0 z-10">
+          <tr className="text-white">
             <SortableTableHeader
               label="ID"
               field="id"

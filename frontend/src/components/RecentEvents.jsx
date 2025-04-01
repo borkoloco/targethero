@@ -41,11 +41,11 @@ function RecentEvents() {
         <p>No recent events.</p>
       ) : (
         <ScrollableTable maxHeight="300px">
-          <thead className="sticky top-0 bg-gray-200 z-10">
+          <thead className="sticky top-0 bg-[#fc875e] z-10">
             <tr>
-              <th className="border p-2">Type</th>
-              <th className="border p-2">Description</th>
-              <th className="border p-2">Date</th>
+              <th className="border p-2 text-white">Type</th>
+              <th className="border p-2 text-white">Description</th>
+              <th className="border p-2 text-white">Date</th>
             </tr>
           </thead>
           <tbody>

@@ -63,15 +63,16 @@ function CompletedMissions() {
 
   return (
     <div className="mt-8 p-6 bg-white rounded-2xl shadow-xl">
-      <h3 className="text-2xl font-bold text-[#6e66f3] mb-4">
+      <h2 className="text-2xl font-bold text-[#6e66f3] mb-4 drop-shadow">
         Completed Missions
-      </h3>
+      </h2>
+
       {sortedMissions.length === 0 ? (
         <p className="text-gray-500">No missions completed yet.</p>
       ) : (
         <ScrollableTable>
-          <thead className="bg-gray-100 sticky top-0 z-10">
-            <tr>
+          <thead className="bg-[#fc875e] sticky top-0 z-10">
+            <tr className="text-white">
               <SortableTableHeader
                 label="Name"
                 field="name"
@@ -86,7 +87,7 @@ function CompletedMissions() {
                 sortDirection={sortDirection}
                 onSortChange={toggleSort}
               />
-              <th className="border p-2 font-semibold text-gray-700">
+              <th className="border p-2 font-semibold text-white">
                 Description
               </th>
               <SortableTableHeader

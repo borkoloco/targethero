@@ -87,8 +87,8 @@ function UserListWithClients() {
         Client Management
       </h2>
       <ScrollableTable>
-        <thead className="sticky top-0 bg-gray-200 z-10">
-          <tr>
+        <thead className="bg-[#fc875e] sticky top-0 z-10">
+          <tr className="text-white">
             <SortableTableHeader
               label="Name"
               field="name"
