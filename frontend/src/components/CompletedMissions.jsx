@@ -63,7 +63,10 @@ function CompletedMissions() {
 
   return (
     <div className="mt-8 p-6 bg-white rounded-2xl shadow-xl">
-  
+      <h2 className="text-2xl font-bold text-[#6e66f3] mb-4 drop-shadow">
+        Completed Missions
+      </h2>
+
       {sortedMissions.length === 0 ? (
         <p className="text-gray-500">No missions completed yet.</p>
       ) : (

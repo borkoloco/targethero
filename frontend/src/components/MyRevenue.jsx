@@ -103,6 +103,9 @@ function MyRevenue() {
   return (
     <div className="mt-8 p-6 bg-white shadow-lg rounded-2xl">
       <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-[#6e66f3] mb-4 drop-shadow">
+          My Revenue
+        </h2>
         <button
           onClick={() => {
             setEditRevenueId(null);
@@ -118,7 +121,7 @@ function MyRevenue() {
           + Add Revenue
         </button>
       </div>
-  
+
       <ModalWrapper
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
@@ -127,7 +130,9 @@ function MyRevenue() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {formError && <p className="text-red-500">{formError}</p>}
           <div>
-            <label className="block mb-1 font-semibold text-gray-700">Amount:</label>
+            <label className="block mb-1 font-semibold text-gray-700">
+              Amount:
+            </label>
             <input
               type="number"
               name="amount"
@@ -138,7 +143,9 @@ function MyRevenue() {
             />
           </div>
           <div>
-            <label className="block mb-1 font-semibold text-gray-700">Date:</label>
+            <label className="block mb-1 font-semibold text-gray-700">
+              Date:
+            </label>
             <input
               type="date"
               name="date"
@@ -149,7 +156,9 @@ function MyRevenue() {
             />
           </div>
           <div>
-            <label className="block mb-1 font-semibold text-gray-700">Type:</label>
+            <label className="block mb-1 font-semibold text-gray-700">
+              Type:
+            </label>
             <input
               type="text"
               name="type"
@@ -164,13 +173,19 @@ function MyRevenue() {
             className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-medium transition-all shadow-md"
             disabled={formLoading}
           >
-            {formLoading ? "Submitting..." : editRevenueId ? "Update Revenue" : "Add Revenue"}
+            {formLoading
+              ? "Submitting..."
+              : editRevenueId
+              ? "Update Revenue"
+              : "Add Revenue"}
           </button>
         </form>
       </ModalWrapper>
-  
+
       {revenue.length === 0 ? (
-        <p className="text-gray-500 mt-6 text-center">No revenue records found.</p>
+        <p className="text-gray-500 mt-6 text-center">
+          No revenue records found.
+        </p>
       ) : (
         <ScrollableTable>
           <thead className="sticky top-0 bg-[#fc875e] z-10 shadow-sm">
@@ -197,10 +212,16 @@ function MyRevenue() {
           <tbody>
             {sortedRevenue.map((record) => (
               <tr key={record.id} className="hover:bg-gray-50 transition">
-                <td className="border p-3">{new Date(record.date).toLocaleDateString()}</td>
-                <td className="border p-3 text-green-600 font-medium">${record.amount}</td>
+                <td className="border p-3">
+                  {new Date(record.date).toLocaleDateString()}
+                </td>
+                <td className="border p-3 text-green-600 font-medium">
+                  ${record.amount}
+                </td>
                 <td className="border p-3 text-gray-700">{record.type}</td>
-                <td className="border p-3 capitalize text-gray-700">{record.status}</td>
+                <td className="border p-3 capitalize text-gray-700">
+                  {record.status}
+                </td>
                 <td className="border p-3">
                   <button
                     disabled={record.status === "pending"}
@@ -221,7 +242,6 @@ function MyRevenue() {
       )}
     </div>
   );
-  
 }
 
 export default MyRevenue;
