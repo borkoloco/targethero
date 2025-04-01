@@ -101,9 +101,8 @@ function MyRevenue() {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="mt-8 p-6 bg-white rounded-2xl shadow-xl">
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-2xl font-bold text-[#6e66f3]">My Revenue</h3>
+    <div className="mt-8 p-6 bg-white shadow-lg rounded-2xl">
+      <div className="flex justify-between items-center mb-6">
         <button
           onClick={() => {
             setEditRevenueId(null);
@@ -114,73 +113,69 @@ function MyRevenue() {
             });
             setModalOpen(true);
           }}
-          className="bg-[#6e66f3] hover:bg-[#574ed1] text-white px-4 py-2 rounded-xl transition"
+          className="bg-[#6e66f3] hover:bg-[#574ed1] text-white font-medium px-5 py-2.5 rounded-xl transition-all shadow-md"
         >
-          Add Revenue
+          + Add Revenue
         </button>
       </div>
-
+  
       <ModalWrapper
         isOpen={isModalOpen}
         onClose={() => setModalOpen(false)}
         title={editRevenueId ? "Edit Revenue" : "Add Revenue"}
       >
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {formError && <p className="text-red-500">{formError}</p>}
           <div>
-            <label className="block mb-1 font-semibold">Amount:</label>
+            <label className="block mb-1 font-semibold text-gray-700">Amount:</label>
             <input
               type="number"
               name="amount"
               value={formData.amount}
               onChange={handleChange}
-              className="border p-2 rounded w-full"
+              className="border p-3 rounded-lg w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6e66f3]"
               required
             />
           </div>
           <div>
-            <label className="block mb-1 font-semibold">Date:</label>
+            <label className="block mb-1 font-semibold text-gray-700">Date:</label>
             <input
               type="date"
               name="date"
               value={formData.date}
               onChange={handleChange}
-              className="border p-2 rounded w-full"
+              className="border p-3 rounded-lg w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6e66f3]"
               required
             />
           </div>
           <div>
-            <label className="block mb-1 font-semibold">Type:</label>
+            <label className="block mb-1 font-semibold text-gray-700">Type:</label>
             <input
               type="text"
               name="type"
               value={formData.type}
               onChange={handleChange}
-              className="border p-2 rounded w-full"
+              className="border p-3 rounded-lg w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-[#6e66f3]"
               required
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl transition"
+            className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-medium transition-all shadow-md"
             disabled={formLoading}
           >
-            {formLoading
-              ? "Submitting..."
-              : editRevenueId
-              ? "Update Revenue"
-              : "Add Revenue"}
+            {formLoading ? "Submitting..." : editRevenueId ? "Update Revenue" : "Add Revenue"}
           </button>
         </form>
       </ModalWrapper>
-
+  
       {revenue.length === 0 ? (
-        <p className="text-gray-500 mt-4">No revenue records found.</p>
+        <p className="text-gray-500 mt-6 text-center">No revenue records found.</p>
       ) : (
         <ScrollableTable>
-          <thead className="sticky top-0 bg-gray-100 z-10">
-            <tr>
-              <th className="border p-2">Date</th>
+          <thead className="sticky top-0 bg-[#fc875e] z-10 shadow-sm">
+            <tr className="text-white">
+              <th className="border p-3">Date</th>
               <SortableTableHeader
                 label="Amount"
                 field="amount"
@@ -195,20 +190,18 @@ function MyRevenue() {
                 sortDirection={sortDirection}
                 onSortChange={toggleSort}
               />
-              <th className="border p-2">Status</th>
-              <th className="border p-2">Actions</th>
+              <th className="border p-3">Status</th>
+              <th className="border p-3">Actions</th>
             </tr>
           </thead>
           <tbody>
             {sortedRevenue.map((record) => (
               <tr key={record.id} className="hover:bg-gray-50 transition">
-                <td className="border p-2">
-                  {new Date(record.date).toLocaleDateString()}
-                </td>
-                <td className="border p-2">${record.amount}</td>
-                <td className="border p-2">{record.type}</td>
-                <td className="border p-2 capitalize">{record.status}</td>
-                <td className="border p-2">
+                <td className="border p-3">{new Date(record.date).toLocaleDateString()}</td>
+                <td className="border p-3 text-green-600 font-medium">${record.amount}</td>
+                <td className="border p-3 text-gray-700">{record.type}</td>
+                <td className="border p-3 capitalize text-gray-700">{record.status}</td>
+                <td className="border p-3">
                   <button
                     disabled={record.status === "pending"}
                     onClick={() => handleEdit(record)}
@@ -216,7 +209,7 @@ function MyRevenue() {
                       record.status === "pending"
                         ? "bg-gray-300 cursor-not-allowed"
                         : "bg-[#6e66f3] hover:bg-[#574ed1]"
-                    } text-white px-3 py-1 rounded-xl transition`}
+                    } text-white px-4 py-2 rounded-xl transition-all font-medium`}
                   >
                     {record.status === "pending" ? "Pending" : "Edit"}
                   </button>
@@ -228,6 +221,7 @@ function MyRevenue() {
       )}
     </div>
   );
+  
 }
 
 export default MyRevenue;

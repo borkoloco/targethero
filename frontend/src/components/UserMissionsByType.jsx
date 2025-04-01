@@ -123,9 +123,9 @@ function UserMissionsByType({ missionTypes, title }) {
           {mission.name}
         </h4>
         <p className="text-gray-700 mb-1">{mission.description}</p>
-        <p className="font-semibold text-[#fc875e] mb-3">
+        <h3 className="font-semibold text-[#fc875e] mb-3">
           Points: {mission.points}
-        </p>
+        </h3>
         {mission.evidenceRequired ? (
           evidenceForMission ? (
             <button

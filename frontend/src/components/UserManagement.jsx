@@ -118,7 +118,7 @@ function UserManagement() {
             setFormData({ name: "", email: "", password: "", role: "user" });
             setModalOpen(true);
           }}
-          className="bg-[#fc875e] hover:bg-[#f67a4f] text-white px-4 py-2 rounded-xl transition duration-200"
+          className="bg-[#6e66f3] hover:bg-[#574ed1] text-white px-4 py-2 rounded-xl transition duration-200"
         >
           + Create New User
         </button>
@@ -185,8 +185,8 @@ function UserManagement() {
       </ModalWrapper>
 
       <ScrollableTable>
-        <thead className="sticky top-0 bg-gray-200 z-10">
-          <tr>
+        <thead className="sticky top-0 bg-[#fc875e]  z-10">
+          <tr className="text-white">
             <th className="border p-2">ID</th>
             <SortableTableHeader
               label="Name"
@@ -222,7 +222,7 @@ function UserManagement() {
               <td className="border p-2 space-x-2">
                 <button
                   onClick={() => handleEdit(user)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+                  className="bg-[#6e66f3] hover:bg-[#5a55d1] text-white px-3 py-1 rounded-xl text-sm"
                 >
                   Edit
                 </button>
@@ -232,7 +232,7 @@ function UserManagement() {
                       handleDelete(user.id);
                     }
                   }}
-                  className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                  className="bg-[#fc875e] hover:bg-[#f67a4f] text-white px-3 py-1 rounded-xl text-sm"
                 >
                   Delete
                 </button>

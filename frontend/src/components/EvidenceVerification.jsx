@@ -72,7 +72,7 @@ function EvidenceVerification() {
         <p className="text-gray-600">No pending evidence to verify.</p>
       ) : (
         <ScrollableTable>
-          <thead className="sticky top-0 bg-gray-100 text-gray-700 z-10">
+          <thead className="sticky top-0 bg-[#fc875e] text-white z-10">
             <tr>
               <th className="border p-2">User</th>
               <th className="border p-2">Mission</th>
