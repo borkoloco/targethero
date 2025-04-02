@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../redux/slices/usersSlice";
-import UserMissionsByType from "../components/UserMissionsByType";
-import CompletedMission from "../components/CompletedMissions";
-import MyRevenue from "../components/MyRevenue";
-import MyClients from "../components/MyClients";
-import MyBadges from "../components/MyBadges";
+import UserMissionsByType from "../components/Missions/UserMissionsByType";
+import CompletedMission from "../components/Missions/CompletedMissions";
+import MyRevenue from "../components/Revenue/MyRevenue";
+import MyClients from "../components/Users/MyClients";
+import MyBadges from "../components/Badges/MyBadges";
 import useDailyTrigger from "../hooks/useDailyTrigger";
 import { fetchMissions } from "../redux/slices/missionsSlice";
 

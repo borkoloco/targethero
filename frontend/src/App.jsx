@@ -4,18 +4,18 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Layout from "./components/Layout";
+import Layout from "./components/WebBasics/Layout";
 import MainDashboard from "./screens/MainDashboard";
 import AdminDashboard from "./screens/AdminDashboard";
 import UserDashboard from "./screens/UserDashboard";
-import MissionsList from "./components/MissionsList";
+import MissionsList from "./components//Missions/MissionsList";
 import UserReports from "./screens/UserReports";
 import AdminReports from "./screens/AdminReports";
-import Ranking from "./components/Ranking";
-import MarketManagement from "./components/MarketManagement";
+import Ranking from "./components/Users/Ranking";
+import MarketManagement from "./components/Marketplace/MarketManagement";
 import Login from "./screens/Login";
 import Register from "./screens/Register";
-import Marketplace from "./components/Marketplace";
+import Marketplace from "./components/Marketplace/Marketplace";
 import { useSelector } from "react-redux";
 
 function App() {

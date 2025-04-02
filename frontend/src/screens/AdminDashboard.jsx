@@ -1,11 +1,11 @@
 import { useState } from "react";
-import UserManagement from "../components/UserManagement";
-import MissionManagement from "../components/MissionManagement";
-import UserListWithClients from "../components/UserListWithClients";
-import EvidenceVerification from "../components/EvidenceVerification";
-import BadgeManagement from "../components/BadgeManagement";
-import MarketManagement from "../components/MarketManagement";
-import RevenueOverview from "../components/RevenueOverview";
+import UserManagement from "../components/Users/UserManagement";
+import MissionManagement from "../components/Missions/MissionManagement";
+import UserListWithClients from "../components/Users/UserListWithClients";
+import EvidenceVerification from "../components/Evidence/EvidenceVerification";
+import BadgeManagement from "../components/Badges/BadgeManagement";
+import MarketManagement from "../components//Marketplace/MarketManagement";
+import RevenueOverview from "../components/Revenue/RevenueOverview";
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("users");

@@ -1,8 +1,15 @@
 const Client = require("../models/Client");
 
 const createClient = async (clientData) => {
-  clientData.status = "pending";
-  return await Client.create(clientData);
+  return await Client.create({
+    name: clientData.name,
+    contactEmail: clientData.contactEmail,
+    contactPhone: clientData.contactPhone,
+    notes: clientData.notes,
+    assignedTo: clientData.assignedTo,
+    status: "pending",
+    requestedStatus: clientData.status,
+  });
 };
 
 const getAllClients = async () => {

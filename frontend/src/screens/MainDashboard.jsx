@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ProgressBar from "../components/ProgressBar";
-import MissionsLineChart from "../components/MissionsLineChart";
-import MissionTypesDoughnut from "../components/MissionTypesDoughnut";
-import MissionsList from "../components/MissionsList";
-import Ranking from "../components/Ranking";
-import RecentEvents from "../components/RecentEvents";
+import ProgressBar from "../components/Graphs/ProgressBar";
+import MissionsLineChart from "../components/Graphs/MissionsLineChart";
+import MissionTypesDoughnut from "../components/Graphs/MissionTypesDoughnut";
+import MissionsList from "../components/Missions/MissionsList";
+import Ranking from "../components/Users/Ranking";
+import RecentEvents from "../components/Main/RecentEvents";
 
 function MainDashboard() {
   const [metrics, setMetrics] = useState(null);
