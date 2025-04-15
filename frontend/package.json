@@ -21,10 +21,13 @@
     "react-hook-form": "^7.55.0",
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.2.0",
+    "react-signature-canvas": "^1.1.0-alpha.2",
     "react-toastify": "^11.0.5",
+    "recharts": "^2.15.2",
     "redux-persist": "^6.0.0",
     "socket.io-client": "^4.8.1",
     "swiper": "^11.2.6",
+    "trim-canvas": "^0.1.2",
     "validator": "^13.15.0"
   },
   "devDependencies": {
