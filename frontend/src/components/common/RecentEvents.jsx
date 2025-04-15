@@ -49,7 +49,7 @@ function RecentEvents() {
             </tr>
           </thead>
           <tbody>
-            {events.map((event) => (
+            {events.slice(0, 20).map((event) => (
               <tr key={event.id} className="hover:bg-gray-100 transition">
                 <td className="border p-2 capitalize">{event.type}</td>
                 <td className="border p-2">{event.description}</td>
