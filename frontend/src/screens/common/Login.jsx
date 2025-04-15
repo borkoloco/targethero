@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { setCredentials } from "../redux/slices/authSlice";
+import { setCredentials } from "../../redux/slices/authSlice";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
@@ -32,9 +32,6 @@ function Login() {
     <div className="bg-[#f4edf3] flex justify-center items-center h-screen">
       {/* Left: Image */}
       <div className="w-1/2 h-screen hidden lg:block">
-       
-      
-
         <img
           src="https://images.pexels.com/photos/3184306/pexels-photo-3184306.jpeg?cs=srgb&dl=pexels-fauxels-3184306.jpg&fm=jpg"
           alt="Placeholder Image"
@@ -44,11 +41,16 @@ function Login() {
 
       {/* Right: Login Form */}
       <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
-      <h1 className="text-4xl font-extrabold text-[#fc875e] uppercase tracking-wide relative text-center
-      before:content-['']   hover:before:scale-x-100 drop-shadow-lg">
-      Level <span className="text-white bg-[#fc875e] px-2 py-1 rounded-lg shadow-md">Up</span>
-      </h1> <br />
-
+        <h1
+          className="text-4xl font-extrabold text-[#fc875e] uppercase tracking-wide relative text-center
+      before:content-['']   hover:before:scale-x-100 drop-shadow-lg"
+        >
+          Level{" "}
+          <span className="text-white bg-[#fc875e] px-2 py-1 rounded-lg shadow-md">
+            Up
+          </span>
+        </h1>{" "}
+        <br />
         <h1 className="text-2xl font-semibold mb-4">Login</h1>
         {error && <p className="text-red-500 mb-2">{error}</p>}
         <form onSubmit={handleSubmit}>
@@ -99,7 +101,7 @@ function Login() {
 
           {/* Forgot Password Link */}
           <div className="mb-6 text-[#6e66f3]">
-            <Link to="/forgot-password" className="hover:underline">
+            <Link to="#" className="hover:underline">
               Forgot Password?
             </Link>
           </div>
@@ -112,11 +114,10 @@ function Login() {
             Login
           </button>
         </form>
-
         {/* Sign up Link */}
         <div className="mt-6 text-[#6e66f3] text-center">
           <Link to="/register" className="hover:underline">
-            Don't have an account? Register here
+            Dont have an account? Register here
           </Link>
         </div>
       </div>

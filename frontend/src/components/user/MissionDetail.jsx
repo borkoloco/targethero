@@ -3,9 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchMissionDetail,
   clearMissionDetail,
-} from "../redux/slices/missionsSlice";
+} from "../../redux/slices/missionsSlice";
 import { useParams } from "react-router-dom";
-import EvidenceForm from "../components/EvidenceForm";
+import EvidenceForm from "../common/EvidenceForm";
 
 function MissionDetail() {
   const { id } = useParams();

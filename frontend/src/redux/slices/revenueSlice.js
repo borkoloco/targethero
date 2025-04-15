@@ -97,6 +97,7 @@ const revenueSlice = createSlice({
       })
       .addCase(createRevenue.fulfilled, (state, action) => {
         state.my.push(action.payload);
+        state.all.push(action.payload);
       })
       .addCase(updateRevenue.fulfilled, (state, action) => {
         const indexMy = state.my.findIndex((r) => r.id === action.payload.id);

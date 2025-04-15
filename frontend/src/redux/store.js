@@ -8,6 +8,7 @@ import marketItemsReducer from "./slices/marketItemsSlice";
 import purchasesReducer from "./slices/purchasesSlice";
 import clientsReducer from "./slices/clientsSlice";
 import revenueReducer from "./slices/revenueSlice";
+import vacationReducer from "./slices/vacationSlice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -27,6 +28,7 @@ const rootReducer = combineReducers({
   purchases: purchasesReducer,
   clients: clientsReducer,
   revenue: revenueReducer,
+  vacations: vacationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,11 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+<<<<<<< HEAD:frontend/src/screens/MainDashboard.jsx
 import ProgressBar from "../components/Graphs/ProgressBar";
 import MissionsLineChart from "../components/Graphs/MissionsLineChart";
 import MissionTypesDoughnut from "../components/Graphs/MissionTypesDoughnut";
 import MissionsList from "../components/Missions/MissionsList";
 import Ranking from "../components/Users/Ranking";
 import RecentEvents from "../components/Main/RecentEvents";
+=======
+import ProgressBar from "../../components/common/ProgressBar";
+import MissionsLineChart from "../../components/common/MissionsLineChart";
+import MissionTypesDoughnut from "../../components/common/MissionTypesDoughnut";
+import MissionsList from "../../components/common/MissionsList";
+import Ranking from "../../components/common/Ranking";
+import RecentEvents from "../../components/common/RecentEvents";
+import BadgeRulesOverview from "../../components/admin/BadgeRulesOverview";
+>>>>>>> d78a76c85fc6a3b61591cd248d296dbf2019b4c9:frontend/src/screens/common/MainDashboard.jsx
 
 function MainDashboard() {
   const [metrics, setMetrics] = useState(null);
@@ -90,6 +100,10 @@ function MainDashboard() {
 
       <div className="mb-8 p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
         <MissionsList />
+      </div>
+
+      <div className="mb-8 p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">
+        <BadgeRulesOverview />
       </div>
 
       <div className="mb-8 p-6 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300">

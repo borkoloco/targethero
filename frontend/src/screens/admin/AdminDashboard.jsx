@@ -1,4 +1,5 @@
 import { useState } from "react";
+<<<<<<< HEAD:frontend/src/screens/AdminDashboard.jsx
 import UserManagement from "../components/Users/UserManagement";
 import MissionManagement from "../components/Missions/MissionManagement";
 import UserListWithClients from "../components/Users/UserListWithClients";
@@ -6,6 +7,15 @@ import EvidenceVerification from "../components/Evidence/EvidenceVerification";
 import BadgeManagement from "../components/Badges/BadgeManagement";
 import MarketManagement from "../components//Marketplace/MarketManagement";
 import RevenueOverview from "../components/Revenue/RevenueOverview";
+=======
+import UserManagement from "./UserManagement";
+import MissionManagement from "./MissionManagement";
+import UserListWithClients from "../../components/admin/UserListWithClients";
+import EvidenceVerification from "../../components/admin/EvidenceVerification";
+import BadgeManagement from "./BadgeManagement";
+import MarketManagement from "./MarketManagement";
+import RevenueOverview from "../../components/admin/RevenueOverview";
+>>>>>>> d78a76c85fc6a3b61591cd248d296dbf2019b4c9:frontend/src/screens/admin/AdminDashboard.jsx
 
 function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("users");
@@ -105,84 +115,3 @@ function AdminDashboard() {
 }
 
 export default AdminDashboard;
-
-// import { useState } from "react";
-// import UserManagement from "../components/UserManagement";
-// import MissionManagement from "../components/MissionManagement";
-// import UserListWithClients from "../components/UserListWithClients";
-// import EvidenceVerification from "../components/EvidenceVerification";
-// import BadgeManagement from "../components/BadgeManagement";
-// import MarketManagement from "../components/MarketManagement";
-// import RevenueOverview from "../components/RevenueOverview";
-
-// function AdminDashboard() {
-//   const [activeTab, setActiveTab] = useState("users");
-
-//   return (
-//     <div className="p-4">
-//       <h1 className="text-3xl font-bold mb-4">Admin Dashboard</h1>
-//       <div className="mb-4 border-b">
-//         <button
-//           onClick={() => setActiveTab("users")}
-//           className={`mr-4 pb-2 ${
-//             activeTab === "users"
-//               ? "border-b-2 border-blue-500 text-blue-500"
-//               : "text-gray-600"
-//           }`}
-//         >
-//           User Management
-//         </button>
-//         <button
-//           onClick={() => setActiveTab("missions")}
-//           className={`mr-4 pb-2 ${
-//             activeTab === "missions"
-//               ? "border-b-2 border-blue-500 text-blue-500"
-//               : "text-gray-600"
-//           }`}
-//         >
-//           Mission Management
-//         </button>
-//         <button
-//           onClick={() => setActiveTab("badges")}
-//           className={`mr-4 pb-2 ${
-//             activeTab === "badges"
-//               ? "border-b-2 border-blue-500 text-blue-500"
-//               : "text-gray-600"
-//           }`}
-//         >
-//           Badge Management
-//         </button>
-//         <button
-//           onClick={() => setActiveTab("market")}
-//           className={`mr-4 pb-2 ${
-//             activeTab === "market"
-//               ? "border-b-2 border-blue-500 text-blue-500"
-//               : "text-gray-600"
-//           }`}
-//         >
-//           Market Management
-//         </button>
-//       </div>
-
-//       <div>
-//         {activeTab === "users" && (
-//           <>
-//             <UserManagement />
-//             <UserListWithClients />
-//             <RevenueOverview />
-//           </>
-//         )}
-//         {activeTab === "missions" && (
-//           <>
-//             <MissionManagement />
-//             <EvidenceVerification />
-//           </>
-//         )}
-//         {activeTab === "badges" && <BadgeManagement />}
-//         {activeTab === "market" && <MarketManagement />}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default AdminDashboard;

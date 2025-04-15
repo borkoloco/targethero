@@ -15,6 +15,12 @@ const importRoutes = require("./importRoutes");
 const marketItemRoutes = require("./marketItemRoutes");
 const marketReportRoutes = require("./marketReportRoutes");
 const tradeRoutes = require("./tradeRoutes");
+const badgeRulesRoutes = require("./badgeRuleRoutes");
+const badgeEvidenceRoutes = require("./badgeEvidenceRoutes");
+const vacationRoutes = require("./vacationRoutes");
+const payReceiptRoutes = require("./payReceiptRoutes");
+const notificationRoutes = require("./notificationRoutes");
+const hrRoutes = require("./hrRoutes");
 
 router.use("/trades", tradeRoutes);
 router.use("/market", marketItemRoutes);
@@ -30,5 +36,11 @@ router.use("/evidence", evidenceRoutes);
 router.use("/badges", badgeRoutes);
 router.use("/events", recentEventRoutes);
 router.use("/import", importRoutes);
+router.use("/badge-rules", badgeRulesRoutes);
+router.use("/badge-evidence", badgeEvidenceRoutes);
+router.use("/vacations", vacationRoutes);
+router.use("/pay-receipts", payReceiptRoutes);
+router.use("/notifications", notificationRoutes);
+router.use("/hr-stats", hrRoutes);
 
 module.exports = router;
