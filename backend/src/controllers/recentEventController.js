@@ -9,6 +9,17 @@ const getRecentEvents = async (req, res) => {
   }
 };
 
+const postRecentEvent = async (req, res) => {
+  try {
+    const { type, description } = req.body;
+    const event = await recentEventService.addEvent(type, description, req.io);
+    res.status(201).json(event);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to create event" });
+  }
+};
+
 module.exports = {
   getRecentEvents,
+  postRecentEvent,
 };
