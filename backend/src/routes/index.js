@@ -21,6 +21,7 @@ const vacationRoutes = require("./vacationRoutes");
 const payReceiptRoutes = require("./payReceiptRoutes");
 const notificationRoutes = require("./notificationRoutes");
 const hrRoutes = require("./hrRoutes");
+const roomResRoutes = require("./roomResRoutes");
 
 router.use("/trades", tradeRoutes);
 router.use("/market", marketItemRoutes);
@@ -42,5 +43,6 @@ router.use("/vacations", vacationRoutes);
 router.use("/pay-receipts", payReceiptRoutes);
 router.use("/notifications", notificationRoutes);
 router.use("/hr-stats", hrRoutes);
+router.use("room-reservation",roomResRoutes);
 
 module.exports = router;
