@@ -19,7 +19,7 @@ const RoomReservation = sequelize.define("RoomReservation",{
         type: DataTypes.DATE,
         allowNull: false,
       },
-      reservedBy: {
+      userId: {
         type: DataTypes.INTEGER, 
         references: {
           model: "Users",
@@ -32,10 +32,7 @@ const RoomReservation = sequelize.define("RoomReservation",{
         defaultValue: "pending",
       },
 
-      expiresAt: {
-        type: DataTypes.DATE,
-        allowNull: false,
-      },
+      
 });
 
 module.exports = RoomReservation;

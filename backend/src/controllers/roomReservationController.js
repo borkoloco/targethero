@@ -1,80 +1,89 @@
-const RoomReservationService = require("../services/roomReservationService");
+const User = require("../models/User");
+const RoomReservation = require("../models/RoomReservation");
 
 
-const createReservation = async (req, res) => {
-    try {
-      const { roomNumber, start_time, end_time, reservedBy } = req.body;
-  
+const requestRoomReservation = async (req, res) => {
+  try {
+    const { roomNumber, start_time, end_time } = req.body;
+    const userId = req.user.id;
     
-      const cancelApprovedReservations = async (roomNumber) => {
-        const approvedReservations = await Reservation.findAll({
-          where: {
-            status: "approved",
-            roomNumber,
-          },
-        });
-  
-        for (const reservation of approvedReservations) {
-          reservation.status = "cancelled";
-          await reservation.save();
-        }
-      };
-  
-      
-     
-  
-      await cancelApprovedReservations(roomNumber);
-  
-      const expiresAt = end_time;
-  
-      const newReservation = await RoomReservationService.createReservation({
-        roomNumber,
-        start_time,
-        end_time,
-        reservedBy,
-        status: "approved",
-        expiresAt
-      });
-  
-      res.status(201).json(newReservation);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
-  };
 
-const updateReservation= async (req, res) => {
-  try {
-    const updatedReservation = await RoomReservationService.updateReservation(
-      req.params.id,
-      req.body
-    );
-    res.json(updatedReservation);
+    const reservation = await RoomReservation.create({
+      userId,
+      roomNumber,
+      start_time,
+      end_time,
+    });
+
+    res.status(201).json(reservation);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const deleteReservation= async (req, res) => {
+// Obtener todas las reservas (admin)
+const getAllRoomReservations = async (req, res) => {
   try {
-    const result = await RoomReservationService.deleteReservation(req.params.id);
-    res.json(result);
+    const reservations = await RoomReservation.findAll({
+      include: [
+        { model: User, as: "user", attributes: ["id", "name", "email"] },
+      ],
+      order: [["createdAt", "DESC"]],
+    });
+
+    res.json(reservations);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Confirmar reserva
+const confirmRoomReservation = async (req, res) => {
+  try {
+    const reservation = await RoomReservation.findByPk(req.params.id);
+    if (!reservation) return res.status(404).json({ error: "Not found" });
+
+    reservation.status = "confirmed";
+    await reservation.save();
+    res.json(reservation);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-const getAllReservations= async (req, res) => {
+// Cancelar reserva
+const cancelRoomReservation = async (req, res) => {
   try {
-    const users = await RoomReservationService.getAllReservations({ includeExpired: true });
-    res.json(users);
+    const reservation = await RoomReservation.findByPk(req.params.id);
+    if (!reservation) return res.status(404).json({ error: "Not found" });
+
+    reservation.status = "cancelled";
+    await reservation.save();
+    res.json(reservation);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
+// Obtener mis reservas
+const getMyRoomReservations = async (req, res) => {
+  try {
+    const userId = req.user.id;
 
-module.exports = {createReservation,
-    updateReservation,
-    deleteReservation,
-    getAllReservations,
-}
+    const reservations = await RoomReservation.findAll({
+      where: { userId },
+    });
+
+    res.json(reservations);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  requestRoomReservation,
+  getAllRoomReservations,
+  confirmRoomReservation,
+  cancelRoomReservation,
+  getMyRoomReservations,
+};
