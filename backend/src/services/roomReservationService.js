@@ -2,19 +2,13 @@ const RoomReservation = require("../models/RoomReservation");
 const User = require("../models/User");
 
 
-const createReservation = async(
-    roomNumber,
-    start_time,
-    end_time,
-    reservedBy,
-) => {
+const createReservation = async(userName,roomNumber,start_time,end_time) => {
     const reservation= await RoomReservation.create({
+        userName,
         roomNumber,
         start_time,
         end_time,
-        reservedBy,
         status: "pending", 
-        expiresAt,
     })
     return reservation;
 };
@@ -38,24 +32,11 @@ const deleteReservation = async (id) => {
 
 
   const getAllReservations = async () => {
-    const allReservations = await reservation.findAll({
-      include: [
-        {
-          model: User,  
-          as: "users",   
-        }
-      ]
-    });
-  
-    return allReservations.map((reservation) => {
-      const userName = reservation.user ? reservation.user.name : "Desconocido"; 
-      return {
-        ...reservation.toJSON(),
-        reservedBy: `reservada por ${userName}`,  
-      };
+    return await RoomReservation.findAll({
+      include: [{ model: User, as: "user", attributes: ["id", "name", "email"] }],
+      order: [["createdAt", "DESC"]],
     });
   };
-
 
   module.exports  ={
     createReservation,

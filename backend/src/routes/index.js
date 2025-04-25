@@ -43,6 +43,6 @@ router.use("/vacations", vacationRoutes);
 router.use("/pay-receipts", payReceiptRoutes);
 router.use("/notifications", notificationRoutes);
 router.use("/hr-stats", hrRoutes);
-router.use("room-reservation",roomResRoutes);
+router.use("/room-reservation",roomResRoutes);
 
 module.exports = router;

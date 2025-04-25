@@ -9,6 +9,7 @@ import purchasesReducer from "./slices/purchasesSlice";
 import clientsReducer from "./slices/clientsSlice";
 import revenueReducer from "./slices/revenueSlice";
 import vacationReducer from "./slices/vacationSlice";
+import roomReservationReducer from "./slices/roomReservationSlice"
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   clients: clientsReducer,
   revenue: revenueReducer,
   vacations: vacationReducer,
+  roomReservation: roomReservationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
